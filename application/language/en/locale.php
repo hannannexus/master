@@ -15,5 +15,10 @@ return array(
 	'label_confirm' => 'Confirmation code',
 	'button_confirm' => 'Confirm',
 	'confirm_error' => 'Confirmation number is not valid',
-	'profile_title' => 'Your profile'
+	'profile_title' => 'Your profile',
+	'name' => 'Name',
+	'midname' => 'Second name',
+	'surname' => 'Surname',
+	'age' => 'Age',
+	'button_settings' => 'Profile settings'
 );

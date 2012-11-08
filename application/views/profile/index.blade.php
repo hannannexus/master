@@ -22,7 +22,7 @@
         <span>
             {{ Lang::line('locale.age')->get($language) }} : {{ $user_data['patronymic'] }}
         </span>
-        <br>
+        <hr />
         {{ Form::submit(Lang::line('locale.button_settings')->get($language), array('class' => 'btn btn-primary')) }}
     </div>
     {{ Form::close() }}

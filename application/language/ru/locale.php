@@ -15,5 +15,10 @@ return array(
 	'label_confirm' => 'Код подтверждения',
 	'button_confirm' => 'Подтвердить',
 	'confirm_error' => 'Неправильный код подтверждения',
-	'profile_title' => 'Ваш профиль'
+	'profile_title' => 'Ваш профиль',
+	'name' => 'Имя',
+    'midname' => 'Отчество',
+    'surname' => 'Фамилия',
+    'age' => 'Возраст',
+    'button_settings' => 'Настройки профиля'
 );
