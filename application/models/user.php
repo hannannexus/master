@@ -32,7 +32,7 @@ class User extends Eloquent {
 		$this->sendMail($name, $language, $confirmation);
 	}
 	
-	protected function sendMail($name, $language, $confirmation) {
+	public function sendMail($name, $language, $confirmation) {
 		$stmt = "
 			select
 				`user_id`
@@ -42,11 +42,12 @@ class User extends Eloquent {
 				`login_name` = ?
 		";
 		$user = DB::query($stmt, array($name));
-		$link = URL::home() . 'confirm/process/' . $user .'/'. $confirmation;
+        $user = (array)$user[0];
+		$link = URL::home() . 'confirm/process/' . $user['user_id'] .'/'. $confirmation;
 		mail(
 			$name, 
-			Lang::line('mail_subject')->get($language), 
-			Lang::line('mail_content', array('title' => Lang::line('title')->get($language), 'link' => $link, 'code' => $confirmation ))->get($language)
+			Lang::line('locale.mail_subject')->get($language), 
+			Lang::line('locale.mail_content', array('title' => Lang::line('locale.title')->get($language), 'link' => $link, 'code' => $confirmation ))->get($language)
 			);
 	}
 	

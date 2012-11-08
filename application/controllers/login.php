@@ -11,7 +11,7 @@ class Login_Controller extends Controller {
 		}
 		return View::make('login.index');
 	}
-	
+    
 	/**
 	 * User logout
 	 * @return Laravel\Redirect
@@ -33,6 +33,7 @@ class Login_Controller extends Controller {
 		$validation = Validator::make(Input::all(), $rules);
 		if($validation->fails()) {
 			return Redirect::to('login')->with_errors($validation);
+            
 		}
 		else {
 			if(Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')))) {
@@ -70,7 +71,8 @@ class Login_Controller extends Controller {
 		}
 		else {
 			$user->registerUser(Input::get('email'), Hash::make(Input::get('password')), Cookie::get('language'), rand(100000, 999999));
-			return Redirect::to('login');
+            Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')));
+			return Redirect::to('confirm');
 		}
 	}
 	
