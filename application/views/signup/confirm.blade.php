@@ -4,8 +4,14 @@
 
 @section('errors')
 
+    <? $confirm_error = Session::get('confirm_error'); ?>
+    
+    @if (!empty($confirm_error))
+        <div class="alert alert-error">{{ $confirm_error }}</div>
+    @endif
+
 	@if ($errors->has('number'))
-	    @foreach ($errors->get('number', '<p class="error-message">:message</p>') as $number_error)
+	    @foreach ($errors->get('number', '<div class="alert alert-error">:message</div>') as $number_error)
 	    	{{ $number_error }}
 	    @endforeach
     @endif

@@ -22,6 +22,11 @@ class User_Controller extends Controller {
 	public function action_profile() {
 	    $user = new User();
         $user_data = $user->getUserData(Auth::user()->user_id);
+        foreach($user_data as $key => $data) {
+            if(is_null($data) || empty($data)) {
+                $user_data[$key] = '-';
+            }
+        }
 		return View::make('profile.index')->with('user_data', $user_data);
 	}
 }

@@ -109,7 +109,7 @@ class Auth_Controller extends Controller {
 			return Redirect::to('profile');
 		}
 		else {
-			return Redirect::to('confirm');
+			return Redirect::to('confirm')->with('confirm_error', Lang::line('locale.confirm_error')->get(Cookie::get('language')));
 		}
 	}
 	

@@ -3,19 +3,20 @@ Login
 @endsection
 
 @section('errors')
-	
+
+    <? $login_error = Session::get('login_error') ?>
 	@if(!empty($login_error))
-		<p class="error-message">{{ $login_error }}</p>
+		<div class="alert alert-error">{{ Session::get('login_error') }}</div>
 	@endif
 	
 	@if ($errors->has('email'))
-	    @foreach ($errors->get('email', '<p class="error-message">:message</p>') as $email_error)
+	    @foreach ($errors->get('email', '<div class="alert alert-error">:message</div>') as $email_error)
 	    	{{ $email_error }}
 	    @endforeach
     @endif
     
     @if ($errors->has('password'))
-	    @foreach ($errors->get('password', '<p class="error-message">:message</p>') as $password_error)
+	    @foreach ($errors->get('password', '<div class="alert alert-error">:message</div>') as $password_error)
 	    	{{ $password_error }}
 	    @endforeach
     @endif

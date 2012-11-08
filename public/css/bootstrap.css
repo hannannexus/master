@@ -3749,6 +3749,10 @@ input[type="submit"].btn.btn-mini {
   color: #b94a48;
   background-color: #f2dede;
   border-color: #eed3d7;
+  margin-left: 5px;
+  margin-right: 5px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .alert-info {

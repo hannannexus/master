@@ -5,19 +5,19 @@ Signup
 @section('errors')
 
 	@if ($errors->has('email'))
-	    @foreach ($errors->get('email', '<p class="error-message">:message</p>') as $email_error)
+	    @foreach ($errors->get('email', '<div class="alert alert-error">:message</div>') as $email_error)
 	    	{{ $email_error }}
 	    @endforeach
     @endif
     
     @if ($errors->has('password'))
-	    @foreach ($errors->get('password', '<p class="error-message">:message</p>') as $password_error)
+	    @foreach ($errors->get('password', '<div class="alert alert-error">:message</div>') as $password_error)
 	    	{{ $password_error }}
 	    @endforeach
     @endif
 
 	@if ($errors->has('password_confirm'))
-	    @foreach ($errors->get('password_confirm', '<p class="error-message">:message</p>') as $password_confirm_error)
+	    @foreach ($errors->get('password_confirm', '<div class="alert alert-error">:message</div>') as $password_confirm_error)
 	    	{{ $password_confirm_error }}
 	    @endforeach
     @endif
