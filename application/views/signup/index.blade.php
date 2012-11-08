@@ -26,20 +26,18 @@ Signup
 
 @section('content')
 <div class="white-block">
-	<?php
-		echo Form::open('signup/process', 'POST');
-		echo Form::label('email', Lang::line('locale.label_signup_email')->get($language));
-		echo Form::text('email');
-		echo '<br>';
-		echo Form::label('password', Lang::line('locale.label_signup_password')->get($language));
-		echo Form::password('password');
-		echo '<br>';
-		echo Form::label('password_confirm', Lang::line('locale.label_signup_confirm')->get($language));
-		echo Form::password('password_confirm');
-		echo '<br>';
-		echo Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'btn'));
-		echo Form::close();
-	?>
+	{{ Form::open('signup/process', 'POST') }}
+	{{ Form::label('email', Lang::line('locale.label_signup_email')->get($language)) }}
+	{{ Form::text('email') }}
+	<br>
+	{{ Form::label('password', Lang::line('locale.label_signup_password')->get($language)) }}
+	{{ Form::password('password') }}
+	<br>
+	{{ Form::label('password_confirm', Lang::line('locale.label_signup_confirm')->get($language)) }}
+	{{ Form::password('password_confirm') }}
+	<br>
+	{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'btn')) }}
+	{{ Form::close() }}
 </div>
 @endsection
 

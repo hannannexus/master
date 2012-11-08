@@ -20,14 +20,12 @@
 
 @section('content')
 <div class="white-block">
-	<?php 
-		echo Form::open('confirm/process', 'POST');
-		echo Form::label('confirm', Lang::line('locale.label_confirm')->get($language));
-		echo Form::number('number');
-		echo '<br />';
-		echo Form::Submit(Lang::line('locale.button_confirm')->get($language), array('class' => 'btn'));
-		echo Form::close();
-	?>
+	{{ Form::open('confirm/process', 'POST') }}
+	{{ Form::label('confirm', Lang::line('locale.label_confirm')->get($language)) }}
+	{{ Form::number('number') }}
+	<br />
+	{{ Form::Submit(Lang::line('locale.button_confirm')->get($language), array('class' => 'btn')) }}
+	{{ Form::close() }}
 </div>
 @endsection
 

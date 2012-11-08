@@ -25,17 +25,15 @@ Login
 
 @section('content')
 <div class="white-block">
-	<?php
-		echo Form::open('login/process', 'POST');
-		echo Form::label('email', Lang::line('locale.label_login_email')->get($language));
-		echo Form::text('email');
-		echo '<br>';
-		echo Form::label('password', Lang::line('locale.label_login_password')->get($language));
-		echo Form::password('password');
-		echo '<br>';
-		echo Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'btn'));
-		echo Form::close();
-	?>
+	{{ Form::open('login/process', 'POST') }}
+	{{ Form::label('email', Lang::line('locale.label_login_email')->get($language)) }}
+	{{ Form::text('email') }}
+	<br>
+	{{ Form::label('password', Lang::line('locale.label_login_password')->get($language)) }}
+	{{ Form::password('password') }}
+	<br>
+	{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'btn')) }}
+	{{ Form::close() }}
 </div>	
 @endsection
 

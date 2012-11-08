@@ -1,21 +1,19 @@
 @section('header')
 
 <div class="white-block" style="text-align:right">
-	<?php
-	if(!Auth::check()) { 
-		echo Form::open('signup', 'GET', array('style' => 'display: inline;'));
-		echo Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'btn'));
-		echo Form::close();
-		echo Form::open('login', 'GET', array('style' => 'display: inline;'));
-		echo Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'btn'));
-		echo Form::close();
-	}
-	else {
-		echo Form::open('logout', 'POST');
-		echo Form::submit(Lang::line('locale.button_logout')->get($language), array('class' => 'btn'));
-		echo Form::close();
-	}
-	?>
+
+	@if(!Auth::check())  
+		{{ Form::open('signup', 'GET', array('style' => 'display: inline;')) }}
+		{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'btn')) }}
+		{{ Form::close() }}
+		{{ Form::open('login', 'GET', array('style' => 'display: inline;')) }}
+		{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'btn')) }}
+		{{ Form::close() }}
+	@else 
+		{{ Form::open('logout', 'POST') }}
+		{{ Form::submit(Lang::line('locale.button_logout')->get($language), array('class' => 'btn')) }}
+		{{ Form::close() }}
+	@endif
 </div>
 
 @endsection
