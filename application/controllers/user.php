@@ -20,7 +20,9 @@ class User_Controller extends Controller {
 	 * @return Laravel\Response
 	 */
 	public function action_profile() {
-		return View::make('profile.index');
+	    $user = new User();
+        $user_data = $user->getUserData(Auth::user()->user_id);
+		return View::make('profile.index')->with('user_data', $user_data);
 	}
 }
 ?>

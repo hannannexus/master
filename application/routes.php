@@ -2,14 +2,14 @@
 /**
  * Login routes
  */
-Route::get('login', 'login@index');
-Route::any('logout', 'login@logout');
-Route::get('signup', 'login@signup');
-Route::get('confirm', 'login@confirm');
-Route::post('confirm/process', 'login@number_confirm');
-Route::get('confirm/(:num)/(:num)', 'login@link_confirm');
-Route::post('login/process', 'login@login_process');
-Route::post('signup/process', 'login@signup_process');
+Route::get('login', 'auth@index');
+Route::any('logout', 'auth@logout');
+Route::get('signup', 'auth@signup');
+Route::get('confirm', 'auth@confirm');
+Route::post('confirm/process', 'auth@number_confirm');
+Route::get('confirm/(:num)/(:num)', 'auth@link_confirm');
+Route::post('login/process', 'auth@login_process');
+Route::post('signup/process', 'auth@signup_process');
 
 /**
  * User routes

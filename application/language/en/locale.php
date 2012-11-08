@@ -14,5 +14,6 @@ return array(
 	'mail_content' => 'Thank for join :title! To confirm your registration go by this link - :link or enter this registration code - :code',
 	'label_confirm' => 'Confirmation code',
 	'button_confirm' => 'Confirm',
-	'confirm_error' => 'Confirmation number is not valid'
+	'confirm_error' => 'Confirmation number is not valid',
+	'profile_title' => 'Your profile'
 );

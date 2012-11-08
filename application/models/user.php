@@ -1,5 +1,5 @@
 <?php 
-class User extends Eloquent {
+class User extends Base {
 	public static $table = 'users'; 
 	
 	public function storeUserLanguage($id_user, $language) {
@@ -32,7 +32,7 @@ class User extends Eloquent {
 		$this->sendMail($name, $language, $confirmation);
 	}
 	
-	public function sendMail($name, $language, $confirmation) {
+	protected function sendMail($name, $language, $confirmation) {
 		$stmt = "
 			select
 				`user_id`
@@ -41,9 +41,8 @@ class User extends Eloquent {
 			where
 				`login_name` = ?
 		";
-		$user = DB::query($stmt, array($name));
-        $user = (array)$user[0];
-		$link = URL::home() . 'confirm/process/' . $user['user_id'] .'/'. $confirmation;
+		$user = $this->objectToSingle(DB::query($stmt, array($name)));
+		$link = URL::home() . 'confirm/' . $user['user_id'] .'/'. $confirmation;
 		mail(
 			$name, 
 			Lang::line('locale.mail_subject')->get($language), 
@@ -63,8 +62,7 @@ class User extends Eloquent {
 			where
 				`user_id` = ?
 		";
-		$user = DB::query($stmt, array($id_user));
-		$user = (array)$user[0];
+		$user = $this->objectToSingle(DB::query($stmt, array($id_user)));
 		return $user['registration_confirm'];
 	}
 	
@@ -77,8 +75,7 @@ class User extends Eloquent {
 			where
 				`id_user` = ?
 		";
-		$user = DB::query($stmt, array($id_user));
-		$user = (array)$user[0];
+		$user = $this->objectToSingle(DB::query($stmt, array($id_user)));
 		return $user['confirmation_number'];
 	}
 	
@@ -93,6 +90,19 @@ class User extends Eloquent {
 		";
 		DB::query($stmt, array($id_user));
 	}
+    
+    public function getUserData($id_user) {
+        $stmt = "
+            select
+                *
+            from
+                `users`
+            where
+                `user_id` = ?
+        ";
+        $user = $this->objectToSingle(DB::query($stmt, array($id_user)));
+        return $user;
+    } 
 }
 
 ?>
