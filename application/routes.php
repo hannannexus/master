@@ -19,6 +19,10 @@ Route::get('profile', array('before' => 'confirm', 'uses' => 'user@profile'));
 Route::post('language', 'user@language');
 Route::get('profile/settings', array('before' => 'auth', 'uses' => 'user@settings'));
 Route::get('users', array('before' => 'auth', 'uses' => 'user@users'));
+Route::get('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
+Route::get('profile/workouts', array('before' => 'auth', 'uses' => 'user@workouts'));
+Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
+Route::get('user/accept/(:num)', array('before' => 'auth', 'uses' => 'user@accept_friend'));
 
 
 /**

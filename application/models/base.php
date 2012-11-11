@@ -1,9 +1,15 @@
 <?
 class Base extends Eloquent {
     protected function objectToArray($phpObj) {
-    	foreach($phpObj as $key => $obj) {
-    		$array[$key] = (array)$obj;
-    	} 
+    	if(!is_null($phpObj) && !empty($phpObj)) {
+    		foreach($phpObj as $key => $obj) {
+	    		$array[$key] = (array)$obj;
+	    	} 
+    	}
+    	else {
+    		$array = array();
+    		return $array;
+    	}
         return $array;
     }
     

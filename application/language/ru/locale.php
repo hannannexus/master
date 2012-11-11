@@ -28,6 +28,17 @@ return array(
 	'save' => 'Сохранить',
 	'settings_saved' => 'Изменения успешно сохранены',
 	'button_users' => 'Пользователи',
+	'button_home' => 'Главная',
+	'button_profile' => 'Профиль',
+	'button_users' => 'Пользователи',
+	'button_workouts' => 'Тренировки',
+	'add_to_friends' => 'Добавить в друзья',
+	'this_is_you' => 'Это вы',
+	'your_friend' => 'Ваш друг',
+	'you_sent_request' => 'Ожидается подтверждение',
+	'wants_to_be_friends' => 'Хочет быть вашим другом',
+	'accept' => 'Подтвердить',
+	
 		
 		
 		

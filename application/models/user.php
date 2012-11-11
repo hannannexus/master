@@ -130,6 +130,64 @@ class User extends Base {
     	$users = $this->objectToArray(DB::query($stmt));
     	return $users;
     }
+    
+    public function getUserWorkouts($id_user) {
+    	$stmt = "
+    		select
+    			min(from_unixtime(substr(`time`, 1, 10))) as `min`,
+    			max(from_unixtime(substr(`time`, 1, 10))) as `max`,
+    			`workout_number`
+    		from
+    			`tp_" .$id_user. "_gps`
+    		group by
+    			`workout_number`
+    		order by
+    			`workout_number`
+    		asc
+    	";
+    	$workouts = $this->objectToArray(DB::query($stmt));
+    	return $workouts;
+    }
+    
+    public function getUserFriends($id_user) {
+    	$stmt = "
+    		select
+    			*
+    		from
+    			`user_relations`
+    		where
+    			`id_user` = ?
+    		or
+    			`id_friend` = ?		
+    	";
+    	$friendlist = $this->objectToArray(DB::query($stmt, array($id_user, $id_user)));
+    	return $friendlist;
+    }
+    
+    public function makeFriendRequest($id_user, $id_friend) {
+    	$stmt = "
+    		insert into
+    			`user_relations`
+    			(`id_user`, `id_friend`, `relation`)
+    		values
+    			(?, ?, 'waiting')
+    	";
+    	DB::query($stmt, array($id_user, $id_friend));
+    }
+    
+    public function aceeptFriendRequest($id_user, $id_friend) {
+    	$stmt = "
+    		update
+    			`user_relations`
+    		set
+    			`relation` = 'accepted'
+    		where
+    			`id_user` = ?
+    		and
+    			`id_friend` = ?		
+    	";
+    	DB::query($stmt, array($id_friend, $id_user));
+    }
 }
 
 ?>

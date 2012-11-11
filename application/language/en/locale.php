@@ -28,6 +28,16 @@ return array(
 	'save' => 'Save',
 	'settings_saved' => 'Settings saved successfully',
 	'button_users' => 'Users',
+	'button_home' => 'Home',
+	'button_profile' => 'Profile',
+	'button_users' => 'Users',
+	'button_workouts' => 'Workouts',
+	'add_to_friends' => 'Add to friends',
+	'this_is_you' => 'This is you',
+	'your_friend' => 'Your friend',
+	'you_sent_request' => 'Waiting for confirmation',
+	'wants_to_be_friends' => 'Wants to be friend',
+	'accept' => 'Accept',
 		
 		
 		

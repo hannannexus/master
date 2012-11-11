@@ -15,5 +15,17 @@
 		{{ Form::close() }}
 	@endif
 </div>
-
+@if(Auth::check())
+	<div class="white-block">
+		{{ Form::open('/', 'GET', array('style' => 'display: inline;')) }}
+		{{ Form::submit(Lang::line('locale.button_home')->get($language), array('class' => 'btn btn-info')) }}
+		{{ Form::close() }}
+		{{ Form::open('profile', 'GET', array('style' => 'display: inline;')) }}
+		{{ Form::submit(Lang::line('locale.button_profile')->get($language), array('class' => 'btn btn-info')) }}
+		{{ Form::close() }}
+		{{ Form::open('users', 'GET', array('style' => 'display: inline;')) }}
+		{{ Form::submit(Lang::line('locale.button_users')->get($language), array('class' => 'btn btn-info')) }}
+		{{ Form::close() }}
+	</div>
+@endif
 @endsection
