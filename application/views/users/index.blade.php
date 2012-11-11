@@ -14,21 +14,26 @@
 					@if($user['user_id'] == $list['id_user'])
 						@if($list['relation'] == 'accepted')
 							{{ Lang::line('locale.your_friend')->get($language) }}
+							<?php $flag = 'false'; ?>
 							<?php break; ?>
 						@else
 							{{ Lang::line('locale.wants_to_be_friends')->get($language) }} 
-							<b><a href="{{ URL::home }}user/accept/{{ $user['user_id'] }}">{{ Lang::line('locale.accept')->get($language) }}</a></b>
+							<b><a href="{{ URL::home() }}user/accept/{{ $user['user_id'] }}">{{ Lang::line('locale.accept')->get($language) }}</a></b>
+							<?php $flag = 'false'; ?>
 							<?php break; ?>
 						@endif
 					@elseif($user['user_id'] == $list['id_friend'])
 						@if($list['relation'] == 'accepted')
 							{{ Lang::line('locale.your_friend')->get($language) }}
+							<?php $flag = 'false'; ?>
 							<?php break; ?>
 						@else
 							{{ Lang::line('locale.you_sent_request')->get($language) }}
+							<?php $flag = 'false'; ?>
 							<?php break; ?> 
 						@endif
 					@endif
+					<?php $flag = 'true'; ?>
 				@endforeach
 			@else
 				 <b><a href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a></b>
