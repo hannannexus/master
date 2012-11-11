@@ -22,7 +22,7 @@
 <div class="white-block">
 	{{ Form::open('confirm/process', 'POST') }}
 	{{ Form::label('confirm', Lang::line('locale.label_confirm')->get($language)) }}
-	{{ Form::number('number') }}
+	{{ Form::text('number') }}
 	<br />
 	{{ Form::Submit(Lang::line('locale.button_confirm')->get($language), array('class' => 'btn')) }}
 	{{ Form::close() }}

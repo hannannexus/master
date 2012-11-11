@@ -14,8 +14,12 @@ Route::post('signup/process', 'auth@signup_process');
 /**
  * User routes
  */
-Route::any('profile', array('before' => 'confirm', 'uses' => 'user@profile'));
+Route::post('profile/settings/process', 'user@settings_process');
+Route::get('profile', array('before' => 'confirm', 'uses' => 'user@profile'));
 Route::post('language', 'user@language');
+Route::get('profile/settings', array('before' => 'auth', 'uses' => 'user@settings'));
+Route::get('users', array('before' => 'auth', 'uses' => 'user@users'));
+
 
 /**
  * Root route

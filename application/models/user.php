@@ -103,6 +103,33 @@ class User extends Base {
         $user = $this->objectToSingle(DB::query($stmt, array($id_user)));
         return $user;
     } 
+    
+    public function setUserData($data, $user_id) {
+    	$stmt = "
+    		update
+    			`users`
+    		set
+    			`name` = ? ,
+    			`surname` = ? ,
+    			`patronymic` = ? ,
+    			`born_date` = ? ,
+    			`sex` = ?
+    		where
+    			`user_id` = ?
+    	";
+    	DB::query($stmt, array($data['name'], $data['surname'], $data['midname'], $data['borndate'], $data['gender'], $user_id));
+    }
+    
+    public function getAllUsers() {
+    	$stmt = "
+    		select
+    			*
+    		from
+    			`users`		
+    	";
+    	$users = $this->objectToArray(DB::query($stmt));
+    	return $users;
+    }
 }
 
 ?>

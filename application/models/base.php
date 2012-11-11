@@ -1,7 +1,9 @@
 <?
 class Base extends Eloquent {
     protected function objectToArray($phpObj) {
-        $array = (array)$phpObj;
+    	foreach($phpObj as $key => $obj) {
+    		$array[$key] = (array)$obj;
+    	} 
         return $array;
     }
     

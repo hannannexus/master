@@ -20,5 +20,16 @@ return array(
     'midname' => 'Отчество',
     'surname' => 'Фамилия',
     'age' => 'Возраст',
-    'button_settings' => 'Настройки профиля'
+	'born_date' => 'Дата рождения',
+	'gender' => 'Пол',
+	'gender_male' => 'Мужской',
+	'gender_female' => 'Женский',
+    'button_settings' => 'Настройки профиля',
+	'save' => 'Сохранить',
+	'settings_saved' => 'Изменения успешно сохранены',
+	'button_users' => 'Пользователи',
+		
+		
+		
+	'gender_-' => ''
 );

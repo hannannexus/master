@@ -20,5 +20,16 @@ return array(
 	'midname' => 'Second name',
 	'surname' => 'Surname',
 	'age' => 'Age',
-	'button_settings' => 'Profile settings'
+	'born_date' => 'Born date',
+	'gender' => 'Gender',
+	'gender_male' => 'Male',
+	'gender_female' => 'Female',
+	'button_settings' => 'Profile settings',
+	'save' => 'Save',
+	'settings_saved' => 'Settings saved successfully',
+	'button_users' => 'Users',
+		
+		
+		
+	'gender_-' => ''
 );
