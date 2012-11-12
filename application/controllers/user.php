@@ -1,5 +1,4 @@
 <?php 
-use Symfony\Component\HttpFoundation\LaravelResponse;
 
 class User_Controller extends Controller 
 {

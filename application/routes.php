@@ -24,6 +24,11 @@ Route::get('profile/workouts', array('before' => 'auth', 'uses' => 'user@workout
 Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
 Route::get('user/accept/(:num)', array('before' => 'auth', 'uses' => 'user@accept_friend'));
 
+/**
+ * Workout routes
+ */
+
+Route::get('workout/(:num)/(:num)', array('before' => 'auth', 'uses' => 'workout@index'));
 
 /**
  * Root route

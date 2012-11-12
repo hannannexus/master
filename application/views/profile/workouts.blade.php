@@ -26,6 +26,11 @@
 			<td>
 			{{ $workout['max'] }}
 			</td>
+			<td>
+			{{ Form::open('workout/' . $workout['workout_number'] . '/' . Auth::user()->user_id, 'GET') }}
+			{{ Form::submit(Lang::line('locale.view_workout')->get($language)) }}
+			{{ Form::close() }}
+			</td>
 		</tr>
 	@endforeach
 </table>
