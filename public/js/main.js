@@ -5,7 +5,7 @@ function changeLanguage() {
 
 function showMap(URL, id_user, workout_number) {
 	$.post(
-        URL,
+        URL+'workout/get',
         {
         	id_user : id_user,
         	workout_number : workout_number
@@ -13,10 +13,11 @@ function showMap(URL, id_user, workout_number) {
         function(result) {
         	var wpt = Object();
         	wpt = result;
-
+        	center_index = Math.round(result.length/2); 
+        	
         	mapOptions = {
-        			zoom: 18,
-        			center: new google.maps.LatLng(result[0].lat, result[0].lng),
+        			zoom: 15,
+        			center: new google.maps.LatLng(result[center_index].lat, result[center_index].lan),
         			mapTypeId: google.maps.MapTypeId.SATELLITE,
         			mapTypeControl: true
         	}
@@ -25,32 +26,40 @@ function showMap(URL, id_user, workout_number) {
         	
         	var coords = [];
         	
-        	for(var i=0; i < 30; i++) {
-        		coords.push(new google.maps.LatLng(result[i].lat, result[i].lng));
-        	};
+        	
         	var Path = new google.maps.Polyline({
-        		path: coords,
+        		map: map,
         		strokeColor: "#339900",
         		strokeOpacity: 1.0,
-        		strokeWeight: 2
+        		strokeWeight: 5,
+        		zIndex: 0
         	});
         	
-        	Path.setMap(map);
-  
+        	//Path.setMap(map);
+        	
+        	for(var i=0; i < result.length; i++) {
+        		path = Path.getPath();
+        		path.push(new google.maps.LatLng(result[i].lat, result[i].lan));
+        	};
+        	
         	var image = new google.maps.MarkerImage(
-        			'img/workout/point.png',
+        			URL+'img/workout/point.png',
         			new google.maps.Size(20, 20),   // size
         			new google.maps.Point(0,0), // origin
         			new google.maps.Point(0,10)   // anchor
         	);
-        
+        	
+        	count = Math.round(result.length/30);
         	var beachMarker = [];                        
-        	for(var i=0; i < 30; i++) {
-        		beachMarker[i] = new google.maps.Marker({
-        			position: coords[i],
-        			map: map,
-        			icon: image
-        		});
+        	for(var i=0; i < result.length; i++) {
+        		if(i%count==0) {
+        			coords = new google.maps.LatLng(result[i].lat, result[i].lan)
+        			beachMarker[i] = new google.maps.Marker({
+            			position: coords,
+            			map: map,
+            			icon: image
+            		});
+        		}
         	};
         },
         'json'

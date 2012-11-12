@@ -9,8 +9,9 @@
 @section('content')
 
 <div class="white-block">
-	<div id="map_canvas" style="width:70%; height:70%; margin:0 auto; top:10%;"></div>
+	<div id="map_canvas" style="height: 600px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 </div>
+
 @endsection
 
 @include('common.skeleton')

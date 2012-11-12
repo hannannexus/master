@@ -27,8 +27,8 @@
 			{{ $workout['max'] }}
 			</td>
 			<td>
-			{{ Form::open('workout/' . $workout['workout_number'] . '/' . Auth::user()->user_id, 'GET') }}
-			{{ Form::submit(Lang::line('locale.view_workout')->get($language)) }}
+			{{ Form::open('workout/' . Auth::user()->user_id . '/' . $workout['workout_number'], 'GET') }}
+			{{ Form::submit(Lang::line('locale.view_workout')->get($language), array('class' => 'btn btn-info')) }}
 			{{ Form::close() }}
 			</td>
 		</tr>

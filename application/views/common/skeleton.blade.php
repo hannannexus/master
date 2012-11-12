@@ -19,7 +19,7 @@
 		</title>
 	</head>
 	@if(isset($workout_number))
-		<body onload="showMap('{{ URL::home() . 'workout/get' }}', {{ $id_user }}, {{ $workout_number }})">
+		<body onload="showMap('{{ URL::home() }}', {{ $id_user }}, {{ $workout_number }})">
 	@else
 		<body>
 	@endif

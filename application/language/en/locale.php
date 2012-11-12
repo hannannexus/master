@@ -38,7 +38,7 @@ return array(
 	'you_sent_request' => 'Waiting for confirmation',
 	'wants_to_be_friends' => 'Wants to be friend',
 	'accept' => 'Accept',
-		
+	'view_workout' => 'View workout',
 		
 		
 	'gender_-' => ''

@@ -38,6 +38,7 @@ return array(
 	'you_sent_request' => 'Ожидается подтверждение',
 	'wants_to_be_friends' => 'Хочет быть вашим другом',
 	'accept' => 'Подтвердить',
+	'view_workout' => 'Посмотреть тренировку',
 	
 		
 		
