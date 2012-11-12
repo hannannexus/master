@@ -33,7 +33,7 @@ class User_Controller extends Controller
                 $user_data[$key] = '-';
             }
         }
-        if($user_data['born_date'] != '0000-00-00') {
+        if($user_data['born_date'] != '0000-00-00' && !is_null($user_data['born_date'])) {
         	$born_date = explode('-', $user_data['born_date']);
         	$born_date = mktime(0, 0, 0, $born_date[1], $born_date[2], $born_date[0]);
         	$user_data['age'] = round((time()-$born_date)/31536000, 0);
