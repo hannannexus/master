@@ -110,7 +110,12 @@ Route::filter('before', function() {
 
 Route::filter('confirm', function() {
 	$user = new User();
-	$confirm = $user->getUserConfirmStatus(Auth::user()->user_id);
+    if(Auth::check()) {
+        $confirm = $user->getUserConfirmStatus(Auth::user()->user_id);
+    }
+    else {
+        return Redirect::to('/');
+    }
 	if(!$confirm) {
 		return Redirect::to('confirm');
 	}
