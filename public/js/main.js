@@ -11,8 +11,7 @@ function showMap(URL, id_user, workout_number) {
         	workout_number : workout_number
         },
         function(result) {
-        	var wpt = Object();
-        	wpt = result;
+
         	center_index = Math.round(result.length/2); 
         	
         	mapOptions = {
@@ -26,21 +25,19 @@ function showMap(URL, id_user, workout_number) {
         	
         	var coords = [];
         	
+        	for(var i=0; i < result.length; i++) {
+        		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
+        	};
         	
         	var Path = new google.maps.Polyline({
-        		map: map,
+        		path: coords,
         		strokeColor: "#339900",
         		strokeOpacity: 1.0,
         		strokeWeight: 5,
         		zIndex: 0
         	});
         	
-        	//Path.setMap(map);
-        	
-        	for(var i=0; i < result.length; i++) {
-        		path = Path.getPath();
-        		path.push(new google.maps.LatLng(result[i].lat, result[i].lan));
-        	};
+        	Path.setMap(map);
         	
         	var image = new google.maps.MarkerImage(
         			URL+'img/workout/point.png',
