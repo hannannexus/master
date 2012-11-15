@@ -25,9 +25,16 @@ function showMap(URL, id_user, workout_number) {
         	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
         	/* Array of coordinates of LatLng */
         	var coords = [];
-        	/* Creating of marker image */
+        	/* Creating a marker image */
         	var image = new google.maps.MarkerImage(
         			URL+'img/workout/cycling.png',
+        			new google.maps.Size(60, 60),   // size
+        			new google.maps.Point(0,0), // origin
+        			new google.maps.Point(16,35)   // anchor
+        	);
+        	/* Creating a starting and finish image */
+        	var start_end = new google.maps.MarkerImage(
+        			URL+'img/workout/finish.png',
         			new google.maps.Size(60, 60),   // size
         			new google.maps.Point(0,0), // origin
         			new google.maps.Point(16,35)   // anchor
@@ -36,45 +43,74 @@ function showMap(URL, id_user, workout_number) {
         	beachMarker = new google.maps.Marker({
     			position: new google.maps.LatLng(result[0].lat, result[0].lan),
     			map: map,
-    			icon: image
+    			icon: start_end
     		});
-        	/* How many iterations after marker created we don't check next marker */
+        	/* How many points should skip after marker set */
         	var iterations = 0;
         	/* Pushing every received point into array */
         	for(var i=0; i < result.length; i++) {
         		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
+        		/* Every third point checked to speed up map drawing */
         		if(i%3 == 0){
-        			/* Calculating distance between start point and current */
+        			/* General distance from start */
         			distance = google.maps.geometry.spherical.computeLength(coords);
-        			/* Marking every kilometer */
-            		kilometers = distance%1000;
-            		/* +/-50 meters precision */
-            		if(kilometers.toFixed() < 1150 && kilometers.toFixed() > 950) {
-            			if(iterations <= 0){
-            				/* Creating marker on current position */
-                			beachMarker = new google.maps.Marker({
-                    			position: new google.maps.LatLng(result[i].lat, result[i].lan),
-                    			map: map,
-                    			icon: image,
-                    			title: distance.toString()
-                    		});
-                			if(result[i].speed < 15){
-            					iterations = 20;
-            				}
-            				else {
-            					iterations = 5;
-            				}
-            			}
-        				
-            		}
+        			/* Meters passed from every kilometer */
+        			meters = distance%1000;
+        			/* If we get closer to kilometer limit */
+        			if(meters.toFixed() > 850 && iterations <= 0) {
+        				/* We starting to check not every third point but every point at all */
+        				/* Local coordinates array to make local distance */
+        				var local_coords = [];
+        				/* Local distance by default is current distance */
+        				var local_distance = distance;
+        				/* variable needed for iterating through local points */
+        				var j = i;
+        				/* Indicates that we get the kilometer length */
+        				var end = false;
+        				/* Set next iterations to 0 */
+        				iterations = 0;
+        				/* While we not get kilometer length */
+        				while(!end) {
+        					/* And we not get end of our trace */
+        					if(j < result.length - 1) {
+        						/* Push local coordinates */
+        						local_coords.push(new google.maps.LatLng(result[j].lat, result[j].lan));
+        						/* Calculating local distance */
+        						local_distance += google.maps.geometry.spherical.computeLength(local_coords);
+        						/* If we are more than 1 kilometer */
+        						if(local_distance%1000 < 200) {
+        							/* We make new marker */
+        							beachMarker = new google.maps.Marker({
+                            			position: new google.maps.LatLng(result[j-1].lat, result[j-1].lan),
+                            			map: map,
+                            			icon: image,
+                            			title: 'distance: ' +local_distance.toString() + ' speed: ' + result[j].speed.toString()
+                            		});
+        							/* This is the end of our local iterations */
+        							end = true;
+        						}
+        						else {
+        							/* Else we setting next point index */
+        							j++;
+        							/* And setting up iterations*/
+        							iterations += 3;
+        						}
+        					}
+        				}
+        				/* Здесь костыль, его поменять*/
+        				if(result[j].speed < 3) {
+        					iterations = 60;
+        				}
+        			}
         		}
-        		iterations -= 1;
-        	};
-        	
+        		/* Substract iterations */
+        		iterations--;
+        	}
+        	/* Making finish marker */
         	beachMarker = new google.maps.Marker({
     			position: new google.maps.LatLng(result[result.length-1].lat, result[result.length-1].lan),
     			map: map,
-    			icon: image
+    			icon: start_end
     		});
         	
         	var Path = new google.maps.Polyline({
