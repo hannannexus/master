@@ -45,6 +45,8 @@ function showMap(URL, id_user, workout_number) {
     			map: map,
     			icon: start_end
     		});
+        	var marker = [];
+        	var index = 1;
         	/* How many points should skip after marker set */
         	var iterations = 0;
         	/* Pushing every received point into array */
@@ -79,13 +81,18 @@ function showMap(URL, id_user, workout_number) {
         						local_distance += google.maps.geometry.spherical.computeLength(local_coords);
         						/* If we are more than 1 kilometer */
         						if(local_distance%1000 < 200) {
-        							/* We make new marker */
-        							beachMarker = new google.maps.Marker({
+        							/* We make new marker at previous position */
+        							marker[index] = new google.maps.Marker({
                             			position: new google.maps.LatLng(result[j-1].lat, result[j-1].lan),
                             			map: map,
                             			icon: image,
                             			title: 'distance: ' +local_distance.toString() + ' speed: ' + result[j].speed.toString()
                             		});
+        							google.maps.event.addListener(marker[index], 'mouseover', function(event) {
+        								/**
+        								 * @TODO Code here
+        								 */
+        							});
         							/* This is the end of our local iterations */
         							end = true;
         						}
@@ -126,3 +133,4 @@ function showMap(URL, id_user, workout_number) {
         'json'
 	);
 }
+
