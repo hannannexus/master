@@ -1,6 +1,41 @@
 function changeLanguage() {
-	form = document.getElementById('language_form');
+	var form = $('#language_form');
 	form.submit();
+}
+
+function setMarkerImage(image_address) {
+	var image = new google.maps.MarkerImage(
+		image_address,
+		new google.maps.Size(60, 60),
+		new google.maps.Point(0,0), 
+		new google.maps.Point(16,35) 
+	);
+	return image;
+}
+
+function createTooltip(index, speed) {
+	var box_text = '<div class=\"info-box\">Distance: ' + index + ' km.<br> Speed: ' + speed + 'km/h</div>';
+	var tooltip_options = {
+			content: box_text,
+			disableAutoPan: false,
+			maxWidth: 0,
+			pixelOffset: new google.maps.Size(-20, -130),
+			zIndex: null,
+			closeBoxMargin: "10px 2px 2px 2px",
+			infoBoxClearance: new google.maps.Size(1, 1),
+			isHidden: false,
+			pane: "floatPane",
+			enableEventPropagation: false,
+			boxStyle: { 
+				background : "url('../../public/img/tooltip.png') no-repeat",
+			opacity: 1,
+			width: "250px",
+			height: "300px",
+			color : 'white'
+			}
+		}
+	var ibox = new InfoBox(tooltip_options);
+	return ibox;
 }
 
 function showMap(URL, id_user, workout_number) {
@@ -13,9 +48,9 @@ function showMap(URL, id_user, workout_number) {
         },
         function(result) {
         	/* Center of the map indication (not right calculation)*/
-        	center_index = Math.round(result.length/2); 
+        	var center_index = Math.round(result.length/2); 
         	/* Google map options */
-        	mapOptions = {
+        	var mapOptions = {
         			zoom: 13,
         			center: new google.maps.LatLng(result[center_index].lat, result[center_index].lan),
         			mapTypeId: google.maps.MapTypeId.SATELLITE,
@@ -26,27 +61,19 @@ function showMap(URL, id_user, workout_number) {
         	/* Array of coordinates of LatLng */
         	var coords = [];
         	/* Creating a marker image */
-        	var image = new google.maps.MarkerImage(
-        			URL+'img/workout/cycling.png',
-        			new google.maps.Size(60, 60),   // size
-        			new google.maps.Point(0,0), // origin
-        			new google.maps.Point(16,35)   // anchor
-        	);
+        	var image = setMarkerImage(URL+'img/workout/cycling.png');
         	/* Creating a starting and finish image */
-        	var start_end = new google.maps.MarkerImage(
-        			URL+'img/workout/finish.png',
-        			new google.maps.Size(60, 60),   // size
-        			new google.maps.Point(0,0), // origin
-        			new google.maps.Point(16,35)   // anchor
-        	);
+        	var start_end = setMarkerImage(URL+'img/workout/finish.png');
         	/* Creating of start marker */
         	beachMarker = new google.maps.Marker({
     			position: new google.maps.LatLng(result[0].lat, result[0].lan),
     			map: map,
     			icon: start_end
     		});
+        	
         	var marker = [];
         	var index = 1;
+        	var ib = [];
         	/* How many points should skip after marker set */
         	var iterations = 0;
         	/* Pushing every received point into array */
@@ -85,14 +112,19 @@ function showMap(URL, id_user, workout_number) {
         							marker[index] = new google.maps.Marker({
                             			position: new google.maps.LatLng(result[j-1].lat, result[j-1].lan),
                             			map: map,
-                            			icon: image,
-                            			title: 'distance: ' +local_distance.toString() + ' speed: ' + result[j].speed.toString()
+                            			icon: image
+                            			/*title: 'distance: ' +local_distance.toString() + ' speed: ' + result[j].speed.toString()*/
                             		});
+        							
+        							ib = createTooltip(index.toString(), Math.round(result[j].speed).toString());
+	    							
         							google.maps.event.addListener(marker[index], 'mouseover', function(event) {
-        								/**
-        								 * @TODO Code here
-        								 */
+        								marker[index].ib.open(map, marker[index]);
         							});
+        							google.maps.event.addListener(marker[index], 'mouseout', function(event) {
+        								marker[index].ib.close();
+        							});
+        							index++;
         							/* This is the end of our local iterations */
         							end = true;
         						}
@@ -129,6 +161,7 @@ function showMap(URL, id_user, workout_number) {
         	});
         	
         	Path.setMap(map);
+        	
         },
         'json'
 	);
