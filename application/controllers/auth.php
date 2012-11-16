@@ -37,6 +37,11 @@ class Auth_Controller extends Controller {
 		}
 		else {
 			if(Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')))) {
+			    $language = Cookie::get('language');
+                if(!empty($language)) {
+                    $user = new User();
+                    $user->storeUserLanguage(Auth::user()->user_id, $language);
+                }
 				return Redirect::to('profile');
 			}
 			else {
