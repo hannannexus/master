@@ -28,7 +28,7 @@ function createTooltip(index, speed) {
 			content: box_text,
 			disableAutoPan: false,
 			maxWidth: 0,
-			pixelOffset: new google.maps.Size(-25, -120),
+			pixelOffset: new google.maps.Size(0, 0),
 			zIndex: null,
 			closeBoxMargin: "10px 2px 2px 2px",
 			infoBoxClearance: new google.maps.Size(1, 1),
@@ -36,7 +36,7 @@ function createTooltip(index, speed) {
 			pane: "floatPane",
 			enableEventPropagation: false,
 			boxStyle: { 
-				background : "url('../../public/img/tooltip.png') no-repeat",
+				background : "url('../../public/img/workout/tooltip_2.png') no-repeat",
 			opacity: 1,
 			width: "250px",
 			height: "300px",
