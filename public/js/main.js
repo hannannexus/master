@@ -3,6 +3,15 @@ function changeLanguage() {
 	form.submit();
 }
 
+function setMarker(position, map, image) {
+	var marker = new google.maps.Marker({
+		position: position,
+		map: map,
+		icon: image
+	});
+	return marker;
+}
+
 function setMarkerImage(image_address) {
 	var image = new google.maps.MarkerImage(
 		image_address,
@@ -14,12 +23,12 @@ function setMarkerImage(image_address) {
 }
 
 function createTooltip(index, speed) {
-	var box_text = '<div class=\"info-box\">Distance: ' + index + ' km.<br> Speed: ' + speed + 'km/h</div>';
+	var box_text = '<div class=\"info-box\">Distance: ' + (index+1).toString() + ' km.<br> Speed: ' + speed.toFixed(1).toString() + ' km/h</div>';
 	var tooltip_options = {
 			content: box_text,
 			disableAutoPan: false,
 			maxWidth: 0,
-			pixelOffset: new google.maps.Size(-20, -130),
+			pixelOffset: new google.maps.Size(-25, -120),
 			zIndex: null,
 			closeBoxMargin: "10px 2px 2px 2px",
 			infoBoxClearance: new google.maps.Size(1, 1),
@@ -58,22 +67,18 @@ function showMap(URL, id_user, workout_number) {
         	}
         	/* Creating of Google Map object */
         	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-        	/* Array of coordinates of LatLng */
-        	var coords = [];
         	/* Creating a marker image */
         	var image = setMarkerImage(URL+'img/workout/cycling.png');
         	/* Creating a starting and finish image */
         	var start_end = setMarkerImage(URL+'img/workout/finish.png');
         	/* Creating of start marker */
-        	beachMarker = new google.maps.Marker({
-    			position: new google.maps.LatLng(result[0].lat, result[0].lan),
-    			map: map,
-    			icon: start_end
-    		});
-        	
+        	var start_marker = setMarker(new google.maps.LatLng(result[0].lat, result[0].lan), map, start_end);
+        	/* Array of coordinates of LatLng */
+        	var coords = [];
+        	/* Array of markers */
         	var marker = [];
-        	var index = 1;
-        	var ib = [];
+        	/* Index of markers */
+        	var index = 0;
         	/* How many points should skip after marker set */
         	var iterations = 0;
         	/* Pushing every received point into array */
@@ -109,21 +114,23 @@ function showMap(URL, id_user, workout_number) {
         						/* If we are more than 1 kilometer */
         						if(local_distance%1000 < 200) {
         							/* We make new marker at previous position */
-        							marker[index] = new google.maps.Marker({
-                            			position: new google.maps.LatLng(result[j-1].lat, result[j-1].lan),
-                            			map: map,
-                            			icon: image
-                            			/*title: 'distance: ' +local_distance.toString() + ' speed: ' + result[j].speed.toString()*/
-                            		});
-        							
-        							ib = createTooltip(index.toString(), Math.round(result[j].speed).toString());
-	    							
-        							google.maps.event.addListener(marker[index], 'mouseover', function(event) {
-        								marker[index].ib.open(map, marker[index]);
-        							});
-        							google.maps.event.addListener(marker[index], 'mouseout', function(event) {
-        								marker[index].ib.close();
-        							});
+        							c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, image);
+        							/* Pushing current marker into global markers array */
+        							marker.push(c_marker);
+        							/* Creating tooltip for current marker in global array */
+        							marker[index].tooltip = createTooltip(index, result[j].speed);
+        							/* Adding mouseover event to show tooltip */
+        							google.maps.event.addListener(c_marker, 'mouseover', (function(marker, index) {
+        								return function() {
+        				                    marker[index].tooltip.open(map, this);
+        				                }
+        							})(marker, index));
+        							/* Adding mouseover event to hide tooltip */
+        							google.maps.event.addListener(c_marker, 'mouseout', (function(marker, index) {
+        								return function() {
+        				                    marker[index].tooltip.close();
+        				                }
+        							})(marker, index));
         							index++;
         							/* This is the end of our local iterations */
         							end = true;
@@ -146,12 +153,8 @@ function showMap(URL, id_user, workout_number) {
         		iterations--;
         	}
         	/* Making finish marker */
-        	beachMarker = new google.maps.Marker({
-    			position: new google.maps.LatLng(result[result.length-1].lat, result[result.length-1].lan),
-    			map: map,
-    			icon: start_end
-    		});
-        	
+        	end_marker = setMarker(new google.maps.LatLng(result[result.length-1].lat, result[result.length-1].lan), map, start_end); 
+        	/* Drawing path on the map */
         	var Path = new google.maps.Polyline({
         		path: coords,
         		strokeColor: "#339900",

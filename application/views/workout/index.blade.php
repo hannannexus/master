@@ -11,7 +11,7 @@
 @section('content')
 
 <div class="white-block">
-	<div id="map_canvas" style="height: 800px; width: 100%; margin: 0 auto; position: relative;" ></div>
+	<div id="map_canvas" style="height: 600px; width: 100%; margin: 0 auto; position: relative;" ></div>
 </div>
 
 @endsection
