@@ -30,12 +30,12 @@ function setMarkerImage(image_address) {
 
 function createTooltip(URL, index, speed) {
 	speed = floorNumber(speed, 1);
-	var box_text = '<div class=\"info-box\">Distance: ' + (index+1).toString() + ' km.<br> Speed: ' + speed.toString() + ' km/h</div>';
+	var box_text = '<div class=\"info-box\">Dst: ' + (index+1).toString() + ' km.<br> Spd: ' + speed.toString() + ' km/h</div>';
 	var tooltip_options = {
 			content: box_text,
 			disableAutoPan: false,
 			maxWidth: 0,
-			pixelOffset: new google.maps.Size(0, 0),
+			pixelOffset: new google.maps.Size(-13, 0),
 			zIndex: null,
 			closeBoxMargin: "10px 2px 2px 2px",
 			infoBoxClearance: new google.maps.Size(1, 1),
@@ -43,10 +43,10 @@ function createTooltip(URL, index, speed) {
 			pane: "floatPane",
 			enableEventPropagation: false,
 			boxStyle: { 
-				background : "url(" + URL + "img/workout/tooltip_2.png) no-repeat",
+				background : "url(" + URL + "img/workout/tooltip_middle.png) no-repeat",
 			opacity: 1,
-			width: "250px",
-			height: "300px",
+			width: "100px",
+			height: "70px",
 			color : 'white'
 			}
 		}
@@ -75,6 +75,9 @@ function showMap(URL, id_user, workout_number) {
         	/* Creating of Google Map object */
         	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
         	/* Creating a marker image */
+        	var image = setMarkerImage(URL+'img/workout/cycling.png');
+        	var downhill = setMarkerImage(URL+'img/workout/bike_downhill.png');
+        	var rising = setMarkerImage(URL+'img/workout/bike_rising.png');
         	var image = setMarkerImage(URL+'img/workout/cycling.png');
         	/* Creating a starting and finish image */
         	var start_end = setMarkerImage(URL+'img/workout/finish.png');
@@ -121,7 +124,18 @@ function showMap(URL, id_user, workout_number) {
         						/* If we are more than 1 kilometer */
         						if(local_distance%1000 < 200) {
         							/* We make new marker at previous position */
-        							c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, image);
+        							/* Check if rising up */
+        							if(result[j-2].alt - result[j-1].alt < -0.25) {
+        								c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, rising);
+        							}
+        							/* Check if downhill */
+        							if(result[j-2].alt - result[j-1].alt > 0.25) {
+        								c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, downhill);
+        							}
+        							/* Check if plain */
+        							if(result[j-2].alt - result[j-1].alt <= 0.25 && result[j-2].alt - result[j-1].alt >= -0.25) {
+        								c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, image);
+        							}
         							/* Pushing current marker into global markers array */
         							marker.push(c_marker);
         							/* Creating tooltip for current marker in global array */
