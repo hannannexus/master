@@ -12,6 +12,12 @@ function setMarker(position, map, image) {
 	return marker;
 }
 
+function floorNumber(x, n)
+{
+	var mult = Math.pow(10, n);
+	return Math.floor(x*mult)/mult;
+}
+
 function setMarkerImage(image_address) {
 	var image = new google.maps.MarkerImage(
 		image_address,
@@ -22,8 +28,9 @@ function setMarkerImage(image_address) {
 	return image;
 }
 
-function createTooltip(index, speed) {
-	var box_text = '<div class=\"info-box\">Distance: ' + (index+1).toString() + ' km.<br> Speed: ' + speed.toFixed(1).toString() + ' km/h</div>';
+function createTooltip(URL, index, speed) {
+	speed = floorNumber(speed, 1);
+	var box_text = '<div class=\"info-box\">Distance: ' + (index+1).toString() + ' km.<br> Speed: ' + speed.toString() + ' km/h</div>';
 	var tooltip_options = {
 			content: box_text,
 			disableAutoPan: false,
@@ -36,7 +43,7 @@ function createTooltip(index, speed) {
 			pane: "floatPane",
 			enableEventPropagation: false,
 			boxStyle: { 
-				background : "url('../../public/img/workout/tooltip_2.png') no-repeat",
+				background : "url(" + URL + "img/workout/tooltip_2.png) no-repeat",
 			opacity: 1,
 			width: "250px",
 			height: "300px",
@@ -89,9 +96,9 @@ function showMap(URL, id_user, workout_number) {
         			/* General distance from start */
         			distance = google.maps.geometry.spherical.computeLength(coords);
         			/* Meters passed from every kilometer */
-        			meters = distance%1000;
+        			meters = floorNumber(distance%1000, 0);
         			/* If we get closer to kilometer limit */
-        			if(meters.toFixed() > 850 && iterations <= 0) {
+        			if(meters > 850 && iterations <= 0) {
         				/* We starting to check not every third point but every point at all */
         				/* Local coordinates array to make local distance */
         				var local_coords = [];
@@ -118,7 +125,7 @@ function showMap(URL, id_user, workout_number) {
         							/* Pushing current marker into global markers array */
         							marker.push(c_marker);
         							/* Creating tooltip for current marker in global array */
-        							marker[index].tooltip = createTooltip(index, result[j].speed);
+        							marker[index].tooltip = createTooltip(URL, index, result[j].speed);
         							/* Adding mouseover event to show tooltip */
         							google.maps.event.addListener(c_marker, 'mouseover', (function(marker, index) {
         								return function() {
