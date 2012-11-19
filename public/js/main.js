@@ -200,12 +200,14 @@ function drawChart(result) {
 	var hidden_chart = [];
 	var distance = 0;
 	var coords = []; 
+	
 	for(var i = 0; i < result.length; i++) {
 		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
 		distance = google.maps.geometry.spherical.computeLength(coords);
-		altitude_chart.push([distance, result[i].alt]);
+		altitude_chart.push([distance/1000, result[i].alt]);
 		hidden_chart.push([distance, 500]);
 	}
+	
     $.plot($("#chart_canvas"), [altitude_chart], 
     	{
     	lines: { show: true, fill: true },
