@@ -197,7 +197,7 @@ function showMap(URL, id_user, workout_number) {
 
 function drawChart(result) {
 	var altitude_chart = [];
-	var hidden_chart = [];
+	var speed_chart = [];
 	var distance = 0;
 	var coords = []; 
 	
@@ -205,17 +205,16 @@ function drawChart(result) {
 		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
 		distance = google.maps.geometry.spherical.computeLength(coords);
 		altitude_chart.push([distance/1000, result[i].alt]);
-		hidden_chart.push([distance, 500]);
+		speed_chart.push([distance/1000, result[i].speed*10]);
 	}
 	
-    $.plot($("#chart_canvas"), [altitude_chart], 
-    	{
+    $.plot($("#chart_canvas"), [{ data: altitude_chart}, {data: speed_chart}], {
     	lines: { show: true, fill: true },
         crosshair: { mode: "x" },
         grid: { hoverable: true, autoHighlight: false },
         tooltip:        true,       //false
         tooltipOpts: {
-          content:      "X: %x | Y: %y.2",
+          content:      "X: %x.2 | Y: %y.2",
           shifts: { 
             x:          10,
             y:          50
