@@ -1,8 +1,10 @@
-function changeLanguage() {
-	var form = $('#language_form');
-	form.submit();
-}
-
+/**
+ * Create new marker in google map
+ * @param position - object handler type of LatLng
+ * @param map - map handler
+ * @param image - image handler
+ * @returns {google.maps.Marker}
+ */
 function setMarker(position, map, image) {
 	var marker = new google.maps.Marker({
 		position: position,
@@ -12,12 +14,11 @@ function setMarker(position, map, image) {
 	return marker;
 }
 
-function floorNumber(x, n)
-{
-	var mult = Math.pow(10, n);
-	return Math.floor(x*mult)/mult;
-}
-
+/**
+ * Create a new marker image
+ * @param image_address - address of image file
+ * @returns {google.maps.MarkerImage}
+ */
 function setMarkerImage(image_address) {
 	var image = new google.maps.MarkerImage(
 		image_address,
@@ -28,6 +29,13 @@ function setMarkerImage(image_address) {
 	return image;
 }
 
+/**
+ * Creation of marker tooltip
+ * @param URL - site root
+ * @param index - distance index in Km
+ * @param speed - speed index in Km/h
+ * @returns {InfoBox}
+ */
 function createTooltip(URL, index, speed) {
 	speed = floorNumber(speed, 1);
 	var box_text = '<div class=\"info-box\">Dst: ' + (index+1).toString() + ' km.<br> Spd: ' + speed.toString() + ' km/h</div>';
@@ -54,6 +62,11 @@ function createTooltip(URL, index, speed) {
 	return ibox;
 }
 
+/**
+ * Draw map with polyline, markers and tooltips
+ * @param URL - site root
+ * @param result - database workout array
+ */
 function drawMap(URL, result) {
 	/* Center of the map indication (not right calculation)*/
 	var center_index = Math.round(result.length/2); 
@@ -66,7 +79,7 @@ function drawMap(URL, result) {
 	}
 	/* Creating of Google Map object */
 	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
-	/* Creating a marker image */
+	/* Creating a marker images */
 	var image = setMarkerImage(URL + 'img/workout/cycling.png');
 	var downhill = setMarkerImage(URL + 'img/workout/bike_downhill.png');
 	var rising = setMarkerImage(URL + 'img/workout/bike_rising.png');
@@ -175,10 +188,15 @@ function drawMap(URL, result) {
 		strokeWeight: 5,
 		zIndex: 0
 	});
-	
 	Path.setMap(map);
 }
 
+/**
+ * Show map and chart at the page 
+ * @param URL - site root
+ * @param id_user - user id
+ * @param workout_number - workout number
+ */
 function showMap(URL, id_user, workout_number) {
 	$.post(
 		/* Post to workout controller to get array of lat/lng coordinates */
@@ -195,6 +213,10 @@ function showMap(URL, id_user, workout_number) {
 	);
 }
 
+/**
+ * Draw chart of altitude/speed
+ * @param result - database workout array
+ */
 function drawChart(result) {
 	var altitude_chart = [];
 	var speed_chart = [];
@@ -214,80 +236,3 @@ function drawChart(result) {
         grid: { hoverable: true, autoHighlight: false }
     });
 }
-
-$(function () {
-	
-	var updateLegendTimeout = null;
-    var latestPosition = null;
-    
-    function updateLegend() {
-        updateLegendTimeout = null;
-        
-        var pos = latestPosition;
-        
-        var axes = plot.getAxes();
-        if (pos.x < axes.xaxis.min || pos.x > axes.xaxis.max ||
-            pos.y < axes.yaxis.min || pos.y > axes.yaxis.max)
-            return;
-
-        var i, j, dataset = plot.getData();
-        index_data = [];
-        
-        for (i = 0; i < dataset.length; ++i) {
-            var series = dataset[i];
-            
-            // find the nearest points, x-wise
-            for (j = 0; j < series.data.length; ++j)
-                if (series.data[j][0] > pos.x)
-                    break;
-            
-            // now interpolate
-            var y, p1 = series.data[j - 1], p2 = series.data[j];
-            if (p1 == null)
-                y = p2[1];
-            else if (p2 == null)
-                y = p1[1];
-            else
-                y = p1[1] + (p2[1] - p1[1]) * (pos.x - p1[0]) / (p2[0] - p1[0]);
-            index_data[i] = y;
-        }
-    }
-    
-    $('#chart_canvas').mousemove(function(e){
-		$('#info').remove();
-		$('body').append('<div id="info" style="position: absolute;"></div>');
-		$('#info').html('alt: ' + floorNumber(index_data[0],2) + ' spd: ' + floorNumber(index_data[1]/5, 2));
-		$('#info').css('left', e.clientX);
-		$('#info').css('top', e.clientY+200);
-	});
-    
-    $("#chart_canvas").bind("plothover",  function (event, pos, item) {
-        latestPosition = pos;
-        if (!updateLegendTimeout)
-            updateLegendTimeout = setTimeout(updateLegend, 50);
-    });
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
