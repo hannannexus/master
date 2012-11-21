@@ -35,6 +35,8 @@ $(function () {
         }
     }
     
+    link_marker_image = setMarkerImage('http://www.localsport.com/img/workout/cycling.png');
+    
     $('#chart_canvas').mousemove(function(e) {
     	if(typeof index_data != 'undefined'){
     		var position = $('#chart_canvas').position();
@@ -44,10 +46,21 @@ $(function () {
     		$('#info').css('left', e.clientX + 10);
     		$('#info').css('top', position.top + 10);
     	}
+    	if(typeof link_marker != 'undefined') {
+    		link_marker.setMap(null);
+    		link_marker = setMarker(new google.maps.LatLng(index_data[2], index_data[3]), map, link_marker_image);
+    	}
+    	else {
+    		link_marker = setMarker(new google.maps.LatLng(index_data[2], index_data[3]), map, link_marker_image);
+    	}
+    	
 	});
     
     $('#chart_canvas').mouseout(function() {
     	$('#info').remove();
+    	if(typeof link_marker != 'undefined') {
+    		link_marker.setMap(null);
+    	}
     });
     
     $("#chart_canvas").bind("plothover",  function (event, pos, item) {

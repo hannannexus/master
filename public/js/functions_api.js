@@ -78,7 +78,7 @@ function drawMap(URL, result) {
 			mapTypeControl: true
 	}
 	/* Creating of Google Map object */
-	var map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
+	map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
 	/* Creating a marker images */
 	var image = setMarkerImage(URL + 'img/workout/cycling.png');
 	var downhill = setMarkerImage(URL + 'img/workout/bike_downhill.png');
@@ -206,8 +206,8 @@ function showMap(URL, id_user, workout_number) {
         	workout_number : workout_number
         },
         function(result) {
-        	drawChart(result);
         	drawMap(URL, result);
+        	drawChart(result);
         },
         'json'
 	);
@@ -222,15 +222,18 @@ function drawChart(result) {
 	var speed_chart = [];
 	var distance = 0;
 	var coords = []; 
+	var lat_chart = [], lan_chart = [];
 	
 	for(var i = 0; i < result.length; i++) {
 		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
 		distance = google.maps.geometry.spherical.computeLength(coords);
 		altitude_chart.push([distance/1000, result[i].alt]);
 		speed_chart.push([distance/1000, result[i].speed*5]);
+		lat_chart.push([distance/1000, result[i].lat]);
+		lan_chart.push([distance/1000, result[i].lan]);
 	}
 	
-    plot = $.plot($("#chart_canvas"), [{ data: altitude_chart}, {data: speed_chart}], {
+    plot = $.plot($("#chart_canvas"), [{ data: altitude_chart}, {data: speed_chart}, {data: lat_chart, lines: {show: false}}, {data: lan_chart, lines: {show: false}}], {
     	lines: { show: true, fill: true },
         crosshair: { mode: "x" },
         grid: { hoverable: true, autoHighlight: false }
