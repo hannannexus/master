@@ -35,7 +35,7 @@ $(function () {
         }
     }
     
-    link_marker_image = setMarkerImage('http://www.localsport.com/img/workout/cycling.png');
+    link_marker_image = setMarkerImage(link_image_url);
     
     $('#chart_canvas').mousemove(function(e) {
     	if(typeof index_data != 'undefined'){
