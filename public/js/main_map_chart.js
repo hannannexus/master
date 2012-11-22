@@ -40,18 +40,23 @@ $(function () {
     $('#chart_canvas').mousemove(function(e) {
     	if(typeof index_data != 'undefined'){
     		var position = $('#chart_canvas').position();
+    		
     		$('#info').remove();
+    		
     		$('body').append('<div class="white-block" id="info" style="position: absolute; background-color: white; opacity: 0.7;"></div>');
-    		$('#info').html('alt: ' + floorNumber(index_data[0],2) + '<br> spd: ' + floorNumber(index_data[1]/5, 2));
+    		
+    		$('#info').html('alt: ' + floorNumber(index_data[0],2) + '<br> spd: ' + floorNumber(index_data[1]/7, 2));
     		$('#info').css('left', e.clientX + 10);
     		$('#info').css('top', position.top + 10);
     	}
-    	if(typeof link_marker != 'undefined') {
+    	if(typeof link_marker != 'undefined' && typeof index_data != 'undefined') {
     		link_marker.setMap(null);
     		link_marker = setMarker(new google.maps.LatLng(index_data[2], index_data[3]), map, link_marker_image);
     	}
     	else {
-    		link_marker = setMarker(new google.maps.LatLng(index_data[2], index_data[3]), map, link_marker_image);
+    		if(typeof index_data != 'undefined') {
+    			link_marker = setMarker(new google.maps.LatLng(index_data[2], index_data[3]), map, link_marker_image);
+    		}
     	}
     	
 	});

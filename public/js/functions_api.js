@@ -73,7 +73,7 @@ function drawMap(URL, result) {
 	/* Google map options */
 	var mapOptions = {
 			zoom: 13,
-			center: new google.maps.LatLng(result[center_index].lat, result[center_index].lan),
+			center: new google.maps.LatLng(parseFloat(result[center_index].lat), parseFloat(result[center_index].lan)),
 			mapTypeId: google.maps.MapTypeId.SATELLITE,
 			mapTypeControl: true
 	}
@@ -87,7 +87,7 @@ function drawMap(URL, result) {
 	/* Creating a starting and finish image */
 	var start_end = setMarkerImage(URL + 'img/workout/finish.png');
 	/* Creating of start marker */
-	var start_marker = setMarker(new google.maps.LatLng(result[0].lat, result[0].lan), map, start_end);
+	var start_marker = setMarker(new google.maps.LatLng(parseFloat(result[0].lat), parseFloat(result[0].lan)), map, start_end);
 	/* Array of coordinates of LatLng */
 	var coords = [];
 	/* Array of markers */
@@ -98,7 +98,7 @@ function drawMap(URL, result) {
 	var iterations = 0;
 	/* Pushing every received point into array */
 	for(var i=0; i < result.length; i++) {
-		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
+		coords.push(new google.maps.LatLng(parseFloat(result[i].lat), parseFloat(result[i].lan)));
 		/* Every third point checked to speed up map drawing */
 		if(i%3 == 0){
 			/* General distance from start */
@@ -123,7 +123,7 @@ function drawMap(URL, result) {
 					/* And we not get end of our trace */
 					if(j < result.length - 1) {
 						/* Push local coordinates */
-						local_coords.push(new google.maps.LatLng(result[j].lat, result[j].lan));
+						local_coords.push(new google.maps.LatLng(parseFloat(result[j].lat), parseFloat(result[j].lan)));
 						/* Calculating local distance */
 						local_distance += google.maps.geometry.spherical.computeLength(local_coords);
 						/* If we are more than 1 kilometer */
@@ -131,20 +131,20 @@ function drawMap(URL, result) {
 							/* We make new marker at previous position */
 							/* Check if rising up */
 							if(result[j-2].alt - result[j-1].alt < -0.25) {
-								c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, rising);
+								c_marker = setMarker(new google.maps.LatLng(parseFloat(result[j-1].lat), parseFloat(result[j-1].lan)), map, rising);
 							}
 							/* Check if downhill */
 							if(result[j-2].alt - result[j-1].alt > 0.25) {
-								c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, downhill);
+								c_marker = setMarker(new google.maps.LatLng(parseFloat(result[j-1].lat), parseFloat(result[j-1].lan)), map, downhill);
 							}
 							/* Check if plain */
-							if(result[j-2].alt - result[j-1].alt <= 0.25 && result[j-2].alt - result[j-1].alt >= -0.25) {
-								c_marker = setMarker(new google.maps.LatLng(result[j-1].lat, result[j-1].lan), map, image);
+							if(parseFloat(result[j-2].alt) - parseFloat(result[j-1].alt) <= 0.25 && parseFloat(result[j-2].alt) - parseFloat(result[j-1].alt) >= -0.25) {
+								c_marker = setMarker(new google.maps.LatLng(parseFloat(result[j-1].lat), parseFloat(result[j-1].lan)), map, image);
 							}
 							/* Pushing current marker into global markers array */
 							marker.push(c_marker);
 							/* Creating tooltip for current marker in global array */
-							marker[index].tooltip = createTooltip(URL, index, result[j].speed);
+							marker[index].tooltip = createTooltip(URL, index, parseFloat(result[j].speed));
 							/* Adding mouseover event to show tooltip */
 							google.maps.event.addListener(c_marker, 'mouseover', (function(marker, index) {
 								return function() {
@@ -170,7 +170,7 @@ function drawMap(URL, result) {
 					}
 				}
 				/* Здесь костыль, его поменять*/
-				if(result[j].speed < 3) {
+				if(parseFloat(result[j].speed) < 3) {
 					iterations = 60;
 				}
 			}
@@ -179,7 +179,7 @@ function drawMap(URL, result) {
 		iterations--;
 	}
 	/* Making finish marker */
-	end_marker = setMarker(new google.maps.LatLng(result[result.length-1].lat, result[result.length-1].lan), map, start_end); 
+	end_marker = setMarker(new google.maps.LatLng(parseFloat(result[result.length-1].lat), parseFloat(result[result.length-1].lan)), map, start_end); 
 	/* Drawing path on the map */
 	var Path = new google.maps.Polyline({
 		path: coords,
@@ -227,13 +227,13 @@ function drawChart(result) {
 	for(var i = 0; i < result.length; i++) {
 		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
 		distance = google.maps.geometry.spherical.computeLength(coords);
-		altitude_chart.push([distance/1000, result[i].alt]);
-		speed_chart.push([distance/1000, result[i].speed*5]);
-		lat_chart.push([distance/1000, result[i].lat]);
-		lan_chart.push([distance/1000, result[i].lan]);
+		altitude_chart.push([distance/1000, parseFloat(result[i].alt)]);
+		speed_chart.push([distance/1000, parseFloat(result[i].speed*7)]);
+		lat_chart.push([distance/1000, parseFloat(result[i].lat)]);
+		lan_chart.push([distance/1000, parseFloat(result[i].lan)]);
 	}
 	
-    plot = $.plot($("#chart_canvas"), [{ data: altitude_chart}, {data: speed_chart}, {data: lat_chart, lines: {show: false}}, {data: lan_chart, lines: {show: false}}], {
+    plot = $.plot($("#chart_canvas"), [{ data: altitude_chart}, {data: speed_chart, lines: {fill: false}}, {data: lat_chart, lines: {show: false}}, {data: lan_chart, lines: {show: false}}], {
     	lines: { show: true, fill: true },
         crosshair: { mode: "x" },
         grid: { hoverable: true, autoHighlight: false }
