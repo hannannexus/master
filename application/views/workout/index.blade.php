@@ -12,7 +12,7 @@
 	{{ HTML::script('js/main_map_chart.js') }}
 	
 	<script type="text/javascript">
-		link_image_url = '{{ URL::home() }}' + 'img/workout/cycling.png';
+		link_image_url = '{{ URL::home() }}' + 'img/workout/cycling_moving_mini.png';
 		$(document).ready(function () {
 			showMap('{{ URL::home() }}', {{ $id_user }}, {{ $workout_number }});
 		});

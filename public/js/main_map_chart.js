@@ -35,7 +35,7 @@ $(function () {
         }
     }
     
-    link_marker_image = setMarkerImage(link_image_url);
+    link_marker_image = setMarkerImage(link_image_url, 'big');
     
     $('#chart_canvas').mousemove(function(e) {
     	if(typeof index_data != 'undefined'){
@@ -43,9 +43,9 @@ $(function () {
     		
     		$('#info').remove();
     		
-    		$('body').append('<div class="white-block" id="info" style="position: absolute; background-color: white; opacity: 0.7;"></div>');
+    		$('body').append('<div class="white-block" id="info" style="font-family: Arial; font-size: 10pt; position: absolute; background-color: white; opacity: 0.7;"></div>');
     		
-    		$('#info').html('alt: ' + floorNumber(index_data[0],2) + '<br> spd: ' + floorNumber(index_data[1]/7, 2));
+    		$('#info').html('<b style="color: #67BCFA">Altitude: ' + floorNumber(index_data[0],2) + ' m</b><br><b style="color: #045590"> Speed: ' + floorNumber(index_data[1]/7, 2)) + '</b>';
     		$('#info').css('left', e.clientX + 10);
     		$('#info').css('top', position.top + 10);
     	}

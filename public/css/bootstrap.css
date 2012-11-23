@@ -5910,8 +5910,11 @@ a.badge:hover {
 .info-box {
     margin-left: 5px;
     margin-top: 10px;
-    font-size: x-small;
+	padding-top: 1px;
+    font-size: 8pt;
     font: white;
     font-family: Arial;
-    line-height: 1;
+    line-height: 1.5;
 }
+
+

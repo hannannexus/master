@@ -10,7 +10,8 @@ class Workout extends Base {
 				`alt`,
 				`speed`,
 				substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`,
-				substr(from_unixtime(substr(`time`, 1, 10)), 12, 10) as `time`
+				substr(from_unixtime(substr(`time`, 1, 10)), 12, 10) as `time`,
+				(substr(`time`, 1, 10)) as `unixtime`
 			from
 				`tp_" . $id_user . "_gps`
 			where
@@ -27,6 +28,11 @@ class Workout extends Base {
 				array_push($result, $route[$i]);
 			}
 		}
+		$start_time = $result[0]['unixtime'];
+		foreach($result as $key => $res) {
+			$result[$key]['timediff'] = date("G:i:s", ($res['unixtime'] - $start_time));
+		}
+		
 		return $result;
 	}
 	
@@ -58,6 +64,8 @@ class Workout extends Base {
 		$marker_set = FALSE;
 		
 		$p_previous = $route[0];
+		$lap_time = $route[1]['unixtime'];
+		$p_previous['lap'] = '0:00:00';
 		
 		array_push($markers, $p_previous);
 		
@@ -67,6 +75,7 @@ class Workout extends Base {
 			 * or gps bugged and current point around 865m from previous {like 2995m - 3800m} */
 			 if(((fmod($distance, $lap) < 180 && $d_previous > 900) || ($distance - $d_previous > 865)) && !$marker_set) {
 				$route[$key-1]['distance'] = $d_previous;
+				$route[$key-1]['lap'] = date("G:i:s", ($point['unixtime'] - $lap_time));
 				if($point['alt'] - $route[$key-1]['alt'] < -0.25) {
 					$route[$key-1]['slope'] = 'down';
 				}
@@ -77,6 +86,7 @@ class Workout extends Base {
 					$route[$key-1]['slope'] = 'flat';
 				}
 				array_push($markers, $route[$key-1]);
+				$lap_time = $point['unixtime'];
 				$marker_set = TRUE;
 			}
 			else {
@@ -92,6 +102,7 @@ class Workout extends Base {
 		}
 		
 		$route[count($route)-1]['distance'] = $distance;
+		$route[count($route)-1]['lap'] = date("G:i:s", ($route[count($route)-1]['unixtime'] - $lap_time));
 		array_push($markers, $route[count($route)-1]);
 		
 		return $markers;

@@ -19,14 +19,25 @@ function setMarker(position, map, image) {
  * @param image_address - address of image file
  * @returns {google.maps.MarkerImage}
  */
-function setMarkerImage(image_address) {
-	var image = new google.maps.MarkerImage(
-		image_address,
-		new google.maps.Size(60, 60),
-		new google.maps.Point(0,0), 
-		new google.maps.Point(16,35) 
-	);
-	return image;
+function setMarkerImage(image_address, size) {
+	if(size == 'small') {
+		var image = new google.maps.MarkerImage(
+				image_address,
+				new google.maps.Size(60, 60),
+				new google.maps.Point(0,0), 
+				new google.maps.Point(16,28) 
+			);
+			return image;
+	}
+	else {
+		var image = new google.maps.MarkerImage(
+				image_address,
+				new google.maps.Size(60, 60),
+				new google.maps.Point(0,0), 
+				new google.maps.Point(16,35) 
+			);
+			return image;
+	}
 }
 
 /**
@@ -36,26 +47,32 @@ function setMarkerImage(image_address) {
  * @param speed - speed index in Km/h
  * @returns {InfoBox}
  */
-function createTooltip(URL, index, speed) {
+function createTooltip(URL, index, speed, time, lap) {
 	speed = floorNumber(speed, 1);
-	var box_text = '<div class=\"info-box\">Dst: ' + (index+1).toString() + ' km.<br> Spd: ' + speed.toString() + ' km/h</div>';
+	var box_text = '<div class=\"info-box\">' +
+					'<b>' + (index+1).toString() + ' km' +
+					'<br>' + time + 
+					'<br>' + lap + 
+					'<br>' + speed.toString() + ' km/h' +
+					'</b></div>';
 	var tooltip_options = {
 			content: box_text,
 			disableAutoPan: false,
 			maxWidth: 0,
-			pixelOffset: new google.maps.Size(-13, 0),
+			pixelOffset: new google.maps.Size(-18, 0),
 			zIndex: null,
-			closeBoxMargin: "10px 2px 2px 2px",
+			closeBoxMargin: "12px 3px 3px 3px",
 			infoBoxClearance: new google.maps.Size(1, 1),
 			isHidden: false,
 			pane: "floatPane",
 			enableEventPropagation: false,
 			boxStyle: { 
-				background : "url(" + URL + "img/workout/tooltip_middle.png) no-repeat",
-			opacity: 1,
-			width: "100px",
-			height: "70px",
-			color : 'white'
+				background : "url(" + URL + "img/workout/tooltip_blue.png) no-repeat",
+				opacity: 1,
+				width: "100px",
+				height: "100px",
+				color : 'white',
+				paddingLeft: "27px"
 			}
 		}
 	var ibox = new InfoBox(tooltip_options);
@@ -64,10 +81,10 @@ function createTooltip(URL, index, speed) {
 
 function defineImages(URL) {
 	var images = [];
-	images['cycling'] = setMarkerImage(URL + 'img/workout/cycling.png');
-	images['downhill'] = setMarkerImage(URL + 'img/workout/bike_downhill.png');
-	images['rising'] = setMarkerImage(URL + 'img/workout/bike_rising.png');
-	images['flag'] = setMarkerImage(URL + 'img/workout/finish.png');
+	images['cycling'] = setMarkerImage(URL + 'img/workout/cycling_mini.png', 'small');
+	images['downhill'] = setMarkerImage(URL + 'img/workout/bike_downhill_mini.png', 'small');
+	images['rising'] = setMarkerImage(URL + 'img/workout/bike_rising_mini.png', 'small');
+	images['flag'] = setMarkerImage(URL + 'img/workout/finish.png', 'big');
 	return images;
 }
 
@@ -108,11 +125,11 @@ function drawMap(URL, result) {
 			current_marker = setMarker(new google.maps.LatLng(parseFloat(res_markers[i].lat), parseFloat(res_markers[i].lan)), map, images['flag']);
 			if(i == res_markers.length - 1) {
 				marker.push(current_marker);
-				marker[i].tooltip = createTooltip(URL, floorNumber(parseFloat(res_markers[i].distance/1000), 1)-1, parseFloat(res_markers[i].speed));
+				marker[i].tooltip = createTooltip(URL, floorNumber(parseFloat(res_markers[i].distance/1000), 1)-1, parseFloat(res_markers[i].speed), res_markers[i].timediff, res_markers[i].lap);
 			}
 			else {
 				marker.push(current_marker);
-				marker[i].tooltip = createTooltip(URL, -1, parseFloat(res_markers[i].speed));
+				marker[i].tooltip = createTooltip(URL, -1, parseFloat(res_markers[i].speed), res_markers[i].timediff, res_markers[i].lap);
 			}
 		}
 		else {
@@ -126,7 +143,7 @@ function drawMap(URL, result) {
 				current_marker = setMarker(new google.maps.LatLng(parseFloat(res_markers[i].lat), parseFloat(res_markers[i].lan)), map, images['downhill']);
 			}
 			marker.push(current_marker);
-			marker[i].tooltip = createTooltip(URL, i-1, parseFloat(res_markers[i].speed));
+			marker[i].tooltip = createTooltip(URL, i-1, parseFloat(res_markers[i].speed), res_markers[i].timediff, res_markers[i].lap);
 		}
 		
 		/* Adding mouseover event to show tooltip */
@@ -147,7 +164,7 @@ function drawMap(URL, result) {
 	/* Drawing path on the map */
 	var Path = new google.maps.Polyline({
 		path: coords,
-		strokeColor: "#339900",
+		strokeColor: "#67BCFA",
 		strokeOpacity: 1.0,
 		strokeWeight: 5,
 		zIndex: 0
@@ -198,9 +215,15 @@ function drawChart(result) {
 		lan_chart.push([distance/1000, parseFloat(result[i].lan)]);
 	}
 	
-    plot = $.plot($("#chart_canvas"), [{ data: altitude_chart}, {data: speed_chart, lines: {fill: false}}, {data: lat_chart, lines: {show: false}}, {data: lan_chart, lines: {show: false}}], {
-    	lines: { show: true, fill: true },
-        crosshair: { mode: "x" },
-        grid: { hoverable: true, autoHighlight: false }
-    });
+    plot = $.plot($("#chart_canvas"), [
+        {data: altitude_chart, color: '#67BCFA'}, 
+        {data: speed_chart, color: '#045590', lines: {fill: false}},
+        {data: lat_chart, lines: {show: false}}, 
+        {data: lan_chart, lines: {show: false}}], 
+        {
+	    	lines: { show: true, fill: true },
+	        crosshair: { mode: "x", color: '#045590', width: 3 },
+	        grid: { hoverable: true, autoHighlight: false }
+        }
+    );
 }
