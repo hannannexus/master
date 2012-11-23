@@ -25,7 +25,7 @@ function setMarkerImage(image_address, size) {
 				image_address,
 				new google.maps.Size(60, 60),
 				new google.maps.Point(0,0), 
-				new google.maps.Point(16,28) 
+				new google.maps.Point(13,30) 
 			);
 			return image;
 	}

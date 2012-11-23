@@ -35,7 +35,7 @@ $(function () {
         }
     }
     
-    link_marker_image = setMarkerImage(link_image_url, 'big');
+    link_marker_image = setMarkerImage(link_image_url, 'small');
     
     $('#chart_canvas').mousemove(function(e) {
     	if(typeof index_data != 'undefined'){
