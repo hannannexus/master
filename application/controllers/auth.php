@@ -75,9 +75,14 @@ class Auth_Controller extends Controller {
 			return Redirect::to('signup')->with_errors($validation);
 		}
 		else {
-			$user->registerUser(Input::get('email'), Hash::make(Input::get('password')), Cookie::get('language'), rand(100000, 999999));
-            Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')));
-			return Redirect::to('confirm');
+			if($user->checkUserEmail(Input::get('email'))) {
+				return Redirect::to('signup')->with('email_error', 'true');
+			}
+			else {
+				$user->registerUser(Input::get('email'), Hash::make(Input::get('password')), Cookie::get('language'), rand(100000, 999999));
+				Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')));
+				return Redirect::to('confirm');
+			}
 		}
 	}
 	

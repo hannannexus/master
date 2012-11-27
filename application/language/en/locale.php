@@ -39,7 +39,9 @@ return array(
 	'wants_to_be_friends' => 'Wants to be friend',
 	'accept' => 'Accept',
 	'view_workout' => 'View workout',
-		
+	'information_error' => 'Please, fill all information fields',
+	'information_form' => 'Please, enter information about you',
+	'email_error' => 'This email already registered',
 		
 	'gender_-' => ''
 );

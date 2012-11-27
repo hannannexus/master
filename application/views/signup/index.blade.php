@@ -4,6 +4,12 @@ Signup
 
 @section('errors')
 
+	<? $email_error = Session::get('email_error'); ?>
+    
+    @if (!empty($email_error))
+        <div class="alert alert-error">{{ Lang::line('locale.email_error')->get($language) }}</div>
+    @endif
+
 	@if ($errors->has('email'))
 	    @foreach ($errors->get('email', '<div class="alert alert-error">:message</div>') as $email_error)
 	    	{{ $email_error }}

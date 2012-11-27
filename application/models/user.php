@@ -188,6 +188,47 @@ class User extends Base {
     	";
     	DB::query($stmt, array($id_friend, $id_user));
     }
+    
+    public function checkInformation($id_user) {
+    	$stmt = "
+    		select
+    			`name`,
+    			`surname`,
+    			`sex`
+    		from
+    			`users`
+    		where
+    			`user_id` = ?		
+    	";
+    	$information = $this->objectToSingle(DB::query($stmt, array($id_user)));
+    	if($information['name'] == '' || $information['surname'] == '' || $information['sex'] == '') {
+    		return FALSE;
+    	}
+    	else {
+    		return TRUE;
+    	}
+    }
+    
+    public function checkUserEmail($email) {
+    	$stmt = "
+    		select
+    			`login_name`,
+    			`email`
+    		from
+    			`users`
+    		where
+    			`login_name` = ?
+    		or
+    			`email` = ?
+    	";
+    	$email = $this->objectToSingle(DB::query($stmt, array($email, $email)));
+    	if(!empty($email['email']) || !empty($email['login_name'])) {
+    		return TRUE;
+    	}
+    	else {
+    		return FALSE;
+    	}
+    }
 }
 
 ?>

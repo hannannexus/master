@@ -1,5 +1,9 @@
 <?php 
 
+use Laravel\Redirect;
+
+use Laravel\Input;
+
 class User_Controller extends Controller 
 {
 	protected $user;
@@ -116,6 +120,34 @@ class User_Controller extends Controller
 	public function action_accept_friend($id_friend) {
 		$this->user->aceeptFriendRequest(Auth::user()->user_id, $id_friend);
 		return Redirect::back();
+	}
+	
+	public function action_information() {
+		$check = $this->user->checkInformation(Auth::user()->user_id);
+		if(!$check) {
+			return View::make('signup.information');
+		}
+		else {
+			return Redirect::back();
+		}
+		
+	}
+	
+	public function action_information_process() {
+		$data = array();
+		$id_user = Auth::user()->user_id;
+		$data['name'] = Input::get('name');
+		$data['surname'] = Input::get('surname');
+		$data['gender'] = Input::get('gender');
+		$data['midname'] = $data['patronymic'] = $data['borndate'] = '';
+		print_r($data);
+		if(!empty($data['name']) && !empty($data['surname']) && !empty($data['gender'])) {
+			$this->user->setUserData($data, $id_user);
+			return Redirect::to('profile');
+		}
+		else {
+			return Redirect::to('information')->with('information_error', 'true');
+		}
 	}
 }
 ?>

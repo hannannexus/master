@@ -1,4 +1,6 @@
 <?php
+use Laravel\Redirect;
+
 /**
  * Login routes
  */
@@ -15,10 +17,12 @@ Route::post('signup/process', 'auth@signup_process');
  * User routes
  */
 Route::post('profile/settings/process', 'user@settings_process');
-Route::get('profile', array('before' => 'confirm', 'uses' => 'user@profile'));
+Route::get('information', array('before' => 'confirm', 'uses' => 'user@information'));
+Route::post('information/process', array('before' => 'confirm', 'uses' => 'user@information_process'));
+Route::get('profile', array('before' => 'information', 'uses' => 'user@profile'));
 Route::post('language', 'user@language');
 Route::get('profile/settings', array('before' => 'auth', 'uses' => 'user@settings'));
-Route::get('users', array('before' => 'auth', 'uses' => 'user@users'));
+Route::get('users', array('before' => 'auth', 'before' => 'confirm', 'before' => 'information', 'uses' => 'user@users'));
 Route::get('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::get('profile/workouts', array('before' => 'auth', 'uses' => 'user@workouts'));
 Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
@@ -118,6 +122,18 @@ Route::filter('confirm', function() {
     }
 	if(!$confirm) {
 		return Redirect::to('confirm');
+	}
+});
+
+Route::filter('information', function () {
+	$user = new User();
+	if(Auth::check()) {
+		if(!$user->checkInformation(Auth::user()->user_id)) {
+			return Redirect::to('information');
+		}
+	}
+	else {
+		return Redirect::back();
 	}
 });
 

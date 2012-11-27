@@ -8,13 +8,17 @@ class Base extends Eloquent {
     	}
     	else {
     		$array = array();
-    		return $array;
     	}
         return $array;
     }
     
     protected function objectToSingle($phpObj) {
-        $array = (array)$phpObj[0];
+    	if(!is_null($phpObj) && !empty($phpObj)) {
+    		$array = (array)$phpObj[0];
+    	}
+        else {
+        	$array = array();
+        }
         return $array;
     }
 }
