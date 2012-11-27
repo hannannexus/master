@@ -118,6 +118,16 @@ class User extends Base {
     			`user_id` = ?
     	";
     	DB::query($stmt, array($data['name'], $data['surname'], $data['midname'], $data['borndate'], $data['gender'], $user_id));
+    	
+    	$stmt = "
+    		update
+    			`user_config`
+    		set
+    			`photo` = ?
+    		where
+    			`id_user` = ?
+    	";
+    	DB::query($stmt, array(md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']), $user_id));
     }
     
     public function getAllUsers() {

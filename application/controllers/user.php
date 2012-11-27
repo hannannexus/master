@@ -1,5 +1,7 @@
 <?php 
 
+use Laravel\Validator;
+
 use Laravel\Redirect;
 
 use Laravel\Input;
@@ -62,15 +64,57 @@ class User_Controller extends Controller
 	 */
 	public function action_settings_process() {
 		$data = array();
-		$data['name'] = Input::get('name');
-		$data['midname'] = Input::get('midname');
-		$data['surname'] = Input::get('surname');
-		$data['gender'] = Input::get('gender');
+		
+		$data = Input::all();
+		
 		$date = Input::get('borndate');
 		$date = explode('.', $date);
-		$data['borndate'] = $date[0]; 
-		$user_id = Auth::user()->user_id;
-		$this->user->setUserData($data, $user_id);
+		$data['borndate'] = $date[0];
+		 
+		if(!empty($data['photo'])) {
+			
+			$input = array(
+					'name' => $data['name'],
+					'midname' => $data['midname'],
+					'surname' => $data['surname'],
+					'photo' => Input::file('photo')
+			);
+			$rules = array(
+					'name' => 'required|max:40|min:1',
+					'midname' => 'max:40|min:1',
+					'surname' => 'required|max:40|min:1',
+					'photo' => 'mimes:jpeg,jpg,png,bmp,tiff|max:2048'
+			);
+			$validator = Validator::make($input, $rules);
+			if(!$validator->fails()) {
+				$user_id = Auth::user()->user_id;
+				$this->user->setUserData($data, $user_id);
+				Input::upload('photo', 'public/img/photos/', md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']));
+			}
+			else {
+				return Redirect::to('profile/settings')->with_errors($validator->errors);
+			}
+		}
+		else {
+			$input = array(
+					'name' => $data['name'],
+					'midname' => $data['midname'],
+					'surname' => $data['surname']
+			);
+			$rules = array(
+					'name' => 'required|max:40|min:1',
+					'midname' => 'max:40|min:1',
+					'surname' => 'required|max:40|min:1'
+			);
+			$validator = Validator::make($input, $rules);
+			if(!$validator->fails()) {
+				$user_id = Auth::user()->user_id;
+				$this->user->setUserData($data, $user_id);
+			}
+			else {
+				return Redirect::to('profile/settings')->with_errors($validator->errors);
+			}
+		}
 		return Redirect::to('profile')->with('saved', 'success');
 	}
 	
