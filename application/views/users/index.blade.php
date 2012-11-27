@@ -3,32 +3,32 @@
 @endsection
 
 @section('content')
-<br>
+<div class="white-block">
 	@foreach($users as $user)
 	<?php $flag = 'false'; ?>
-	<div class="alert alert-block">
-		<a href="{{ URL::home() }}user/{{ $user['user_id'] }}">{{$user['name']}} {{$user['patronymic']}} {{$user['surname']}}</a>
+	<div class="alert alert-block" style="display: inline-block; width: 200px; height: 100px; margin: 5px; padding: 5px;">
+		<a style="font-size: 10pt;" href="{{ URL::home() }}user/{{ $user['user_id'] }}">{{$user['name']}} <br> {{$user['patronymic']}} <br> {{$user['surname']}}</a>
 		@if($user['user_id'] != Auth::user()->user_id)
 			@if(!empty($friendlist))
 				@foreach($friendlist as $list)
 					@if($user['user_id'] == $list['id_user'])
 						@if($list['relation'] == 'accepted')
-							{{ Lang::line('locale.your_friend')->get($language) }}
+							<br><p style="font-size: x-small;" >{{ Lang::line('locale.your_friend')->get($language) }} </p>
 							<?php $flag = 'false'; ?>
 							<?php break; ?>
 						@else
-							{{ Lang::line('locale.wants_to_be_friends')->get($language) }} 
+							<br><p style="font-size: x-small;" >{{ Lang::line('locale.wants_to_be_friends')->get($language) }} </p>
 							<b><a href="{{ URL::home() }}user/accept/{{ $user['user_id'] }}">{{ Lang::line('locale.accept')->get($language) }}</a></b>
 							<?php $flag = 'false'; ?>
 							<?php break; ?>
 						@endif
 					@elseif($user['user_id'] == $list['id_friend'])
 						@if($list['relation'] == 'accepted')
-							{{ Lang::line('locale.your_friend')->get($language) }}
+							<br><p style="font-size: x-small;" >{{ Lang::line('locale.your_friend')->get($language) }} </p>
 							<?php $flag = 'false'; ?>
 							<?php break; ?>
 						@else
-							{{ Lang::line('locale.you_sent_request')->get($language) }}
+							<p style="font-size: x-small;" > {{ Lang::line('locale.you_sent_request')->get($language) }} </p>
 							<?php $flag = 'false'; ?>
 							<?php break; ?> 
 						@endif
@@ -36,16 +36,17 @@
 					<?php $flag = 'true'; ?>
 				@endforeach
 			@else
-				 <b><a href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a></b>
+				 <br><b><a style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a></b>
 			@endif
 		@else
-			{{ Lang::line('locale.this_is_you')->get($language) }}
+			<br><p style="font-size: x-small;" > {{ Lang::line('locale.this_is_you')->get($language) }} </p>
 		@endif
 		@if($flag == 'true')
-			<b><a href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a></b>
+			<br><b><a style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a></b>
 		@endif
 	</div>
 	@endforeach
+</div>
 @endsection
 
 @include('common.skeleton')
