@@ -70,8 +70,8 @@ class User_Controller extends Controller
 		$date = Input::get('borndate');
 		$date = explode('.', $date);
 		$data['borndate'] = $date[0];
-		 
-		if(!empty($data['photo'])) {
+		
+		if(!empty($data['photo']['name'])) {
 			
 			$input = array(
 					'name' => $data['name'],
@@ -83,7 +83,7 @@ class User_Controller extends Controller
 					'name' => 'required|max:40|min:1',
 					'midname' => 'max:40|min:1',
 					'surname' => 'required|max:40|min:1',
-					'photo' => 'mimes:jpeg,jpg,png,bmp,tiff|max:2048'
+					'photo' => 'mimes:jpeg,jpg,png,gif|max:2048'
 			);
 			$validator = Validator::make($input, $rules);
 			if(!$validator->fails()) {
