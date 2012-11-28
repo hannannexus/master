@@ -6,15 +6,24 @@
 <div class="white-block">
 	@foreach($users as $user)
 	<?php $flag = 'false'; ?>
-	<div class="alert alert-block" style="display: inline-block; width: 200px; height: 100px; margin: 5px; padding: 5px;">
-	
-	@if(!empty($user['photo']))
-		<img src="{{ URL::home() . 'public/img/photos/' . $user['user_id'] . '/60/' . $user['photo'] }}" style="float: left; display: inline;">
-	@else
-		<img alt="" src="{{ URL::home() . 'public/img/system/no_image_60.jpg' }}" style="float: left; display: inline;">
-	@endif
-	
-		<a style="font-size: 10pt;" href="{{ URL::home() }}user/{{ $user['user_id'] }}">{{$user['name']}} <br> {{$user['patronymic']}} <br> {{$user['surname']}}</a>
+	<div class="alert alert-block" style="display: inline-block; width: 200px; height: 100px; margin-top: 5px; padding: 10px;">
+	<div style="float: left; display: inline; margin-right: 10px;">
+		@if(!empty($user['photo']))
+			<img src="{{ URL::home() . 'public/img/photos/' . $user['user_id'] . '/60/' . $user['photo'] }}" >
+		@else
+			<img alt="" src="{{ URL::home() . 'public/img/system/no_image_60.jpg' }}">
+		@endif
+	</div>
+	<div style="display: inline; margin-right: 10px;">
+		<a style="font-size: 10pt;" href="{{ URL::home() }}user/{{ $user['user_id'] }}">
+		{{$user['name']}} 
+		<br>
+		@if(!empty($user['patronymic'])) 
+			{{$user['patronymic']}}
+			<br>
+		@endif 
+		{{$user['surname']}}</a>
+	</div>
 		@if($user['user_id'] != Auth::user()->user_id)
 			@if(!empty($friendlist))
 				@foreach($friendlist as $list)
