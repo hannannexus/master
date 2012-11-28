@@ -87,9 +87,28 @@ class User_Controller extends Controller
 			);
 			$validator = Validator::make($input, $rules);
 			if(!$validator->fails()) {
+				
 				$user_id = Auth::user()->user_id;
 				$this->user->setUserData($data, $user_id);
-				Input::upload('photo', 'public/img/photos/', md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']));
+				
+				
+				Input::upload('photo', 'public/img/photos/' . Auth::user()->user_id . '/original/', md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']));
+				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/60' );
+				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/100' );
+				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/320' );
+				
+				Resizer::open( 'public/img/photos/' . Auth::user()->user_id . '/original/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) )
+				->resize( 60 , 60 , 'auto' )
+				->save( 'public/img/photos/' . Auth::user()->user_id . '/60/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) , 100 );
+				
+				Resizer::open( 'public/img/photos/' . Auth::user()->user_id . '/original/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) )
+				->resize( 100 , 100 , 'auto' )
+				->save( 'public/img/photos/' . Auth::user()->user_id . '/100/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) , 100 );
+				
+				Resizer::open( 'public/img/photos/' . Auth::user()->user_id . '/original/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) )
+				->resize( 320 , 320 , 'auto' )
+				->save( 'public/img/photos/' . Auth::user()->user_id . '/320/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) , 100 );
+				
 			}
 			else {
 				return Redirect::to('profile/settings')->with_errors($validator->errors);

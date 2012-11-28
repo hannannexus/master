@@ -11,6 +11,15 @@
 	</div>
 	@endif
     <div class="well">
+    	@if($user_data['photo'] != '-')
+    	<div>
+    		<img alt="" src="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
+    	</div>
+    	@else
+    	<div>
+    		<img alt="" src="{{ URL::home() . 'public/img/system/no_image.jpg' }}">
+    	</div>
+    	@endif
         <span>
             {{ Lang::line('locale.name')->get($language) }} : {{ $user_data['name'] }}
         </span>
