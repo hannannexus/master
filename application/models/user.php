@@ -141,7 +141,14 @@ class User extends Base {
     		select
     			*
     		from
-    			`users`		
+    			`users` as users
+    		join
+    			`user_config` as config
+    		on
+    			users.`user_id` = config.`id_user`
+    		order by
+    			`name`
+    		asc
     	";
     	$users = $this->objectToArray(DB::query($stmt));
     	return $users;
