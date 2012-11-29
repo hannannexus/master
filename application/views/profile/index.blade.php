@@ -35,13 +35,13 @@
     <div class="well" style="width: 220px; display: inline-block;">
     	@if($user_data['photo'] != '-')
     	<div>
-    		<a id="user_photo" href="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
-    			<img alt="" src="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
+    		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
+    			<img alt="" src="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
     		</a>
     	</div>
     	@else
     	<div>
-    		<img alt="" src="{{ URL::home() . 'public/img/system/no_image.jpg' }}">
+    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
     	</div>
     	@endif
         <span>
