@@ -2,7 +2,27 @@
 	Mhealth Sport
 @endsection
 
-
+@section('meta-custom')
+	
+	{{ HTML::style('css/fancybox/jquery.fancybox.css') }}
+	{{ HTML::style('css/fancybox/jquery.fancybox.style.css') }}
+	{{ HTML::script('js/fancybox/jquery.fancybox-1.3.4.pack.js') }}
+	
+	<script type="text/javascript">
+		$().ready(function() {
+			$('a#user_photo').fancybox(
+				{
+					'transitionIn'	:	'elastic',
+					'transitionOut'	:	'elastic',
+					'speedIn'		:	400, 
+					'speedOut'		:	400, 
+					'overlayShow'	:	true
+				}
+			);
+		});
+	</script>
+	
+@endsection
 
 @section('content')
 <div class="white-block">
@@ -12,10 +32,12 @@
 		{{Lang::line('locale.settings_saved')->get($language) }}
 	</div>
 	@endif
-    <div class="well" style="width: 200px; display: inline-block;">
+    <div class="well" style="width: 220px; display: inline-block;">
     	@if($user_data['photo'] != '-')
     	<div>
-    		<img alt="" src="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
+    		<a id="user_photo" href="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
+    			<img alt="" src="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
+    		</a>
     	</div>
     	@else
     	<div>

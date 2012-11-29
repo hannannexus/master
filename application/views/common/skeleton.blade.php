@@ -7,6 +7,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
 		<meta name="viewport" content="width=device-width">
 		{{ HTML::style('css/bootstrap.css') }}
+		{{ HTML::style('css/main/style.css') }}
 		{{ HTML::script('js/lib_jquery.js') }}
 		{{ HTML::script('js/lib_bootstrap.js') }}
 		{{ HTML::script('js/functions_language.js') }}

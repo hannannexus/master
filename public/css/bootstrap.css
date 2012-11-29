@@ -948,14 +948,20 @@ legend small {
   color: #999999;
 }
 
-label,
+
 input,
 button,
 select,
 textarea {
-  font-size: 12px;
+  font-size: 11px;
   font-weight: normal;
   line-height: 20px;
+}
+
+label {
+	font-size: 13px;
+	color: #262626;
+    font: 12px/18px Verdana,sans-serif;
 }
 
 input,
@@ -988,10 +994,10 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  height: 30px;
+  height: 20px;
   padding: 4px 6px;
   margin-bottom: 10px;
-  font-size: 14px;
+  font-size: 13px;
   line-height: 20px;
   color: #555555;
   vertical-align: middle;
@@ -3070,9 +3076,9 @@ button.close {
   border-color: #e6e6e6 #e6e6e6 #bfbfbf;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
   border-bottom-color: #a2a2a2;
-  -webkit-border-radius: 4px;
-     -moz-border-radius: 4px;
-          border-radius: 4px;
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffffff', endColorstr='#ffe6e6e6', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
   *zoom: 1;
@@ -5894,27 +5900,6 @@ a.badge:hover {
 
 .affix {
   position: fixed;
-}
-
-.white-block {
-  padding: 5px;
-  margin: 2px auto;
-  border: 1px #ddd solid;
-  background-color: #F0F0F0;
-  clear: both;
-  border-radius: 5px;
-  -moz-border-radius: 5px;
-  -webkit-border-radius: 5px;
-}
-
-.info-box {
-    margin-left: 5px;
-    margin-top: 10px;
-	padding-top: 1px;
-    font-size: 8pt;
-    font: white;
-    font-family: Arial;
-    line-height: 1.5;
 }
 
 
