@@ -23,7 +23,28 @@
     
 @endsection
 
+@section('meta-custom')
+
+	{{ HTML::script('js/lib_jquery_ui.js') }}
+	{{ HTML::style('css/jquery-ui.css') }}
+	
+	<script type="text/javascript">
+		$().ready(function() {
+			$("#borndate").datepicker(
+				{ 
+					dateFormat: "yy-mm-dd", 
+					changeMonth: true, 
+					changeYear: true,
+					yearRange : 'c-90:c'
+				}
+			);
+		});
+	</script>
+	
+@endsection
+
 @section('content')
+
 <div class="white-block">
     <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4>
     {{ Form::open_for_files('profile/settings/process', 'POST') }}
@@ -35,7 +56,7 @@
         {{ Form::label('surname', Lang::line('locale.surname')->get($language)) }}
         {{ Form::text('surname', $user_data['surname']) }}
         {{ Form::label('borndate', Lang::line('locale.born_date')->get($language)) }}
-        {{ Form::date('borndate', $user_data['born_date']) }}
+        {{ Form::date('borndate', $user_data['born_date'], array('id' => 'borndate')) }}
         {{ Form::label('gender', Lang::line('locale.gender')->get($language)) }}
         {{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), $user_data['sex']) }}
         {{ Form::label('photo', Lang::line('locale.photo')->get($language)) }}
@@ -45,6 +66,7 @@
     </div>
     {{ Form::close() }}
 </div>
+
 @endsection
 
 @include('common.skeleton')

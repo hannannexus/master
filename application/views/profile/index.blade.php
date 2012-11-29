@@ -2,6 +2,8 @@
 	Mhealth Sport
 @endsection
 
+
+
 @section('content')
 <div class="white-block">
     <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4>
@@ -10,7 +12,7 @@
 		{{Lang::line('locale.settings_saved')->get($language) }}
 	</div>
 	@endif
-    <div class="well">
+    <div class="well" style="width: 200px; display: inline-block;">
     	@if($user_data['photo'] != '-')
     	<div>
     		<img alt="" src="{{ URL::home() . 'public/img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
@@ -43,6 +45,7 @@
         {{ Form::open('profile/settings', 'GET', array('style' => 'display: inline;')) }}
         {{ Form::submit(Lang::line('locale.button_settings')->get($language), array('class' => 'btn btn-primary')) }}
         {{ Form::close() }}
+        <br><br>
         {{ Form::open('profile/workouts', 'GET', array('style' => 'display: inline;')) }}
         {{ Form::submit(Lang::line('locale.button_workouts')->get($language), array('class' => 'btn btn-primary')) }}
         {{ Form::close() }}

@@ -42,6 +42,7 @@ return array(
 	'information_error' => 'Please, fill all information fields',
 	'information_form' => 'Please, enter information about you',
 	'email_error' => 'This email already registered',
+	'photo' => 'Photo',
 		
 	'gender_-' => ''
 );
