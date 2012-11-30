@@ -65,11 +65,11 @@
         </span>
         <hr />
         {{ Form::open('profile/settings', 'GET', array('style' => 'display: inline;')) }}
-        {{ Form::submit(Lang::line('locale.button_settings')->get($language), array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(Lang::line('locale.button_settings')->get($language), array('class' => 'blue-button')) }}
         {{ Form::close() }}
         <br><br>
         {{ Form::open('profile/workouts', 'GET', array('style' => 'display: inline;')) }}
-        {{ Form::submit(Lang::line('locale.button_workouts')->get($language), array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(Lang::line('locale.button_workouts')->get($language), array('class' => 'blue-button')) }}
         {{ Form::close() }}
     </div>
 </div>

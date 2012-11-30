@@ -87,7 +87,7 @@
         {{ Form::label('photo', Lang::line('locale.photo')->get($language)) }}
         {{ Form::file('photo') }}
         <hr />
-        {{ Form::submit(Lang::line('locale.save')->get($language), array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(Lang::line('locale.save')->get($language), array('class' => 'blue-button')) }}
     </div>
     {{ Form::close() }}
 </div>

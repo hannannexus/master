@@ -24,7 +24,7 @@
 	{{ Form::label('confirm', Lang::line('locale.label_confirm')->get($language)) }}
 	{{ Form::text('number') }}
 	<br />
-	{{ Form::Submit(Lang::line('locale.button_confirm')->get($language), array('class' => 'btn')) }}
+	{{ Form::Submit(Lang::line('locale.button_confirm')->get($language), array('class' => 'blue-button')) }}
 	{{ Form::close() }}
 </div>
 @endsection

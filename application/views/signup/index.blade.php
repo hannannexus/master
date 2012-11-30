@@ -42,7 +42,7 @@ Signup
 	{{ Form::label('password_confirm', Lang::line('locale.label_signup_confirm')->get($language)) }}
 	{{ Form::password('password_confirm') }}
 	<br>
-	{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'btn')) }}
+	{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'blue-button')) }}
 	{{ Form::close() }}
 </div>
 @endsection

@@ -32,7 +32,7 @@ Login
 	{{ Form::label('password', Lang::line('locale.label_login_password')->get($language)) }}
 	{{ Form::password('password') }}
 	<br>
-	{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'btn')) }}
+	{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'blue-button')) }}
 	{{ Form::close() }}
 </div>	
 @endsection

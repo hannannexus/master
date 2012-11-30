@@ -953,9 +953,14 @@ input,
 button,
 select,
 textarea {
+	font-family: Trebuchet MS;
   font-size: 11px;
   font-weight: normal;
-  line-height: 20px;
+  line-height: 12px;
+}
+
+select {
+	height: 22px;
 }
 
 label {
@@ -966,7 +971,6 @@ label {
 
 input,
 button,
-select,
 textarea {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
@@ -976,7 +980,6 @@ label {
   margin-bottom: 5px;
 }
 
-select,
 textarea,
 input[type="text"],
 input[type="password"],
@@ -1088,7 +1091,6 @@ input[type="checkbox"] {
   width: auto;
 }
 
-select,
 input[type="file"] {
   height: 30px;
   /* In IE7, the height of the select element cannot be changed by height, only font-size */
@@ -3723,7 +3725,7 @@ input[type="submit"].btn.btn-mini {
 
 .alert {
   padding: 8px 35px 8px 14px;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
   color: #c09853;
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
   background-color: #fcf8e3;

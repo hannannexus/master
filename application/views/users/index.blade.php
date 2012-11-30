@@ -6,7 +6,7 @@
 <div class="white-block">
 	@foreach($users as $user)
 	<?php $flag = 'false'; ?>
-	<div class="alert alert-block" style="display: inline-block; width: 200px; height: 100px; margin-top: 5px; padding: 10px;">
+	<div class="well" style="display: inline-block; width: 200px; height: 100px; margin-top: 5px; padding: 10px;">
 	<div style="float: left; display: inline; margin-right: 10px;">
 		@if(!empty($user['photo']))
 			<img src="{{ URL::home() . 'img/photos/' . $user['user_id'] . '/60/' . $user['photo'] }}" >
@@ -23,6 +23,9 @@
 			<br>
 		@endif 
 		{{$user['surname']}}</a>
+		@if(empty($user['patronymic'])) 
+			<br>
+		@endif 
 	</div>
 		@if($user['user_id'] != Auth::user()->user_id)
 			@if(!empty($friendlist))

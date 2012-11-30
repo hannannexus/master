@@ -28,7 +28,7 @@
 			</td>
 			<td>
 			{{ Form::open('workout/' . Auth::user()->user_id . '/' . $workout['workout_number'], 'GET') }}
-			{{ Form::submit(Lang::line('locale.view_workout')->get($language), array('class' => 'btn btn-info')) }}
+			{{ Form::submit(Lang::line('locale.view_workout')->get($language), array('class' => 'blue-button')) }}
 			{{ Form::close() }}
 			</td>
 		</tr>

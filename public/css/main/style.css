@@ -1,28 +1,53 @@
-input[type="submit"] {
-	-moz-box-shadow:inset 0px 0px 0px 0px #cae3fc;
-	-webkit-box-shadow:inset 0px 0px 0px 0px #cae3fc;
-	box-shadow:inset 0px 0px 0px 0px #cae3fc;
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #79bbff), color-stop(1, #4197ee) );
-	background:-moz-linear-gradient( center top, #79bbff 5%, #4197ee 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#79bbff', endColorstr='#4197ee');
-	background-color:#79bbff;
-	border:1px solid #469df5;
+.blue-button {
+	-moz-box-shadow:inset 0px 0px 0px 0px #bee2f9;
+	-webkit-box-shadow:inset 0px 0px 0px 0px #bee2f9;
+	box-shadow:inset 0px 0px 0px 0px #bee2f9;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #63b8ee), color-stop(1, #468ccf) );
+	background:-moz-linear-gradient( center top, #63b8ee 5%, #468ccf 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#63b8ee', endColorstr='#468ccf');
+	background-color:#63b8ee;
+	border:1px solid #779fd4;
 	display:inline-block;
-	color:#ffffff;
+	color:white;
 	font-family:Trebuchet MS;
 	font-size:12px;
 	font-weight:bold;
-	padding:5px 25px;
+	padding:5px 30px;
 	text-decoration:none;
-	text-shadow:0px 0px 0px #287ace;
+	text-shadow:1px 1px 0px #7cacde;
+}.blue-button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #468ccf), color-stop(1, #63b8ee) );
+	background:-moz-linear-gradient( center top, #468ccf 5%, #63b8ee 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#468ccf', endColorstr='#63b8ee');
+	background-color:#468ccf;
+}.blue-button:active {
+	position:relative;
+	top:1px;
 }
-input[type="submit"]:hover {
-	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #4197ee), color-stop(1, #79bbff) );
-	background:-moz-linear-gradient( center top, #4197ee 5%, #79bbff 100% );
-	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#4197ee', endColorstr='#79bbff');
-	background-color:#4197ee;
-}
-input[type="submit"]:active {
+
+.grey-button {
+	-moz-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #ffffff;
+	box-shadow:inset 0px 1px 0px 0px #ffffff;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #f9f9f9), color-stop(1, #e9e9e9) );
+	background:-moz-linear-gradient( center top, #f9f9f9 5%, #e9e9e9 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#f9f9f9', endColorstr='#e9e9e9');
+	background-color:#f9f9f9;
+	border:1px solid #dcdcdc;
+	display:inline-block;
+	color:#666666;
+	font-family:Trebuchet MS;
+	font-size:12px;
+	font-weight:bold;
+	padding:5px 30px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #ffffff;
+}.grey-button:hover {
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #e9e9e9), color-stop(1, #f9f9f9) );
+	background:-moz-linear-gradient( center top, #e9e9e9 5%, #f9f9f9 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#e9e9e9', endColorstr='#f9f9f9');
+	background-color:#e9e9e9;
+}.grey-button:active {
 	position:relative;
 	top:1px;
 }
@@ -46,4 +71,22 @@ input[type="submit"]:active {
     font: white;
     font-family: Arial;
     line-height: 1.5;
+}
+
+.header-block {
+	padding: 5px;
+	margin: 2px auto;
+	margin-top:0;
+	border: 1px #ddd solid;
+	background-color: #F0F0F0;
+	clear: both;
+	text-align: right;
+	background: #63b6db; /* Old browsers */
+	background: -moz-linear-gradient(top, #63b6db 0%, #309dcf 100%); /* FF3.6+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#63b6db), color-stop(100%,#309dcf)); /* Chrome,Safari4+ */
+	background: -webkit-linear-gradient(top, #63b6db 0%,#309dcf 100%); /* Chrome10+,Safari5.1+ */
+	background: -o-linear-gradient(top, #63b6db 0%,#309dcf 100%); /* Opera 11.10+ */
+	background: -ms-linear-gradient(top, #63b6db 0%,#309dcf 100%); /* IE10+ */
+	background: linear-gradient(to bottom, #63b6db 0%,#309dcf 100%); /* W3C */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63b6db', endColorstr='#309dcf',GradientType=0 ); /* IE6-9 */
 }

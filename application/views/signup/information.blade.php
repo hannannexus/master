@@ -24,7 +24,7 @@
         {{ Form::label('gender', Lang::line('locale.gender')->get($language)) }}
         {{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language))) }}
         <br />
-        {{ Form::submit(Lang::line('locale.save')->get($language), array('class' => 'btn btn-primary')) }}
+        {{ Form::submit(Lang::line('locale.save')->get($language), array('class' => 'blue-button')) }}
     </div>
 	{{ Form::close() }}
 </div>
