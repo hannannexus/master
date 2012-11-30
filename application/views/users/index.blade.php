@@ -9,9 +9,9 @@
 	<div class="alert alert-block" style="display: inline-block; width: 200px; height: 100px; margin-top: 5px; padding: 10px;">
 	<div style="float: left; display: inline; margin-right: 10px;">
 		@if(!empty($user['photo']))
-			<img src="{{ URL::home() . 'public/img/photos/' . $user['user_id'] . '/60/' . $user['photo'] }}" >
+			<img src="{{ URL::home() . 'img/photos/' . $user['user_id'] . '/60/' . $user['photo'] }}" >
 		@else
-			<img alt="" src="{{ URL::home() . 'public/img/system/no_image_60.jpg' }}">
+			<img alt="" src="{{ URL::home() . 'img/system/no_image_60.jpg' }}">
 		@endif
 	</div>
 	<div style="display: inline; margin-right: 10px;">
