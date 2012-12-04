@@ -21,4 +21,8 @@ class Workout_Controller extends Controller {
 		$route['markers'] = $this->workout->getMarkers($route['points']);
 		echo json_encode($route);
 	}
+	
+	public function action_testDate(){
+		$this->workout->getCalendarByDate(1, 12, 2012);
+	}
 }

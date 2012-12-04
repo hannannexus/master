@@ -107,6 +107,72 @@ class Workout extends Base {
 		
 		return $markers;
 	}
+	
+	private function numWeeks($month, $year) {
+		$num_weeks=4;
+		
+		$first_day = $this->firstDay($month, $year);
+		
+		if($first_day!=1) $num_weeks++;
+		
+		$widows=$first_day-1;
+		$fw_days=7-$widows;
+		if($fw_days==7) $fw_days=0;
+		
+		$numdays=date("t",mktime(2, 0, 0, $month, 1, $year));
+		
+		if( ($numdays - $fw_days) > 28 ) $num_weeks++;
+		return $num_weeks;
+	}
+	
+	private function firstDay($month, $year) {
+		$first_day= date("w", mktime(2, 0, 0, $month, 1, $year));
+		if($first_day==0) $first_day=7; # convert Sunday
+		
+		return $first_day;
+	}
+	
+	private function days($month, $year, $week, $num_weeks=0) {
+		$days=array();
+		
+		if($num_weeks==0) $num_weeks=$this->numWeeks($month, $year);
+		
+		$first_day = $this->firstDay($month, $year);
+		
+		$widows=$first_day-1;
+		
+		$fw_days=7-$widows;
+		
+		if($week==1)
+		{
+			for($i=0;$i<$widows;$i++) $days[]=0;
+			for($i=1;$i<=$fw_days;$i++) $days[]=$i;
+			return $days;
+		}
+		
+		if($week!=$num_weeks)
+		{
+			$first=$fw_days+(($week-2)*7);
+			for($i=$first+1;$i<=$first+7;$i++) $days[]=$i;
+			return $days;
+		}
+		
+		$numdays=date("t",mktime(2, 0, 0, $month, 1, $year));
+		
+		$orphans=$numdays-$fw_days-(($num_weeks-2)*7);
+		$empty=7-$orphans;
+		for($i=($numdays-$orphans)+1;$i<=$numdays;$i++) $days[]=$i;
+		for($i=0;$i<$empty;$i++) $days[]=0;
+		return $days;
+	}
+	
+	public function getCalendarByDate($id_user, $month, $year) {
+		$days = array();
+		$weeks = $this->numWeeks($month, $year);
+		for($i = 1; $i < $weeks + 1; $i++) {
+			array_push($days, $this->days($month, $year, $i));
+		}
+	}
 }
 
 
