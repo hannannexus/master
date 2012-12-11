@@ -172,6 +172,27 @@ class Workout extends Base {
 		for($i = 1; $i < $weeks + 1; $i++) {
 			array_push($days, $this->days($month, $year, $i));
 		}
+		return $days;
+	}
+	
+	public function getLastWorkout() {
+		$stmt = "
+			select
+				min(`date`) as `date`
+			from (
+					select
+						substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`
+					from
+						`tp_" . Auth::user()->user_id . "_gps`
+					where
+						`workout_number` = (select max(`workout_number`) from `tp_" . Auth::user()->user_id . "_gps` limit 1)
+				) a
+			limit
+				1
+		";
+		$last_workout = $this->objectToSingle(DB::query($stmt));
+		$last_workout = explode("-", $last_workout['date']);
+		return $last_workout;
 	}
 }
 

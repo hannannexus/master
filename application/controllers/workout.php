@@ -19,10 +19,12 @@ class Workout_Controller extends Controller {
 		$workout_number = Input::get('workout_number');
 		$route['points'] = $this->workout->getRoute($id_user, $workout_number);
 		$route['markers'] = $this->workout->getMarkers($route['points']);
+		$date = $this->workout->getLastWorkout();
+		$route['calendar'] = $this->workout->getCalendarByDate(Input::get('id_user'), $date[1], $date[0]);
 		echo json_encode($route);
 	}
 	
-	public function action_testDate(){
+/* 	public function action_testDate(){
 		$this->workout->getCalendarByDate(1, 12, 2012);
-	}
+	} */
 }

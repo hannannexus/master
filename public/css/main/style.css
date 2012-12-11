@@ -90,3 +90,21 @@
 	background: linear-gradient(to bottom, #63b6db 0%,#309dcf 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#63b6db', endColorstr='#309dcf',GradientType=0 ); /* IE6-9 */
 }
+
+.calendar {
+	background-color: white;
+	text-align: right;
+	font-family: Helvetica;
+	font-size: 9pt;
+	font-weight: bold;
+	border: 1px solid #dcdcdc;
+}
+
+.calendar td {
+	width: 60px;
+	border: 1px solid #dcdcdc;
+	height: 40px;
+	font-color: grey;
+	vertical-align: top;
+	padding-right: 5px;
+}

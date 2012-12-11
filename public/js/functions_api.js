@@ -189,6 +189,7 @@ function showMap(URL, id_user, workout_number) {
         function(result) {
         	drawMap(URL, result);
         	drawChart(result['points']);
+        	drawCalendar(result['calendar']);
         },
         'json'
 	);
@@ -226,4 +227,25 @@ function drawChart(result) {
 	        grid: { hoverable: true, autoHighlight: false }
         }
     );
+}
+
+function drawCalendar(date) {
+	calendar = $("#calendar");
+	for(i = 0; i < date.length; i++) {
+		for(j = 0; j < 7; j++) {
+			if(date[i][j] == 0)
+				date[i][j] = '';
+		}
+		calendar.append(
+				"<tr>" +
+					"<td>" + date[i][0] + "</td>" +
+					"<td>" + date[i][1] + "</td>" +
+					"<td>" + date[i][2] + "</td>" +
+					"<td>" + date[i][3] + "</td>" +
+					"<td>" + date[i][4] + "</td>" +
+					"<td>" + date[i][5] + "</td>" +
+					"<td>" + date[i][6] + "</td>" +
+				"</tr>"
+		);
+	}
 }

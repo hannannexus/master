@@ -23,6 +23,10 @@
 @section('content')
 
 <div class="white-block">
+	<div>
+		<table id="calendar" class="calendar" border="1" cellspacing="0">
+		</table>
+	</div>
 	<div id="map_canvas" style="height: 500px; width: 800px; margin: 0 auto; position: relative;" ></div>
 	<hr>
 	<div id="chart_canvas" style="height: 200px; width: 700px; margin: 0 auto; position: relative;" ></div>
