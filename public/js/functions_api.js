@@ -233,18 +233,18 @@ function drawCalendar(date) {
 	calendar = $("#calendar");
 	for(i = 0; i < date.length; i++) {
 		for(j = 0; j < 7; j++) {
-			if(date[i][j] == 0)
-				date[i][j] = '';
+			if(date[i][j].value == 0)
+				date[i][j].value = '';
 		}
 		calendar.append(
 				"<tr>" +
-					"<td>" + date[i][0] + "</td>" +
-					"<td>" + date[i][1] + "</td>" +
-					"<td>" + date[i][2] + "</td>" +
-					"<td>" + date[i][3] + "</td>" +
-					"<td>" + date[i][4] + "</td>" +
-					"<td>" + date[i][5] + "</td>" +
-					"<td>" + date[i][6] + "</td>" +
+					"<td>" + date[i][0].value + "</td>" +
+					"<td>" + date[i][1].value + "</td>" +
+					"<td>" + date[i][2].value + "</td>" +
+					"<td>" + date[i][3].value + "</td>" +
+					"<td>" + date[i][4].value + "</td>" +
+					"<td>" + date[i][5].value + "</td>" +
+					"<td>" + date[i][6].value + "</td>" +
 				"</tr>"
 		);
 	}

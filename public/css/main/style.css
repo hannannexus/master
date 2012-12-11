@@ -98,6 +98,8 @@
 	font-size: 9pt;
 	font-weight: bold;
 	border: 1px solid #dcdcdc;
+	align: center;
+	margin-bottom: 10px;
 }
 
 .calendar td {

@@ -1,4 +1,6 @@
 <?php 
+use Laravel\Auth;
+
 class Workout extends Base {
 	public static $table = 'users';
 	
@@ -168,11 +170,40 @@ class Workout extends Base {
 	
 	public function getCalendarByDate($id_user, $month, $year) {
 		$days = array();
+		
 		$weeks = $this->numWeeks($month, $year);
 		for($i = 1; $i < $weeks + 1; $i++) {
 			array_push($days, $this->days($month, $year, $i));
 		}
-		return $days;
+		
+		$stmt = "
+			select
+				`workout_number`,
+				substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`,
+				substr(from_unixtime(substr(`time`, 1, 10)), 12, 10) as `time`,
+				max(`time`)
+			from
+				`tp_" . Auth::user()->user_id . "_gps`
+			group by
+				`workout_number`
+		";
+		
+		$trainings = array();
+		$new_days = array();
+		$trainings = $this->objectToArray(DB::query($stmt));
+		
+		foreach($trainings as $tkey => $training) {
+			$trainings[$tkey]['date'] = explode("-", $trainings[$tkey]['date']);
+			 foreach($days as $dkey => $day) {
+				for( $i = 0; $i < 7; $i++ ) {
+					$new_days[$dkey][$i]['value'] = $day[$i];
+					if(intval($day[$i]) == intval($trainings[$tkey]['date'][2])  && $trainings[$tkey]['date'][0] == $year ) {
+						$new_days[$dkey][$i]['training'] = intval($trainings[$tkey]['workout_number']);
+					} 
+				}
+			} 
+		}
+		return $new_days;
 	}
 	
 	public function getLastWorkout() {
