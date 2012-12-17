@@ -179,6 +179,9 @@ function drawMap(URL, result) {
  * @param workout_number - workout number
  */
 function showMap(URL, id_user, workout_number) {
+	$("#calendar").empty();
+	$("#map_canvas").empty();
+	$("#chart_canvas").empty();
 	$.post(
 		/* Post to workout controller to get array of lat/lng coordinates */
         URL+'workout/get',
@@ -189,7 +192,7 @@ function showMap(URL, id_user, workout_number) {
         function(result) {
         	drawMap(URL, result);
         	drawChart(result['points']);
-        	drawCalendar(result['calendar']);
+        	drawCalendar(URL, id_user, result['calendar']);
         },
         'json'
 	);
@@ -229,23 +232,41 @@ function drawChart(result) {
     );
 }
 
-function drawCalendar(date) {
+function drawCalendar(URL, id_user, date) {
+	
 	calendar = $("#calendar");
 	for(i = 0; i < date.length; i++) {
 		for(j = 0; j < 7; j++) {
-			if(date[i][j].value == 0)
+			if(date[i][j].value == 0) {
 				date[i][j].value = '';
+			}
+			if(date[i][j].training === undefined) {
+				date[i][j].training = '';
+			}
 		}
 		calendar.append(
 				"<tr>" +
-					"<td>" + date[i][0].value + "</td>" +
-					"<td>" + date[i][1].value + "</td>" +
-					"<td>" + date[i][2].value + "</td>" +
-					"<td>" + date[i][3].value + "</td>" +
-					"<td>" + date[i][4].value + "</td>" +
-					"<td>" + date[i][5].value + "</td>" +
-					"<td>" + date[i][6].value + "</td>" +
+					"<td id=" + String(i) + "0" + ">" + date[i][0].value + "</td>" +
+					"<td id=" + String(i) + "1" + ">" + date[i][1].value + "</td>" +
+					"<td id=" + String(i) + "2" + ">" + date[i][2].value + "</td>" +
+					"<td id=" + String(i) + "3" + ">" + date[i][3].value + "</td>" +
+					"<td id=" + String(i) + "4" + ">" + date[i][4].value + "</td>" +
+					"<td id=" + String(i) + "5" + ">" + date[i][5].value + "</td>" +
+					"<td id=" + String(i) + "6" + ">" + date[i][6].value + "</td>" +
 				"</tr>"
 		);
+	}
+	for(i = 0; i < date.length; i++) {
+		for(j = 0; j < 7; j++) {
+			if(date[i][j].training !== '') {
+				$("#" + String(i) + String(j)).append(
+					"<div><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></div>"
+				);
+				a = date[i][j].training;
+				$("#tr" + String(i) + String(j)).click(function () {
+					showMap(URL, id_user, a);
+				});
+			}
+		}
 	}
 }
