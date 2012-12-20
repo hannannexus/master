@@ -259,13 +259,13 @@ function drawCalendar(URL, id_user, date) {
 	for(i = 0; i < date.length; i++) {
 		for(j = 0; j < 7; j++) {
 			if(date[i][j].training !== '') {
-				$("#" + String(i) + String(j)).append(
-					"<div><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></div>"
-				);
 				a = date[i][j].training;
-				$("#tr" + String(i) + String(j)).click(function () {
+				$("#" + String(i) + String(j)).append(
+					"<div><a href=\""+ URL +"workout/"+ id_user +"/"+ a +"\"><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></a></div>"
+				);
+				/*$("#tr" + String(i) + String(j)).click(function () {
 					showMap(URL, id_user, a);
-				});
+				});*/
 			}
 		}
 	}

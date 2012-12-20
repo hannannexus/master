@@ -1,4 +1,7 @@
 $(function () {
+	
+	showMap(HOME, ID_USER, W_NUMBER);
+	
 	var updateLegendTimeout = null;
     var latestPosition = null;
     
@@ -35,7 +38,7 @@ $(function () {
         }
     }
     
-    link_marker_image = setMarkerImage(link_image_url, 'small');
+    link_marker_image = setMarkerImage( HOME + 'img/workout/cycling_moving_mini.png' , 'small');
     
     $('#chart_canvas').mousemove(function(e) {
     	if(typeof index_data != 'undefined'){
