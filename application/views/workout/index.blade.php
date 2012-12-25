@@ -24,8 +24,12 @@
 
 <div class="white-block">
 	<div>
+		<div class="calendar_left">
+		</div>
 		<table id="calendar" class="calendar" border="1" cellspacing="0" align="center">
 		</table>
+		<div class="calendar_right">
+		</div>
 	</div>
 	<div id="map_canvas" style="height: 500px; width: 800px; margin: 0 auto; position: relative;" ></div>
 	<hr>

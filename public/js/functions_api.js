@@ -51,10 +51,11 @@ function createTooltip(URL, index, speed, time, lap) {
 	speed = floorNumber(speed, 1);
 	var box_text = '<div class=\"info-box\">' +
 					'<b>' + (index+1).toString() + ' km' +
-					'<br>' + time + 
-					'<br>' + lap + 
-					'<br>' + speed.toString() + ' km/h' +
+					'<br />' + time + 
+					'<br />' + lap + 
+					'<br />' + speed.toString() + ' km/h' +
 					'</b></div>';
+	
 	var tooltip_options = {
 			content: box_text,
 			disableAutoPan: false,
