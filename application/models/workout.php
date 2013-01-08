@@ -209,9 +209,11 @@ class Workout extends Base {
 	public function getLastWorkout() {
 		$stmt = "
 			select
+				`workout_number`,
 				min(`date`) as `date`
 			from (
 					select
+						`workout_number`,
 						substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`
 					from
 						`tp_" . Auth::user()->user_id . "_gps`
@@ -222,7 +224,7 @@ class Workout extends Base {
 				1
 		";
 		$last_workout = $this->objectToSingle(DB::query($stmt));
-		$last_workout = explode("-", $last_workout['date']);
+		$last_workout['date'] = explode("-", $last_workout['date']);
 		return $last_workout;
 	}
 }

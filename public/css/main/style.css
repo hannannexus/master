@@ -99,31 +99,39 @@
 	font-weight: bold;
 	border: 1px solid #dcdcdc;
 	align: center;
-	margin-bottom: 10px;
 	display: inline-block;
 }
 
 .calendar td {
 	width: 60px;
 	border: 1px solid #dcdcdc;
-	height: 40px;
+	height: 45px;
 	font-color: grey;
 	vertical-align: top;
 	padding-right: 5px;
 }
 
 .calendar_left {
-	width: 50px;
+	width: 100px;
 	height: 220px;
+	margin-top: 0;
+	padding-top: 0;
 	display: inline-block;
 	background-image: url("../../img/system/calendar_left.png");
 	background-repeat: no-repeat; 
 }
 
 .calendar_right {
-	width: 50px;
+	width: 100px;
 	height: 220px;
+	margin-top: 0;
+	padding-top: 0;
 	display: inline-block;
 	background-image: url("../../img/system/calendar_right.png");
 	background-repeat: no-repeat;
+}
+
+.calendar_months {
+	display: inline-block;
+	padding-top: 0;
 }

@@ -20,7 +20,7 @@ class Workout_Controller extends Controller {
 		$route['points'] = $this->workout->getRoute($id_user, $workout_number);
 		$route['markers'] = $this->workout->getMarkers($route['points']);
 		$date = $this->workout->getLastWorkout();
-		$route['calendar'] = $this->workout->getCalendarByDate(Input::get('id_user'), $date[1], $date[0]);
+		$route['calendar'] = $this->workout->getCalendarByDate(Input::get('id_user'), $date['date'][1], $date['date'][0]);
 		echo json_encode($route);
 	}
 	

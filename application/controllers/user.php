@@ -171,8 +171,10 @@ class User_Controller extends Controller
 	}
 	
 	public function action_workouts() {
-		$workouts = $this->user->getUserWorkouts(Auth::user()->user_id);
-		return View::make('profile.workouts')->with('workouts', $workouts);
+		$workout = new Workout();
+		$workouts = $workout->getLastWorkout(); /* $this->user->getUserWorkouts(Auth::user()->user_id); */
+		return Redirect::to('workout/' . Auth::user()->user_id . '/' . $workouts['workout_number']);
+		/* return View::make('profile.workouts')->with('workouts', $workouts); */
 	}
 	
 	public function action_add_friend($id_friend) {

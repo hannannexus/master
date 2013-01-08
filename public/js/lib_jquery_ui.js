@@ -1,3 +1,21 @@
+(function( $ ){
+//plugin buttonset vertical
+$.fn.buttonsetv = function() {
+  $(':radio, :checkbox', this).wrap('<div style="margin: 1px"/>');
+  $(this).buttonset();
+  $('label:first', this).removeClass('ui-corner-left').addClass('ui-corner-top');
+  $('label:last', this).removeClass('ui-corner-right').addClass('ui-corner-bottom');
+  mw = 0; // max witdh
+  $('label', this).each(function(index){
+     w = $(this).width();
+     if (w > mw) mw = w; 
+  })
+  $('label', this).each(function(index){
+    $(this).width(mw);
+  })
+};
+})( jQuery );
+
 /*! jQuery UI - v1.9.1 - 2012-11-15
 * http://jqueryui.com
 * Includes: jquery.ui.core.js, jquery.ui.widget.js, jquery.ui.mouse.js, jquery.ui.position.js, jquery.ui.draggable.js, jquery.ui.droppable.js, jquery.ui.resizable.js, jquery.ui.selectable.js, jquery.ui.sortable.js, jquery.ui.accordion.js, jquery.ui.autocomplete.js, jquery.ui.button.js, jquery.ui.datepicker.js, jquery.ui.dialog.js, jquery.ui.menu.js, jquery.ui.progressbar.js, jquery.ui.slider.js, jquery.ui.spinner.js, jquery.ui.tabs.js, jquery.ui.tooltip.js, jquery.ui.effect.js, jquery.ui.effect-blind.js, jquery.ui.effect-bounce.js, jquery.ui.effect-clip.js, jquery.ui.effect-drop.js, jquery.ui.effect-explode.js, jquery.ui.effect-fade.js, jquery.ui.effect-fold.js, jquery.ui.effect-highlight.js, jquery.ui.effect-pulsate.js, jquery.ui.effect-scale.js, jquery.ui.effect-shake.js, jquery.ui.effect-slide.js, jquery.ui.effect-transfer.js
