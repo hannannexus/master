@@ -238,6 +238,8 @@ function drawCalendar(URL, id_user, date) {
 	draw_header = true;
 	
 	calendar = $("#calendar");
+	calendar.empty();
+	
 	for(i = 0; i < date.length; i++) {
 		for(j = 0; j < 7; j++) {
 			if(date[i][j].value == 0) {
@@ -297,4 +299,26 @@ function drawCalendar(URL, id_user, date) {
 			}
 		}
 	}
+}
+
+function updateCalendar(URL, id_user, month, year) {
+	
+	if(month === undefined || year === undefined) {
+		return;
+	}
+	
+	$.post(
+		URL + 'workout/update_calendar',
+		{
+			id_user: id_user,
+			year: year,
+			month: month
+		},
+		function(result) {
+			drawCalendar(URL, id_user, result);
+		},
+		'json'
+	);
+	
+	
 }

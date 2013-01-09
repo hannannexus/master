@@ -76,4 +76,15 @@ $(function () {
         if (!updateLegendTimeout)
             updateLegendTimeout = setTimeout(updateLegend, 50);
     });
+    
+    $('#months-picker').click(function(event) {
+    	var target = $(event.target);
+    	
+    	if (target.get(0).tagName.toLowerCase() != 'input')
+    		return;
+    	
+    	var month = target.val();
+    	
+    	updateCalendar(HOME, 1, month, 2012);
+	});
 });

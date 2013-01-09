@@ -21,10 +21,15 @@ class Workout_Controller extends Controller {
 		$route['markers'] = $this->workout->getMarkers($route['points']);
 		$date = $this->workout->getLastWorkout();
 		$route['calendar'] = $this->workout->getCalendarByDate(Input::get('id_user'), $date['date'][1], $date['date'][0]);
+		$route['stats'] = $this->workout->getTotalInfo($id_user, $workout_number);
 		echo json_encode($route);
 	}
 	
-/* 	public function action_testDate(){
-		$this->workout->getCalendarByDate(1, 12, 2012);
-	} */
+	public function action_update_calendar() {
+		
+		$month = Input::get('month');
+		$year = Input::get('year');
+		
+		echo json_encode($this->workout->getCalendarByDate(Input::get('id_user'), $month, $year));
+	}
 }

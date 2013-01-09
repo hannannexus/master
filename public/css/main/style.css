@@ -111,7 +111,7 @@
 	padding-right: 5px;
 }
 
-.calendar_left {
+/* .calendar_left {
 	width: 100px;
 	height: 220px;
 	margin-top: 0;
@@ -129,9 +129,8 @@
 	display: inline-block;
 	background-image: url("../../img/system/calendar_right.png");
 	background-repeat: no-repeat;
-}
+} */
 
 .calendar_months {
 	display: inline-block;
-	padding-top: 0;
 }
