@@ -234,7 +234,7 @@ function drawChart(result) {
 }
 
 function drawCalendar(URL, id_user, date) {
-	
+
 	draw_header = true;
 	
 	calendar = $("#calendar");

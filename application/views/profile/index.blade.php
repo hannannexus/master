@@ -72,6 +72,9 @@
         {{ Form::submit(Lang::line('locale.button_workouts')->get($language), array('class' => 'blue-button')) }}
         {{ Form::close() }}
     </div>
+    <div class="well" style="display: inline-block;">
+    
+    </div>
 </div>
 @endsection
 

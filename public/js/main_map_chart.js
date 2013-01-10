@@ -84,7 +84,14 @@ $(function () {
     		return;
     	
     	var month = target.val();
-    	
-    	updateCalendar(HOME, 1, month, 2012);
+    	var year = $('#year').val();
+    	updateCalendar(HOME, ID_USER, month, year);
 	});
+    
+    $('#years-picker').click(function(event) {
+    	var target = $(event.target);
+    	if (target.get(0).tagName.toLowerCase() != 'select')
+    		return;
+    	var year = target.val();
+    });
 });

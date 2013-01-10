@@ -278,6 +278,19 @@ class Workout extends Base {
 		
 		return $stats;
 	}
+	
+	public function getUserFeed($id_user) {
+		$stmt = "
+    		select
+				*
+			from
+				`tp_" . $id_user . "_gps`
+			group by
+				`workout_number`
+			order by
+				`date`
+    	";
+	}
 }
 
 

@@ -38,29 +38,33 @@
 				<table id="calendar" class="calendar" border="1" cellspacing="0" align="center">
 				</table>
 			</td>
-			<td id="months-picker" style="vertical-align: top;">
-				<div id="radio_div_1" class="calendar_months" >
-					<input type="radio" id="radio1" name="radio" value="1"/><label for="radio1">January</label>
-			        <input type="radio" id="radio2" name="radio" value="2"/><label for="radio2">February</label>
-			        <input type="radio" id="radio3" name="radio" value="3"/><label for="radio3">March</label>
-			        <input type="radio" id="radio4" name="radio" value="4"/><label for="radio4">April</label>
-					<input type="radio" id="radio5" name="radio" value="5"/><label for="radio5">May</label>
-			        <input type="radio" id="radio6" name="radio" value="6"/><label for="radio6">June</label>
-			    </div>
-			    <div id="radio_div_2" class="calendar_months">
-			        <input type="radio" id="radio7" name="radio" value="7"/><label for="radio7">July</label>
-			        <input type="radio" id="radio8" name="radio" value="8"/><label for="radio8">August</label>
-					<input type="radio" id="radio9" name="radio" value="9"/><label for="radio9">September</label>
-			        <input type="radio" id="radio10" name="radio" value="10"/><label for="radio10">October</label>
-			        <input type="radio" id="radio11" name="radio" value="11"/><label for="radio11">November</label>
-			        <input type="radio" id="radio12" name="radio" value="12"/><label for="radio12">December</label>
+			<td style="vertical-align: top;">
+				<div id="months-picker">
+					<div id="radio_div_1" class="calendar_months" >
+						<input type="radio" id="radio1" name="radio" value="1"/><label for="radio1">January</label>
+				        <input type="radio" id="radio2" name="radio" value="2"/><label for="radio2">February</label>
+				        <input type="radio" id="radio3" name="radio" value="3"/><label for="radio3">March</label>
+				        <input type="radio" id="radio4" name="radio" value="4"/><label for="radio4">April</label>
+						<input type="radio" id="radio5" name="radio" value="5"/><label for="radio5">May</label>
+				        <input type="radio" id="radio6" name="radio" value="6"/><label for="radio6">June</label>
+				    </div>
+				    <div id="radio_div_2" class="calendar_months">
+				        <input type="radio" id="radio7" name="radio" value="7"/><label for="radio7">July</label>
+				        <input type="radio" id="radio8" name="radio" value="8"/><label for="radio8">August</label>
+						<input type="radio" id="radio9" name="radio" value="9"/><label for="radio9">September</label>
+				        <input type="radio" id="radio10" name="radio" value="10"/><label for="radio10">October</label>
+				        <input type="radio" id="radio11" name="radio" value="11"/><label for="radio11">November</label>
+				        <input type="radio" id="radio12" name="radio" value="12"/><label for="radio12">December</label>
+					</div>
 				</div>
 				<br />
-				Year:
-				<select>
-					<option value="2012">2012</option>
-					<option value="2013">2013</option>
-				</select>
+				<div id="years-picker">
+					Year:
+					<select id="year">
+						<option value="2012">2012</option>
+						<option value="2013">2013</option>
+					</select>
+				</div>
 			</td>
 		</tr>
 	</table>
