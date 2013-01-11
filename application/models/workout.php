@@ -280,6 +280,7 @@ class Workout extends Base {
 	}
 	
 	public function getUserFeed($id_user) {
+		$feed = array();
 		$stmt = "
     		select
 				*
@@ -290,6 +291,8 @@ class Workout extends Base {
 			order by
 				`date`
     	";
+		$feed = $this->objectToArray($stmt);
+		
 	}
 }
 

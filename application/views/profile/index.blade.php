@@ -26,13 +26,16 @@
 
 @section('content')
 <div class="white-block">
-    <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4>
+    <!-- <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4>  -->
     @if(Session::get('saved') == 'success')
 	<div class="alert alert-success">
 		{{Lang::line('locale.settings_saved')->get($language) }}
 	</div>
 	@endif
     <div class="well" style="width: 220px; display: inline-block;">
+    <div class="title-gray" style="width: auto; height: auto;">
+    	{{ Lang::line('locale.profile_title')->get($language) }}
+    </div>
     	@if($user_data['photo'] != '-')
     	<div>
     		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">

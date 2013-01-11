@@ -102,7 +102,7 @@ class User_Controller extends Controller
 				->save( 'public/img/photos/' . Auth::user()->user_id . '/60/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) , 100 );
 				
 				Resizer::open( 'public/img/photos/' . Auth::user()->user_id . '/original/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) )
-				->resize( 100 , 100 , 'auto' )
+				->resize( 200 , 200 , 'auto' )
 				->save( 'public/img/photos/' . Auth::user()->user_id . '/100/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) , 100 );
 				
 				Resizer::open( 'public/img/photos/' . Auth::user()->user_id . '/original/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) )

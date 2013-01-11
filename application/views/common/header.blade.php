@@ -1,7 +1,7 @@
 @section('header')
 
 <div class="header-block">
-
+<img src="../../img/system/logo.png" style="display: inline; float: left; margin-left: 15px; padding-top: 3px;">
 	@if(!Auth::check())  
 		{{ Form::open('signup', 'GET', array('style' => 'display: inline;')) }}
 		{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'grey-button')) }}
