@@ -17,7 +17,7 @@
 </div>
 @if(Auth::check())
 	<div class="white-block">
-		{{ Form::open('/', 'GET', array('style' => 'display: inline;')) }}
+		<!-- {{ Form::open('/', 'GET', array('style' => 'display: inline;')) }}
 		{{ Form::submit(Lang::line('locale.button_home')->get($language), array('class' => 'blue-button')) }}
 		{{ Form::close() }}
 		{{ Form::open('profile', 'GET', array('style' => 'display: inline;')) }}
@@ -25,7 +25,16 @@
 		{{ Form::close() }}
 		{{ Form::open('users', 'GET', array('style' => 'display: inline;')) }}
 		{{ Form::submit(Lang::line('locale.button_users')->get($language), array('class' => 'blue-button')) }}
-		{{ Form::close() }}
+		{{ Form::close() }} -->
+		<a href="{{ URL::home() }}" class="blue-button">
+			{{ Lang::line('locale.button_home')->get($language) }}
+		</a>
+		<a href="{{ URL::home() }}profile" class="blue-button">
+			{{ Lang::line('locale.button_profile')->get($language) }}
+		</a>
+		<a href="{{ URL::home() }}users" class="blue-button">
+			{{ Lang::line('locale.button_users')->get($language) }}
+		</a>
 	</div>
 @endif
 @endsection

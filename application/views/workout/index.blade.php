@@ -32,14 +32,14 @@
 
 <div class="white-block">
 	<div class="well" style="margin-bottom: 5px;">
-	<table style="margin-left: auto; margin-right: auto;">
+	<table style="margin-left: auto; margin-right: auto; ">
 		<tr>
 			<td>
-				<table id="calendar" class="calendar" border="1" cellspacing="0" align="center">
+				<table id="calendar" class="calendar" border="1" cellspacing="0" align="center" style="vertical-align: top;">
 				</table>
 			</td>
 			<td style="vertical-align: top;">
-				<div id="months-picker">
+				<div id="months-picker" style="margin-top: 13px; margin-left: 15px;">
 					<div id="radio_div_1" class="calendar_months" >
 						<input type="radio" id="radio1" name="radio" value="1"/><label for="radio1">January</label>
 				        <input type="radio" id="radio2" name="radio" value="2"/><label for="radio2">February</label>
@@ -58,7 +58,7 @@
 					</div>
 				</div>
 				<br />
-				<div id="years-picker">
+				<div id="years-picker" style="margin-left: 15px;">
 					Year:
 					<select id="year">
 						<option value="2012">2012</option>
@@ -70,7 +70,7 @@
 	</table>
 	</div>
 	<div class="well">
-		<div id="map_canvas" style="height: 500px; width: 800px; margin: 0 auto; position: relative;" ></div>
+		<div id="map_canvas" style="height: 400px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 		<hr>
 		<div id="chart_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
 	</div>

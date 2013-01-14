@@ -255,6 +255,7 @@ class Workout extends Base {
 		
 		$stmt = "
 			select
+				`workout_number`,
 				avg(`speed`) as `avg_speed`,
 				max(`speed`) as `max_speed`,
 				max(`alt`) as `max_altitude`,
@@ -273,6 +274,7 @@ class Workout extends Base {
 		$stats['max_alt'] = $data['max_altitude'];
 		$stats['min_alt'] = $data['min_altitude'];
 		$stats['time'] = $data['time'];
+		$stats['workout_number'] = $data['workout_number'];
 		
 		unset($data, $stmt);
 		
@@ -289,10 +291,23 @@ class Workout extends Base {
 			group by
 				`workout_number`
 			order by
-				`date`
+				`workout_number`
+			asc
     	";
-		$feed = $this->objectToArray($stmt);
+		$feed = $this->objectToArray(DB::query($stmt));
 		
+		$feed_info = array();
+		
+		if(!empty($feed)) {
+			foreach($feed as $key => $cur) {
+				array_push($feed_info, $this->getTotalInfo($id_user, $cur['workout_number']));
+			}
+		}
+		else {
+			return NULL;
+		}
+		
+		return $feed_info;
 	}
 }
 

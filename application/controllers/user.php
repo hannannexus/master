@@ -33,6 +33,8 @@ class User_Controller extends Controller
 	 */
 	public function action_profile() {
         $user_data = $this->user->getUserData(Auth::user()->user_id);
+        $workout = new Workout();
+        $feed = $workout->getUserFeed(Auth::user()->user_id);
         foreach($user_data as $key => $data) {
             if(is_null($data) || empty($data)) {
                 $user_data[$key] = '-';
@@ -46,7 +48,7 @@ class User_Controller extends Controller
         else {
         	$user_data['age'] = '-';
         }
-		return View::make('profile.index')->with('user_data', $user_data);
+		return View::make('profile.index')->with('user_data', $user_data)->with('feed', $feed);
 	}
 	
 	/**

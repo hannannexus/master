@@ -54,13 +54,20 @@
 	font-family:Trebuchet MS;
 	font-size:12px;
 	font-weight:bold;
-	padding:6px 24px;
+	padding:4px 24px;
 	text-decoration:none;
 	text-shadow:1px 1px 0px #164473;
 }.blue-button:hover {
 	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #356aa0), color-stop(1, #1c5d9e) );
 	background:-moz-linear-gradient( center top, #356aa0 5%, #1c5d9e 100% );
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#356aa0', endColorstr='#1c5d9e');
+	color:#ffffff;
+	font-family:Trebuchet MS;
+	font-size:12px;
+	font-weight:bold;
+	padding:4px 24px;
+	text-decoration:none;
+	text-shadow:1px 1px 0px #164473;
 	background-color:#356aa0;
 }.blue-button:active {
 	position:relative;
@@ -148,7 +155,7 @@
 .calendar td {
 	width: 60px;
 	border: 1px solid #dcdcdc;
-	height: 45px;
+	height: 35px;
 	font-color: grey;
 	vertical-align: top;
 	padding-right: 5px;

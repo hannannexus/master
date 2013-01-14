@@ -58,9 +58,12 @@
 @section('content')
 
 <div class="white-block">
-    <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4>
+    <!-- <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4> -->
     {{ Form::open_for_files('profile/settings/process', 'POST') }}
     <div class="well" style="width: 220px; display: inline-block;">
+    <div class="title-gray" style="width: auto; height: auto;">
+    	{{ Lang::line('locale.profile_settings')->get($language) }}
+    </div>
         {{ Form::label('name', Lang::line('locale.name')->get($language)) }}
         {{ Form::text('name', $user_data['name']) }}
         {{ Form::label('midname', Lang::line('locale.midname')->get($language)) }}

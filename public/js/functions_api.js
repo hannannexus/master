@@ -274,13 +274,13 @@ function drawCalendar(URL, id_user, date) {
 		else {
 			calendar.append(
 					"<tr>" +
-						"<td id=" + String(i) + "0" + ">" + date[i][0].value + "</td>" +
-						"<td id=" + String(i) + "1" + ">" + date[i][1].value + "</td>" +
-						"<td id=" + String(i) + "2" + ">" + date[i][2].value + "</td>" +
-						"<td id=" + String(i) + "3" + ">" + date[i][3].value + "</td>" +
-						"<td id=" + String(i) + "4" + ">" + date[i][4].value + "</td>" +
-						"<td id=" + String(i) + "5" + ">" + date[i][5].value + "</td>" +
-						"<td id=" + String(i) + "6" + ">" + date[i][6].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "0" + ">" + date[i][0].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "1" + ">" + date[i][1].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "2" + ">" + date[i][2].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "3" + ">" + date[i][3].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "4" + ">" + date[i][4].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "5" + ">" + date[i][5].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "6" + ">" + date[i][6].value + "</td>" +
 					"</tr>"
 			);
 		}
