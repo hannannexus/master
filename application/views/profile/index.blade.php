@@ -118,6 +118,7 @@
 			    	<div class="title-gray" style="width: auto; height: auto; margin-bottom: 7px;">
 			    		{{ Lang::line('locale.search')->get($language) }}
 			    	</div>
+			    	<input type="search" placeholder="{{ Lang::line('locale.search_lowercase')->get($language) }}">
 			    </div>
 		    </td>
 		</tr>

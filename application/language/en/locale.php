@@ -26,6 +26,7 @@ return array(
 	'km' => 'km',
 	'show' => 'Show...',
 	'search' => 'SEARCH',
+	'search_lowercase' => 'Search...',
 	'name' => 'Name',
 	'midname' => 'Second name',
 	'surname' => 'Surname',

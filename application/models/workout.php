@@ -81,6 +81,7 @@ class Workout extends Base {
 	}
 	
 	public function getMarkers($route) {
+		
 		if(empty($route)) {
 			return NULL;
 		}
@@ -89,7 +90,7 @@ class Workout extends Base {
 		$distance = $d_previous = 0;
 		$lap = 1000;
 		$marker_set = FALSE;
-	
+		
 		$p_previous = $route[0];
 		$lap_time = $route[1]['unixtime'];
 		$p_previous['lap'] = '0:00:00';
@@ -154,8 +155,12 @@ class Workout extends Base {
 			asc
 		";
 		$route = $this->objectToArray(DB::query($stmt, array($workout_number)));
+		
 		$result[0] = $route[0];
 		$count = round(count($route)/1000, 0);
+		
+		if($count == 0) {$count += 1;}
+		
 		for($i=1; $i<count($route); $i++) {
 			if(fmod($i, $count) == 0) {
 				array_push($result, $route[$i]);

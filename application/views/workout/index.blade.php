@@ -35,7 +35,7 @@
 	<table style="margin-left: auto; margin-right: auto; ">
 		<tr>
 			<td>
-				<table id="calendar" class="calendar" border="1" cellspacing="0" align="center" style="vertical-align: top;">
+				<table id="calendar" class="calendar" border="1" cellspacing="0" align="center" style="vertical-align: top; border-color: #1c5d9e;">
 				</table>
 			</td>
 			<td style="vertical-align: top;">

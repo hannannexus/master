@@ -26,6 +26,7 @@ return array(
 	'km' => 'км',
 	'show' => 'Обзор...',
 	'search' => 'ПОИСК',
+	'search_lowercase' => 'Поиск...',
 	'name' => 'Имя',
     'midname' => 'Отчество',
     'surname' => 'Фамилия',
