@@ -32,7 +32,7 @@
 		{{Lang::line('locale.settings_saved')->get($language) }}
 	</div>
 	@endif
-	<table style="margin-left: 200px;">
+	<table style="margin: 0 auto;">
 		<tr>
 			<td style="vertical-align: top;">
 			    <div class="well" style="width: 220px; display: inline-block;">

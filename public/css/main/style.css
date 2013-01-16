@@ -116,6 +116,10 @@
 	-webkit-border-radius: 3px;
 }
 
+.top-menu {
+	padding-left: 15px;
+}
+
 .info-box {
     margin-left: 5px;
     margin-top: 10px;
@@ -128,6 +132,7 @@
 
 .header-block {
 	padding: 5px;
+	padding-right: 20px;
 	margin: 2px auto;
 	margin-top:0;
 	border: 1px #ddd solid;
@@ -142,6 +147,12 @@
 	background: -ms-linear-gradient(top, #1c5d9e 0%,#356aa0 100%); /* IE10+ */
 	background: linear-gradient(to bottom, #1c5d9e 0%,#356aa0 100%); /* W3C */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1c5d9e', endColorstr='#356aa0',GradientType=0 ); /* IE6-9 */
+}
+
+.header {
+	border-radius: 0 0 10px 10px;
+	-moz-border-radius: 0 0 10px 10px;
+    -webkit-border-radius: 0 0 10px 10px;
 }
 
 .calendar {

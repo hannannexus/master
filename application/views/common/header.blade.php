@@ -16,7 +16,7 @@
 	@endif
 </div>
 @if(Auth::check())
-	<div class="white-block">
+	<div class="white-block top-menu">
 		<!-- {{ Form::open('/', 'GET', array('style' => 'display: inline;')) }}
 		{{ Form::submit(Lang::line('locale.button_home')->get($language), array('class' => 'blue-button')) }}
 		{{ Form::close() }}
