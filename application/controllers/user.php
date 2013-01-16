@@ -175,6 +175,9 @@ class User_Controller extends Controller
 	public function action_workouts() {
 		$workout = new Workout();
 		$workouts = $workout->getLastWorkout(); /* $this->user->getUserWorkouts(Auth::user()->user_id); */
+		if(empty($workouts['workout_number'])) {
+			return Redirect::to('profile');
+		}
 		return Redirect::to('workout/' . Auth::user()->user_id . '/' . $workouts['workout_number']);
 		/* return View::make('profile.workouts')->with('workouts', $workouts); */
 	}
@@ -185,7 +188,7 @@ class User_Controller extends Controller
 	}
 	
 	public function action_accept_friend($id_friend) {
-		$this->user->aceeptFriendRequest(Auth::user()->user_id, $id_friend);
+		$this->user->acceptFriendRequest(Auth::user()->user_id, $id_friend);
 		return Redirect::back();
 	}
 	
@@ -207,7 +210,6 @@ class User_Controller extends Controller
 		$data['surname'] = Input::get('surname');
 		$data['gender'] = Input::get('gender');
 		$data['midname'] = $data['patronymic'] = $data['borndate'] = '';
-		print_r($data);
 		if(!empty($data['name']) && !empty($data['surname']) && !empty($data['gender'])) {
 			$this->user->setUserData($data, $id_user);
 			return Redirect::to('profile');

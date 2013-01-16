@@ -29,6 +29,42 @@ class User extends Base {
 				((select `user_id` from `users` WHERE `login_name` = ?), ?, ?)
 		";
 		DB::query($stmt, array($name, $language, $confirmation));
+		$stmt = "
+			select
+				*
+			from
+				`users`
+			where
+				`email` = ? 		
+		";
+		$data = $this->objectToSingle(DB::query($stmt, array($name)));
+		
+		$stmt = "
+			create table if not exists `tp_" . $data['user_id'] . "_gps` (
+				`id` int(11) not null auto_increment,
+				`lat` double not null,
+				`lan` double not null,
+				`alt` double not null,
+				`speed` float not null,
+				`workout_number` int(10) unsigned not null,
+				`time` bigint(20) not null,
+				primary key (`id`)
+			) engine=MyISAM  default charset=utf8 collate=utf8_general_ci auto_increment=1
+		";
+		
+		DB::query($stmt);
+		
+		$stmt = "
+			create table if not exists `tp_" . $data['user_id'] . "_pulse` (
+				`id` int(11) not null auto_increment,
+				`pulse` int(4) not null,
+				`time` bigint(20) not null,
+				primary key (`id`)
+			) engine=MyISAM default charset=utf8 collate=utf8_unicode_ci auto_increment=1 ;	
+		";
+		
+		DB::query($stmt);
+		
 		$this->sendMail($name, $language, $confirmation);
 	}
 	
@@ -198,12 +234,13 @@ class User extends Base {
     	DB::query($stmt, array($id_user, $id_friend));
     }
     
-    public function aceeptFriendRequest($id_user, $id_friend) {
+    public function acceptFriendRequest($id_user, $id_friend) {
     	$stmt = "
     		update
     			`user_relations`
     		set
-    			`relation` = 'accepted'
+    			`relation` = 'accepted',
+    			`stamp` = now()
     		where
     			`id_user` = ?
     		and
