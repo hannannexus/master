@@ -27,7 +27,7 @@
 <div class="white-block">
 	@foreach($users as $user)
 		<?php $flag = 'false'; ?>
-		<div class="well" style="display: block; width: 400px; height: 60px; padding: 10px; margin: 3px auto;">
+		<div class="well" style="display: block; width: 400px; height: 70px; padding: 10px; margin: 3px auto;">
 			<div style="float: left; display: inline; margin-right: 10px; width: 65px;">
 				@if(!empty($user['photo']))
 				<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user['user_id'] . '/320/' . $user['photo'] }}">
@@ -82,7 +82,7 @@
 					<br><p style="font-size: x-small;" > {{ Lang::line('locale.this_is_you')->get($language) }} </p>
 				@endif
 				@if($flag == 'true')
-					<br><b><a style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a></b>
+					<br><a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">{{ Lang::line('locale.add_to_friends')->get($language) }}</a>
 				@endif
 			</div>
 		</div>
