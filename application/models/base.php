@@ -21,5 +21,12 @@ class Base extends Eloquent {
         }
         return $array;
     }
+    
+    protected function removeWhitespace($string) {
+    	
+    	$string = preg_replace('/(\s){2,}/',' ',$string);
+    	$string = trim($string);
+    	return $string;
+    }
 }
 ?>

@@ -27,6 +27,7 @@ return array(
 	'show' => 'Обзор...',
 	'search' => 'ПОИСК',
 	'search_lowercase' => 'Поиск...',
+	'search_none_dots' => 'Поиск',
 	'name' => 'Имя',
     'midname' => 'Отчество',
     'surname' => 'Фамилия',

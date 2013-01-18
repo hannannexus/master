@@ -218,5 +218,21 @@ class User_Controller extends Controller
 			return Redirect::to('information')->with('information_error', 'true');
 		}
 	}
+	
+	public function action_search() {
+		$string = Input::get('search');
+		$is_empty = trim($string);
+		if(empty($is_empty)) {
+			$users = $this->user->getAllUsers();
+			$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
+			return View::make('users.index')->with('users', $users)->with('friendlist', $friendlist);
+		}
+		$users = $this->user->searchUser($string);
+		if($search = FALSE) {
+			return View::make('users.index');
+		}
+		$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
+		return View::make('users.search')->with('users', $users)->with('friendlist', $friendlist);
+	}
 }
 ?>

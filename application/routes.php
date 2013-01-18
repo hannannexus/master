@@ -27,6 +27,7 @@ Route::get('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::get('profile/workouts', array('before' => 'auth', 'uses' => 'user@workouts'));
 Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
 Route::get('user/accept/(:num)', array('before' => 'auth', 'uses' => 'user@accept_friend'));
+Route::post('search', array('before' => 'auth', 'uses' => 'user@search'));
 
 /**
  * Workout routes

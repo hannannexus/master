@@ -27,6 +27,7 @@ return array(
 	'show' => 'Show...',
 	'search' => 'SEARCH',
 	'search_lowercase' => 'Search...',
+	'search_none_dots' => 'Search',
 	'name' => 'Name',
 	'midname' => 'Second name',
 	'surname' => 'Surname',

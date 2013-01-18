@@ -289,6 +289,50 @@ class User extends Base {
     		return FALSE;
     	}
     }
+    
+    public function searchUser($words = NULL) {
+    	if(is_null($words)) {
+    		return FASLE;
+    	}
+    	else {
+    		$search = array();
+    		$words = $this->removeWhitespace($words);
+    		$words = explode(' ', $words);
+    		foreach($words as $key => $word) {
+    			$stmt = "
+    				select
+    					*
+    				from
+    					`users`
+    				where
+    					`name` like '%" . $word . "%'
+    				or
+    					`surname` like '%" . $word . "%'
+    				or
+    					`patronymic` like '%" . $word . "%'
+    				order by
+    					`name`
+    				asc
+    			";
+    			
+    			$result = $this->objectToArray(DB::query($stmt));
+    			if(!empty($result)) {
+    				foreach($result as $key => $res) {
+    					array_push($search, $res);
+    				}
+    			}
+    		}
+    		
+    		foreach($search as $key => $src) {
+    			foreach($search as $skey => $srch) {
+    				if($search[$skey]['user_id'] == $src['user_id'] && $key != $skey) {
+    					unset($search[$key]);
+    				}
+    			}
+    		}
+    		return $search;
+    	}
+    }
 }
 
 ?>

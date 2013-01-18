@@ -118,7 +118,10 @@
 			    	<div class="title-gray" style="width: auto; height: auto; margin-bottom: 7px;">
 			    		{{ Lang::line('locale.search')->get($language) }}
 			    	</div>
-			    	<input type="search" placeholder="{{ Lang::line('locale.search_lowercase')->get($language) }}">
+			    	{{ Form::open('search', 'POST') }}
+			    	<input type="search" name="search" placeholder="{{ Lang::line('locale.search_lowercase')->get($language) }}" style="width: 180px;">
+			    	{{ Form::submit(Lang::line('locale.search_none_dots')->get($language), array('class' => 'blue-button', 'style' => 'display: inline; margin-left: 10px; margin-top: -6px;')) }}
+			    	{{ Form::close() }}
 			    </div>
 		    </td>
 		</tr>
