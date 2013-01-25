@@ -9,7 +9,7 @@
 	{{ HTML::script('js/fancybox/jquery.fancybox-1.3.4.pack.js') }}
 	
 	<script type="text/javascript">
-		$().ready(function() {
+		$(function() {
 			$('a#user_photo').fancybox(
 				{
 					'transitionIn'	:	'elastic',
@@ -19,6 +19,24 @@
 					'overlayShow'	:	true
 				}
 			);
+			$(".comment").click(function(event) {
+				event.preventDefault();
+				var target = $(event.target);
+				$("#div_" + target.attr('id')).css('display', 'block');
+			});
+			$(".form_workout").submit(function(event) {
+				event.preventDefault();
+				var target = $(event.target);
+				var targetId = target.attr('id');
+				var workoutNumber = parseInt(targetId.substring(13));
+				$.post(
+					'{{ URL::home() }}add_feed_comment',
+					{
+						workout_number: workoutNumber
+					},
+					'json'
+				);
+			});
 		});
 	</script>
 	
@@ -26,7 +44,6 @@
 
 @section('content')
 <div class="white-block">
-    <!-- <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4>  -->
     @if(Session::get('saved') == 'success')
 	<div class="alert alert-success">
 		{{Lang::line('locale.settings_saved')->get($language) }}
@@ -70,16 +87,10 @@
 			            {{ Lang::line('locale.gender')->get($language) }} : {{ Lang::line('locale.gender_' . $user_data['sex'])->get($language) }}
 			        </span>
 			        <hr />
-			        <!-- {{ Form::open('profile/settings', 'GET', array('style' => 'display: inline;')) }}
-			        {{ Form::submit(Lang::line('locale.button_settings')->get($language), array('class' => 'blue-button')) }}
-			        {{ Form::close() }} -->
 			        <a href="{{ URL::home() }}profile/settings" class="blue-button">
 			        	{{ Lang::line('locale.button_settings')->get($language) }}
 			        </a>
 			        <br><br>
-			        <!-- {{ Form::open('profile/workouts', 'GET', array('style' => 'display: inline;')) }}
-			        {{ Form::submit(Lang::line('locale.button_workouts')->get($language), array('class' => 'blue-button')) }}
-			        {{ Form::close() }} -->
 			        <a href="{{ URL::home() }}profile/workouts" class="blue-button">
 			        	{{ Lang::line('locale.button_workouts')->get($language) }}
 			        </a>
@@ -106,6 +117,21 @@
 		    					<a href="{{ URL::home()}}workout/{{ Auth::user()->user_id }}/{{ $cur_feed['workout_number'] }}">
 		    						{{ Lang::line('locale.show')->get($language) }}
 		    					</a>
+		    					<br />
+		    					<i style="font-size: x-small;">
+		    						<b>
+			    						{{ Lang::line('locale.date_doubledot')->get($language) }}
+			    						{{ date("d M Y", mktime(0, 0, 0, substr($cur_feed['date'], 5, 2), substr($cur_feed['date'], 8, 2), substr($cur_feed['date'], 0, 4))) }}
+				    					{{ Lang::line('locale.time_doubledot')->get($language) }}
+				    					{{ substr($cur_feed['time_start'], 0, 5) }}
+			    					</b>
+			    				</i>
+			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
+			    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
+				    				<div class="well" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 0px;">
+				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: -5px; width: 250px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
+				    				</div>
+			    				</form>
 			    			</div>
 			    		@endforeach
 			    	@else

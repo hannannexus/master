@@ -59,40 +59,73 @@
 
 <div class="white-block">
     <!-- <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4> -->
-    {{ Form::open_for_files('profile/settings/process', 'POST') }}
-    <div class="well" style="width: 220px; display: inline-block;">
-    <div class="title-gray" style="width: auto; height: auto;">
-    	{{ Lang::line('locale.profile_settings')->get($language) }}
-    </div>
-        {{ Form::label('name', Lang::line('locale.name')->get($language)) }}
-        {{ Form::text('name', $user_data['name']) }}
-        {{ Form::label('midname', Lang::line('locale.midname')->get($language)) }}
-        {{ Form::text('midname', $user_data['patronymic']) }}
-        {{ Form::label('surname', Lang::line('locale.surname')->get($language)) }}
-        {{ Form::text('surname', $user_data['surname']) }}
-        {{ Form::label('borndate', Lang::line('locale.born_date')->get($language)) }}
-        {{ Form::date('borndate', $user_data['born_date'], array('id' => 'borndate')) }}
-        {{ Form::label('gender', Lang::line('locale.gender')->get($language)) }}
-        {{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), $user_data['sex']) }}
-        
-        @if($user_data['photo'] != '')
-    	<div>
-    		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
-    			<img alt="" src="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
-    		</a>
-    	</div>
-    	@else
-    	<div>
-    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
-    	</div>
-    	@endif
-        
-        {{ Form::label('photo', Lang::line('locale.photo')->get($language)) }}
-        {{ Form::file('photo') }}
+    <div class="well" style="width: 640px;  margin: 0 auto;">
+	    <div class="title-gray" style="width: auto; height: auto;">
+	    	{{ Lang::line('locale.profile_settings')->get($language) }}
+	    </div>
+	    	{{ Form::open_for_files('profile/settings/process', 'POST') }}
+	    <table style="margin-left: auto; margin-right: auto; margin-top: 20px;">
+		    <tr>
+		    	<td rowspan="5" style="padding-left: 15px;">
+		    		@if($user_data['photo'] != '')
+			    	<div>
+			    		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
+			    			<img alt="" src="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
+			    		</a>
+			    	</div>
+			    	@else
+			    	<div>
+			    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
+			    	</div>
+			    	@endif
+			    	<br>
+			    	{{ Form::label('photo', Lang::line('locale.photo')->get($language)) }}
+        			{{ Form::file('photo') }}
+		    	</td>
+		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('name', Lang::line('locale.name')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+		        	{{ Form::text('name', $user_data['name']) }}
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('midname', Lang::line('locale.midname')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+		        	{{ Form::text('midname', $user_data['patronymic']) }}
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('surname', Lang::line('locale.surname')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+		        	{{ Form::text('surname', $user_data['surname']) }}
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('borndate', Lang::line('locale.born_date')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+		        	{{ Form::date('borndate', $user_data['born_date'], array('id' => 'borndate')) }}
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('gender', Lang::line('locale.gender')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+		        	{{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), $user_data['sex']) }}
+		        </td>
+		    </tr>
+        </table>
         <hr />
         {{ Form::submit(Lang::line('locale.save')->get($language), array('class' => 'blue-button')) }}
+        {{ Form::close() }}
     </div>
-    {{ Form::close() }}
 </div>
 
 @endsection

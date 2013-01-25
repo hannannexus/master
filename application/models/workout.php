@@ -265,7 +265,9 @@ class Workout extends Base {
 				max(`speed`) as `max_speed`,
 				max(`alt`) as `max_altitude`,
 				min(`alt`) as `min_altitude`,
-				timediff(substr(from_unixtime(substr(max(`time`), 1, 10)), 12, 10), substr(from_unixtime(substr(min(`time`), 1, 10)), 12, 10)) as `time`
+				timediff(substr(from_unixtime(substr(max(`time`), 1, 10)), 12, 10), substr(from_unixtime(substr(min(`time`), 1, 10)), 12, 10)) as `time`,
+				substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`,
+				substr(from_unixtime(substr(`time`, 1, 10)), 12, 10) as `time_start`
 			from
 				`tp_" . $id_user . "_gps`
 			where
@@ -279,6 +281,8 @@ class Workout extends Base {
 		$stats['max_alt'] = $data['max_altitude'];
 		$stats['min_alt'] = $data['min_altitude'];
 		$stats['time'] = $data['time'];
+		$stats['date'] = $data['date'];
+		$stats['time_start'] = $data['time_start'];
 		$stats['workout_number'] = $data['workout_number'];
 		
 		unset($data, $stmt);

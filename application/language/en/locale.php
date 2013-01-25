@@ -55,6 +55,9 @@ return array(
 	'information_form' => 'Please, enter information about you',
 	'email_error' => 'This email already registered',
 	'photo' => 'Photo',
-		
+	'date_doubledot' => 'Date:',
+	'time_doubledot' => 'Time:',
+	'comment' => 'Comment',
+	'your_comment' => 'Your comment here...',
 	'gender_-' => ''
 );

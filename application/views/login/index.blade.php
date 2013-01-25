@@ -26,10 +26,10 @@ Login
 @section('content')
 <div class="white-block">
 	{{ Form::open('login/process', 'POST') }}
-	{{ Form::label('email', Lang::line('locale.label_login_email')->get($language)) }}
+	{{ Form::label('email', Lang::line('locale.label_login_email')->get($language), array('style' => 'display: block;')) }}
 	{{ Form::text('email') }}
 	<br>
-	{{ Form::label('password', Lang::line('locale.label_login_password')->get($language)) }}
+	{{ Form::label('password', Lang::line('locale.label_login_password')->get($language), array('style' => 'display: block;')) }}
 	{{ Form::password('password') }}
 	<br>
 	{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'blue-button')) }}

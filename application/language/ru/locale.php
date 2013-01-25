@@ -55,8 +55,9 @@ return array(
 	'information_form' => 'Пожалуйста, введите информацию о себе',
 	'email_error' => 'Такой адрес электронной почты уже зарегистрирован',
 	'photo' => 'Фото',
-		
-		
-		
+	'date_doubledot' => 'Дата:',
+	'time_doubledot' => 'Время:',
+	'comment' => 'Комментировать',
+	'your_comment' => 'Ваш комментарий...',
 	'gender_-' => ''
 );
