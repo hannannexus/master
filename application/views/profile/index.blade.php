@@ -9,7 +9,27 @@
 	{{ HTML::script('js/fancybox/jquery.fancybox-1.3.4.pack.js') }}
 	
 	<script type="text/javascript">
+		comment_count = {{ count($feed) }};
+		function loadComments() {
+			$(".comment_text").remove();
+			$.post(
+				'{{ URL::home() }}get_feed_comment',
+				{
+					id_workout: {{ $user_data['user_id'] }}
+				},
+				function(result) {
+					for(i = 0; i < result.length; i++) {
+						$("#comment_line_" + result[i].workout_number).after(
+							'<div class="comment_text button-close"><a style="font-size: xx-small;" href=" {{ URL::home()}}user/'+result[i].user_id +'">'+result[i].name+ ' ' + result[i].surname + '</a> <i style="font-size: xx-small;">('+result[i].stamp+')</i> <br>'+result[i].text+'</div>'
+						);
+					}
+				},
+				'json'
+			);
+		}
+	
 		$(function() {
+			loadComments();
 			$('a#user_photo').fancybox(
 				{
 					'transitionIn'	:	'elastic',
@@ -29,10 +49,25 @@
 				var target = $(event.target);
 				var targetId = target.attr('id');
 				var workoutNumber = parseInt(targetId.substring(13));
+				if($("input[name='workout_" + workoutNumber + "']").val() == '') return;
 				$.post(
 					'{{ URL::home() }}add_feed_comment',
 					{
-						workout_number: workoutNumber
+						workout_number: workoutNumber,
+						id_workout: {{ $user_data['user_id'] }},
+						comment: $("input[name='workout_" + workoutNumber + "']").val()
+					},
+					function(result) {
+						if(result == 0) {
+							$("#div_workout_" + workoutNumber).css('display', 'none');
+							$("#div_workout_" + workoutNumber).after('<div class="alert" data-dismiss="alert">Error! Click to hide message.</div>');
+							return;
+						}
+						else {
+							loadComments();
+							$("input[name='workout_" + workoutNumber + "']").val('');
+							$("#div_workout_" + workoutNumber).css('display', 'none');
+						}
 					},
 					'json'
 				);
@@ -128,10 +163,11 @@
 			    				</i>
 			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
 			    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
-				    				<div class="well" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 0px;">
-				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: -5px; width: 250px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
+				    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
+				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
 				    				</div>
 			    				</form>
+			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
 			    			</div>
 			    		@endforeach
 			    	@else

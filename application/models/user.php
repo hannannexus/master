@@ -333,6 +333,44 @@ class User extends Base {
     		return $search;
     	}
     }
+    
+    public function addFeedComment($w_number, $id_workout, $id_user, $text) {
+    	$stmt = "
+			insert into
+				`feed_comments`
+					(`workout_number`, `id_workout`, `id_user`, `stamp`, `text`)
+			values
+				(?, ?, ?, now(), ?)
+		";
+    
+    	$result = DB::query($stmt, array($w_number, $id_workout, $id_user, $text));
+    	return $result;
+    }
+    
+    public function getFeedComment($id_user) {
+    	$stmt = "
+    		select
+    			fc.`stamp`,
+    			fc.`text`,
+    			fc.`workout_number`,
+    			u.`name`,
+    			u.`surname`
+    		from
+    			`feed_comments` fc
+    		join
+    			`users` u
+    		on
+    			fc.`id_user` = u.`user_id`
+    		where
+    			`id_workout` = ?
+    		order by
+    			`workout_number`, `stamp`
+    		asc
+    	";
+    	
+    	$result = $this->objectToArray(DB::query($stmt, array($id_user)));
+    	return $result;
+    }
 }
 
 ?>

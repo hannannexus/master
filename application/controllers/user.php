@@ -174,12 +174,11 @@ class User_Controller extends Controller
 	
 	public function action_workouts() {
 		$workout = new Workout();
-		$workouts = $workout->getLastWorkout(); /* $this->user->getUserWorkouts(Auth::user()->user_id); */
+		$workouts = $workout->getLastWorkout();
 		if(empty($workouts['workout_number'])) {
 			return Redirect::to('profile');
 		}
 		return Redirect::to('workout/' . Auth::user()->user_id . '/' . $workouts['workout_number']);
-		/* return View::make('profile.workouts')->with('workouts', $workouts); */
 	}
 	
 	public function action_add_friend($id_friend) {
@@ -233,6 +232,20 @@ class User_Controller extends Controller
 		}
 		$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
 		return View::make('users.search')->with('users', $users)->with('friendlist', $friendlist);
+	}
+	
+	public function action_add_comment() {
+		$text = Input::get('comment');
+		$w_number = Input::get('workout_number');
+		$id_workout = Input::get('id_workout');
+		$result = $this->user->addFeedComment($w_number, $id_workout, Auth::user()->user_id, $text);
+		echo $result;
+	}
+	
+	public function action_get_comment() {
+		$id_user = Input::get('id_workout');
+		$result = $this->user->getFeedComment($id_user);
+		echo json_encode($result);
 	}
 }
 ?>
