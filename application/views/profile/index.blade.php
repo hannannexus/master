@@ -20,7 +20,7 @@
 				function(result) {
 					for(i = 0; i < result.length; i++) {
 						$("#comment_line_" + result[i].workout_number).after(
-							'<div class="comment_text button-close"><a style="font-size: xx-small;" href=" {{ URL::home()}}user/'+result[i].user_id +'">'+result[i].name+ ' ' + result[i].surname + '</a> <i style="font-size: xx-small;">('+result[i].stamp+')</i> <br>'+result[i].text+'</div>'
+							'<div class="comment_text"><a style="font-size: xx-small;" href=" {{ URL::home()}}user/'+result[i].user_id +'">'+result[i].name+ ' ' + result[i].surname + '</a> <i style="font-size: xx-small;">('+result[i].stamp+')</i> <br>'+result[i].text+'</div>'
 						);
 					}
 				},

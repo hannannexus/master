@@ -2,6 +2,12 @@
 use Laravel\Redirect;
 
 /**
+ * Admin routes
+ */
+
+Route::get('admin', 'admin@index');
+
+/**
  * Login routes
  */
 Route::get('login', 'auth@index');

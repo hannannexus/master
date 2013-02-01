@@ -59,5 +59,8 @@ return array(
 	'time_doubledot' => 'Время:',
 	'comment' => 'Комментировать',
 	'your_comment' => 'Ваш комментарий...',
-	'gender_-' => ''
+	'gender_-' => '',
+	'admin_left_advertisement' => 'Левая панель',
+	'admin_left_advertisement_show' => 'Показывать рекламу',
+	'admin_left_advertisement_code' => 'Код рекламы',
 );

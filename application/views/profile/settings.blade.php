@@ -58,7 +58,6 @@
 @section('content')
 
 <div class="white-block">
-    <!-- <h4 align="center">{{ Lang::line('locale.profile_title')->get($language) }}</h4> -->
     <div class="well" style="width: 640px;  margin: 0 auto;">
 	    <div class="title-gray" style="width: auto; height: auto;">
 	    	{{ Lang::line('locale.profile_settings')->get($language) }}
