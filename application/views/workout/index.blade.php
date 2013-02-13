@@ -7,6 +7,7 @@
 	{{ HTML::script('js/lib_infobox.js') }}
 	{{ HTML::script('js/flot/jquery.flot.js') }}
 	{{ HTML::script('js/flot/jquery.flot.crosshair.js') }}
+	{{ HTML::script('js/flot/jquery.flot.navigate.js') }}
 	{{ HTML::script('js/functions_math.js') }}
 	{{ HTML::script('js/functions_api.js') }}
 	{{ HTML::script('js/main_map_chart.js') }}
@@ -22,6 +23,7 @@
 		$(function() {
 	        $( "#radio_div_1" ).buttonsetv();
 	        $( "#radio_div_2" ).buttonsetv();
+	        $( "#tabs").tabs();
 	    });
 		
 	</script>
@@ -72,7 +74,17 @@
 	<div class="well">
 		<div id="map_canvas" style="height: 400px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 		<hr>
+		<p align="center">
+			<a href="#" id="show_pulse" class="blue-button">
+				{{ Lang::line('locale.show_pulse')->get($language) }}
+			</a>
+			<a href="#" id="show_chart" class="blue-button" >
+				{{ Lang::line('locale.show_chart')->get($language) }}
+			</a>
+		</p>
 		<div id="chart_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
+		<div id="pulse_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
+		
 	</div>
 </div>
 

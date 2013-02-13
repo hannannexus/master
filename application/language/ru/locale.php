@@ -59,6 +59,8 @@ return array(
 	'time_doubledot' => 'Время:',
 	'comment' => 'Комментировать',
 	'your_comment' => 'Ваш комментарий...',
+	'show_pulse' => 'Показать пульс',
+	'show_chart' => 'Показать скорость',
 	'gender_-' => '',
 	'admin_left_advertisement' => 'Левая панель',
 	'admin_left_advertisement_show' => 'Показывать рекламу',

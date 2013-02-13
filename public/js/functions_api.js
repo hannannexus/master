@@ -192,7 +192,7 @@ function showMap(URL, id_user, workout_number) {
         },
         function(result) {
         	drawMap(URL, result);
-        	drawChart(result['points']);
+        	drawChart(result['points'], result['pulse']);
         	drawCalendar(URL, id_user, result['calendar']);
         },
         'json'
@@ -203,13 +203,10 @@ function showMap(URL, id_user, workout_number) {
  * Draw chart of altitude/speed
  * @param result - database workout array
  */
-function drawChart(result) {
-	var altitude_chart = [];
+function drawChart(result, pulse) {
 	
-	var speed_chart = [];
 	var distance = 0;
-	var coords = []; 
-	var lat_chart = [], lan_chart = [];
+	var lat_chart = [], lan_chart = [], speed_chart = [], coords = [], altitude_chart = [], pulse_chart = [];
 	
 	for(var i = 0; i < result.length; i++) {
 		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
@@ -220,17 +217,77 @@ function drawChart(result) {
 		lan_chart.push([distance/1000, parseFloat(result[i].lan)]);
 	}
 	
+	for(var i = 0; i< pulse.length; i++) {
+		pulse_chart.push([pulse[i].time, pulse[i].pulse]);
+	}
+	
     plot = $.plot($("#chart_canvas"), [
         {data: altitude_chart, color: '#67BCFA'}, 
-        {data: speed_chart, color: '#045590', lines: {fill: false}},
+        {data: speed_chart, color: '#045590', lines: {fill: false},  yaxis: 2},
         {data: lat_chart, lines: {show: false}}, 
         {data: lan_chart, lines: {show: false}}], 
         {
 	    	lines: { show: true, fill: true },
 	        crosshair: { mode: "x", color: '#045590', width: 3 },
-	        grid: { hoverable: true, autoHighlight: false }
+	        grid: { hoverable: true, autoHighlight: false },
+	        xaxes: [{ 
+	        	position: 'bottom',
+	        	tickFormatter: distanceFormatter
+	        }],
+	        yaxes: [{
+	        	tickFormatter: speedFormatter,
+	        	position: 'right',
+	        	color: '#045590'
+	        },
+	        {
+	        	tickFormatter: altFormatter,
+	        	position: 'left',
+	        	color: '#67BCFA'
+	        }]
         }
     );
+    
+    pulse_plot = $.plot($("#pulse_canvas"), [
+        {data: pulse_chart, color: '#67BCFA'}],
+    {
+    	lines: {show: true, fill: true },
+    	crosshair: { mode: "x", color: '#045590', width: 3 },
+        grid: { hoverable: true, autoHighlight: false },
+        xaxes: {
+        	position: 'bottom',
+	        tickFormatter: timeFormatter,
+	        zoomRange: [0,120]
+        },
+        yaxes: {
+        	zoomRange: [0, 200],
+        	panRange: false
+        },
+        zoom: {
+			interactive: true,
+			amount: 1.5
+		},
+        pan: {
+			interactive: true
+		}
+    }
+    );
+    return;
+}
+
+function altFormatter(v, axis) {
+	return v.toFixed(axis.tickDecimals) + " m";
+}
+
+function timeFormatter(v, axis) {
+	return v.toFixed(axis.tickDecimals) + " min";
+}
+
+function distanceFormatter(v, axis) {
+	return v.toFixed(axis.tickDecimals) + " km";
+}
+
+function speedFormatter(v, axis) {
+	return v.toFixed(axis.tickDecimals)/10 + " km/h";
 }
 
 function drawCalendar(URL, id_user, date) {
@@ -293,9 +350,6 @@ function drawCalendar(URL, id_user, date) {
 				$("#" + String(i) + String(j)).append(
 					"<div><a href=\""+ URL +"workout/"+ id_user +"/"+ a +"\"><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></a></div>"
 				);
-				/*$("#tr" + String(i) + String(j)).click(function () {
-					showMap(URL, id_user, a);
-				});*/
 			}
 		}
 	}

@@ -174,6 +174,49 @@ class Workout extends Base {
 		return $result;
 	}
 	
+	public function getPulse($id_user, $workout_number) {
+		$stmt = "
+			select
+				min(`time`) as `start`,
+				max(`time`) as `finish`
+			from
+				`tp_" . $id_user . "_gps`
+			where
+				`workout_number` = ?
+		";
+		
+		$timelap = $this->objectToArray(DB::query($stmt, array($workout_number)));
+		
+		 if(!isset($timelap[0]['start'])) {
+			return NULL;
+		} 
+		
+		$stmt = "
+			select
+				`time`,
+				(substr(`time`, 1, 10)) as `unixtime`
+			from
+				`tp_" . $id_user . "_pulse`
+			where
+				`time` between ? and ?
+			order by
+				`id`
+		";
+		
+		$pulse = $this->objectToArray(DB::query($stmt, array($timelap[0]['start'], $timelap[0]['finish'])));
+		
+		$graphics = array();
+		
+		for($i = 1; $i < count($pulse); $i++) {
+			$heartrate['pulse'] = 60000/($pulse[$i]['time'] - $pulse[$i-1]['time']);
+			$heartrate['time'] = ($pulse[$i]['time']-$pulse[1]['time'])/60000;
+			if($heartrate['pulse'] > 30 && $heartrate['pulse'] < 200) {
+				array_push($graphics, $heartrate);
+			}
+		}
+		return $graphics;
+	}
+	
 	public function getCalendarByDate($id_user, $month, $year) {
 		$days = array();
 		

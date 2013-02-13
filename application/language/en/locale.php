@@ -59,5 +59,7 @@ return array(
 	'time_doubledot' => 'Time:',
 	'comment' => 'Comment',
 	'your_comment' => 'Your comment here...',
+	'show_pulse' => 'Show pulse',
+	'show_chart' => 'Show speed',
 	'gender_-' => ''
 );
