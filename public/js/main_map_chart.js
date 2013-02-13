@@ -3,6 +3,7 @@ $(function () {
 	showMap(HOME, ID_USER, W_NUMBER);
 	$("#pulse_canvas").hide();
 	
+	
 	var updateLegendTimeout = null;
     var latestPosition = null;
     
@@ -97,7 +98,6 @@ $(function () {
     			link_marker = setMarker(new google.maps.LatLng(index_data[2], index_data[3]), map, link_marker_image);
     		}
     	}
-    	
 	});
     
     $('#pulse_canvas').mousemove(function(e) {
@@ -157,13 +157,15 @@ $(function () {
     
     $('#show_pulse').click(function (event) {
     	event.preventDefault();
-    	$("#chart_canvas").hide();
-    	$("#pulse_canvas").show();
+    	$("#chart_canvas").hide("highlight", 500, function() {
+    		$("#pulse_canvas").show("highlight", "slow");
+    	});
     });
     
     $('#show_chart').click(function (event) {
     	event.preventDefault();
-    	$("#pulse_canvas").hide();
-    	$("#chart_canvas").show();
+    	$("#pulse_canvas").hide("highlight", 500, function() {
+    		$("#chart_canvas").show("highlight", "slow");
+    	});
     });
 });

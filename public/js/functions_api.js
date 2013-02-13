@@ -222,8 +222,8 @@ function drawChart(result, pulse) {
 	}
 	
     plot = $.plot($("#chart_canvas"), [
-        {data: altitude_chart, color: '#67BCFA'}, 
-        {data: speed_chart, color: '#045590', lines: {fill: false},  yaxis: 2},
+        {data: altitude_chart, color: '#67BCFA', xaxes: 1, yaxes: 1}, 
+        {data: speed_chart, color: '#045590', xaxes: 1, yaxes: 2, lines: {fill: false},  yaxis: 2},
         {data: lat_chart, lines: {show: false}}, 
         {data: lan_chart, lines: {show: false}}], 
         {
@@ -353,6 +353,8 @@ function drawCalendar(URL, id_user, date) {
 			}
 		}
 	}
+	$("#months-picker").css("visibility", "visible");
+	$("#years-picker").css("visibility", "visible");
 }
 
 function updateCalendar(URL, id_user, month, year) {
