@@ -212,7 +212,7 @@ function drawChart(result, pulse) {
 		coords.push(new google.maps.LatLng(result[i].lat, result[i].lan));
 		distance = google.maps.geometry.spherical.computeLength(coords);
 		altitude_chart.push([distance/1000, parseFloat(result[i].alt)]);
-		speed_chart.push([distance/1000, parseFloat(result[i].speed*7)]);
+		speed_chart.push([distance/1000, parseFloat(result[i].speed)]);
 		lat_chart.push([distance/1000, parseFloat(result[i].lat)]);
 		lan_chart.push([distance/1000, parseFloat(result[i].lan)]);
 	}
@@ -235,14 +235,14 @@ function drawChart(result, pulse) {
 	        	tickFormatter: distanceFormatter
 	        }],
 	        yaxes: [{
-	        	tickFormatter: speedFormatter,
+	        	tickFormatter: altFormatter,
 	        	position: 'right',
-	        	color: '#045590'
+	        	color: '#67BCFA'
 	        },
 	        {
-	        	tickFormatter: altFormatter,
+	        	tickFormatter: speedFormatter,
 	        	position: 'left',
-	        	color: '#67BCFA'
+	        	color: '#045590'
 	        }]
         }
     );
@@ -287,7 +287,7 @@ function distanceFormatter(v, axis) {
 }
 
 function speedFormatter(v, axis) {
-	return v.toFixed(axis.tickDecimals)/10 + " km/h";
+	return v.toFixed(axis.tickDecimals) + " km/h";
 }
 
 function drawCalendar(URL, id_user, date) {
