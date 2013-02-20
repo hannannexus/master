@@ -25,7 +25,7 @@ function setMarkerImage(image_address, size) {
 				image_address,
 				new google.maps.Size(60, 60),
 				new google.maps.Point(0,0), 
-				new google.maps.Point(13,30) 
+				new google.maps.Point(13,27) 
 			);
 			return image;
 	}
@@ -60,7 +60,7 @@ function createTooltip(URL, index, speed, time, lap) {
 			content: box_text,
 			disableAutoPan: false,
 			maxWidth: 0,
-			pixelOffset: new google.maps.Size(-18, 0),
+			pixelOffset: new google.maps.Size(-16, 0),
 			zIndex: null,
 			closeBoxMargin: "12px 3px 3px 3px",
 			infoBoxClearance: new google.maps.Size(1, 1),
@@ -308,14 +308,14 @@ function drawCalendar(URL, id_user, date) {
 		}
 		if(draw_header) {
 			calendar.append(
-					"<tr>" +
-						"<td>Sunday</td>" +
-						"<td>Monday</td>" +
-						"<td>Tuesday</td>" +
-						"<td>Wednesday</td>" +
-						"<td>Thursday</td>" +
-						"<td>Friday</td>" +
-						"<td>Saturday</td>" +
+					"<tr align='center' style='font-family: verdana,sans-serif; color: #045590; background: #eae6e6;'>" +
+						"<td>"+ DAYS[0] +"</td>" +
+						"<td>"+ DAYS[1] +"</td>" +
+						"<td>"+ DAYS[2] +"</td>" +
+						"<td>"+ DAYS[3] +"</td>" +
+						"<td>"+ DAYS[4] +"</td>" +
+						"<td>"+ DAYS[5] +"</td>" +
+						"<td>"+ DAYS[6] +"</td>" +
 					"<tr>" +
 						"<td id=" + String(i) + "0" + ">" + date[i][0].value + "</td>" +
 						"<td id=" + String(i) + "1" + ">" + date[i][1].value + "</td>" +

@@ -108,7 +108,7 @@ $(function () {
     		
     		$('body').append('<div class="white-block" id="info" style="font-family: Arial; font-size: 10pt; position: absolute; background-color: white; opacity: 0.7;"></div>');
     		
-    		$('#info').html('<b style="color: #67BCFA">Pulse: ' + floorNumber(pulse_data[0],2) + ' m</b>');
+    		$('#info').html('<b style="color: #67BCFA">Pulse: ' + floorNumber(pulse_data[0],2) + ' bpm</b>');
     		$('#info').css('left', e.clientX + 10);
     		$('#info').css('top', position.top + 10);
     	}

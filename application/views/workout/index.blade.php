@@ -19,6 +19,14 @@
 		HOME 		= '{{ URL::home() }}';
 		ID_USER 	= {{ $id_user }};
 		W_NUMBER	= {{ $workout_number }};
+		DAYS = [];
+		DAYS[0] = '{{ Lang::line('locale.sunday')->get($language) }}';
+		DAYS[1] = '{{ Lang::line('locale.monday')->get($language) }}';
+		DAYS[2] = '{{ Lang::line('locale.tuesday')->get($language) }}';
+		DAYS[3] = '{{ Lang::line('locale.wednesday')->get($language) }}';
+		DAYS[4] = '{{ Lang::line('locale.thursday')->get($language) }}';
+		DAYS[5] = '{{ Lang::line('locale.friday')->get($language) }}';
+		DAYS[6] = '{{ Lang::line('locale.saturday')->get($language) }}';
 
 		$(function() {
 	        $( "#radio_div_1" ).buttonsetv();
@@ -34,7 +42,7 @@
 
 <div class="white-block">
 	<div class="well" style="margin-bottom: 5px;">
-		<table style="margin-left: auto; margin-right: auto; ">
+		<table style="margin-left: auto; margin-right: auto;">
 			<tr>
 				<td>
 					<table id="calendar" class="calendar" border="1" cellspacing="0" align="center" style="vertical-align: top; border-color: #1c5d9e;">
@@ -43,20 +51,20 @@
 				<td style="vertical-align: top;">
 					<div id="months-picker" style="margin-top: 13px; margin-left: 15px; visibility: hidden;">
 						<div id="radio_div_1" class="calendar_months" >
-							<input type="radio" id="radio1" name="radio" value="1"/><label for="radio1">January</label>
-					        <input type="radio" id="radio2" name="radio" value="2"/><label for="radio2">February</label>
-					        <input type="radio" id="radio3" name="radio" value="3"/><label for="radio3">March</label>
-					        <input type="radio" id="radio4" name="radio" value="4"/><label for="radio4">April</label>
-							<input type="radio" id="radio5" name="radio" value="5"/><label for="radio5">May</label>
-					        <input type="radio" id="radio6" name="radio" value="6"/><label for="radio6">June</label>
+							<input type="radio" id="radio1" name="radio" value="1"/><label for="radio1">{{ Lang::line('locale.january')->get($language) }}</label>
+					        <input type="radio" id="radio2" name="radio" value="2"/><label for="radio2">{{ Lang::line('locale.february')->get($language) }}</label>
+					        <input type="radio" id="radio3" name="radio" value="3"/><label for="radio3">{{ Lang::line('locale.march')->get($language) }}</label>
+					        <input type="radio" id="radio4" name="radio" value="4"/><label for="radio4">{{ Lang::line('locale.april')->get($language) }}</label>
+							<input type="radio" id="radio5" name="radio" value="5"/><label for="radio5">{{ Lang::line('locale.may')->get($language) }}</label>
+					        <input type="radio" id="radio6" name="radio" value="6"/><label for="radio6">{{ Lang::line('locale.june')->get($language) }}</label>
 					    </div>
 					    <div id="radio_div_2" class="calendar_months">
-					        <input type="radio" id="radio7" name="radio" value="7"/><label for="radio7">July</label>
-					        <input type="radio" id="radio8" name="radio" value="8"/><label for="radio8">August</label>
-							<input type="radio" id="radio9" name="radio" value="9"/><label for="radio9">September</label>
-					        <input type="radio" id="radio10" name="radio" value="10"/><label for="radio10">October</label>
-					        <input type="radio" id="radio11" name="radio" value="11"/><label for="radio11">November</label>
-					        <input type="radio" id="radio12" name="radio" value="12"/><label for="radio12">December</label>
+					        <input type="radio" id="radio7" name="radio" value="7"/><label for="radio7">{{ Lang::line('locale.july')->get($language) }}</label>
+					        <input type="radio" id="radio8" name="radio" value="8"/><label for="radio8">{{ Lang::line('locale.august')->get($language) }}</label>
+							<input type="radio" id="radio9" name="radio" value="9"/><label for="radio9">{{ Lang::line('locale.september')->get($language) }}</label>
+					        <input type="radio" id="radio10" name="radio" value="10"/><label for="radio10">{{ Lang::line('locale.october')->get($language) }}</label>
+					        <input type="radio" id="radio11" name="radio" value="11"/><label for="radio11">{{ Lang::line('locale.november')->get($language) }}</label>
+					        <input type="radio" id="radio12" name="radio" value="12"/><label for="radio12">{{ Lang::line('locale.december')->get($language) }}</label>
 						</div>
 					</div>
 					<br />
