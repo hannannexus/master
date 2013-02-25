@@ -44,8 +44,8 @@
 	<div class="well" style="margin-bottom: 5px;">
 		<table style="margin-left: auto; margin-right: auto;">
 			<tr>
-				<td>
-					<table id="calendar" class="calendar" border="1" cellspacing="0" align="center" style="vertical-align: top; border-color: #1c5d9e;">
+				<td style="vertical-align: top; padding-top: 18px;">
+					<table id="calendar" class="calendar" border="1" cellspacing="0" align="center" style="vertical-align: top; border-color: #1c5d9e; font-size: 10pt; font-family: 'Century Gothic', 'Helvetica';">
 					</table>
 				</td>
 				<td style="vertical-align: top;">
@@ -67,13 +67,13 @@
 					        <input type="radio" id="radio12" name="radio" value="12"/><label for="radio12">{{ Lang::line('locale.december')->get($language) }}</label>
 						</div>
 					</div>
-					<br />
 					<div id="years-picker" style="margin-left: 15px; visibility: hidden;">
-						Year:
-						<select id="year">
-							<option value="2012">2012</option>
-							<option value="2013">2013</option>
-						</select>
+						<div class="styled-select" style="width: 210px; display: inline-block; margin-top: 5px;">
+							<select id="year" style="width: 235px;">
+								<option value="2012">2012</option>
+								<option value="2013">2013</option>
+							</select>
+						</div>
 					</div>
 				</td>
 			</tr>

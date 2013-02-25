@@ -80,6 +80,7 @@ return array(
 	'thursday' => 'Четверг',
 	'friday' => 'Пятница',
 	'saturday' => 'Суббота',
+	'year' => 'Год',
 	'gender_-' => '',
 	'admin_left_advertisement' => 'Левая панель',
 	'admin_left_advertisement_show' => 'Показывать рекламу',

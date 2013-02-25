@@ -148,11 +148,18 @@ $(function () {
     	updateCalendar(HOME, ID_USER, month, year);
 	});
     
-    $('#years-picker').click(function(event) {
+    $('#years-picker').change(function(event) {
     	var target = $(event.target);
     	if (target.get(0).tagName.toLowerCase() != 'select')
     		return;
+    	for(i = 1; i < 13; i++) {
+    		console.log($("label[for='radio"+i+"']").attr("aria-pressed"));
+    		if($("label[for='radio"+i+"']").attr("aria-pressed") == "true") {
+    			month = i;
+    		}
+    	}
     	var year = target.val();
+    	updateCalendar(HOME, ID_USER, month, year);
     });
     
     $('#show_pulse').click(function (event) {

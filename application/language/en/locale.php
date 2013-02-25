@@ -80,5 +80,6 @@ return array(
 	'thursday' => 'Thursday',
 	'friday' => 'Friday',
 	'saturday' => 'Saturday',
+	'year' => 'Year',
 	'gender_-' => ''
 );

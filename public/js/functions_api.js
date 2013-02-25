@@ -193,7 +193,7 @@ function showMap(URL, id_user, workout_number) {
         function(result) {
         	drawMap(URL, result);
         	drawChart(result['points'], result['pulse']);
-        	drawCalendar(URL, id_user, result['calendar']);
+        	drawCalendar(URL, id_user, result['calendar'], result['points'][1].date.substr(0,4), parseInt(result['points'][1].date.substr(5,6)));
         },
         'json'
 	);
@@ -290,8 +290,8 @@ function speedFormatter(v, axis) {
 	return v.toFixed(axis.tickDecimals) + " km/h";
 }
 
-function drawCalendar(URL, id_user, date) {
-
+function drawCalendar(URL, id_user, date, y, m) {
+	
 	draw_header = true;
 	
 	calendar = $("#calendar");
@@ -355,6 +355,9 @@ function drawCalendar(URL, id_user, date) {
 	}
 	$("#months-picker").css("visibility", "visible");
 	$("#years-picker").css("visibility", "visible");
+	
+	$("#year [value='"+y+"']").attr("selected", "selected");
+	$("label[for='radio"+m+"']").click();
 }
 
 function updateCalendar(URL, id_user, month, year) {
@@ -372,6 +375,7 @@ function updateCalendar(URL, id_user, month, year) {
 		},
 		function(result) {
 			drawCalendar(URL, id_user, result);
+			$("#year [value='"+year+"']").attr("selected", "selected");
 		},
 		'json'
 	);

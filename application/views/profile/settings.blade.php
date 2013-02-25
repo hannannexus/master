@@ -117,7 +117,9 @@
 		        	{{ Form::label('gender', Lang::line('locale.gender')->get($language)) }}
 		        </td>
 		        <td style="padding-left: 15px;">
-		        	{{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), $user_data['sex']) }}
+			        <div class="styled-select" style="width: 100px;">
+			        	{{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), $user_data['sex'], array("style" => "width: 125px;")) }}
+			        </div>
 		        </td>
 		    </tr>
         </table>

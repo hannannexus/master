@@ -354,7 +354,8 @@ class User extends Base {
     			fc.`text`,
     			fc.`workout_number`,
     			u.`name`,
-    			u.`surname`
+    			u.`surname`,
+    			u.`user_id`
     		from
     			`feed_comments` fc
     		join
