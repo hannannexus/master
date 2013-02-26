@@ -232,7 +232,7 @@ class Workout extends Base {
 				substr(from_unixtime(substr(`time`, 1, 10)), 12, 10) as `time`,
 				max(`time`)
 			from
-				`tp_" . Auth::user()->user_id . "_gps`
+				`tp_" . $id_user . "_gps`
 			group by
 				`workout_number`
 		";
@@ -255,7 +255,7 @@ class Workout extends Base {
 		return $new_days;
 	}
 	
-	public function getLastWorkout() {
+	public function getLastWorkout($id_user) {
 		$stmt = "
 			select
 				`workout_number`,
@@ -265,9 +265,9 @@ class Workout extends Base {
 						`workout_number`,
 						substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`
 					from
-						`tp_" . Auth::user()->user_id . "_gps`
+						`tp_" . $id_user . "_gps`
 					where
-						`workout_number` = (select max(`workout_number`) from `tp_" . Auth::user()->user_id . "_gps` limit 1)
+						`workout_number` = (select max(`workout_number`) from `tp_" . $id_user . "_gps` limit 1)
 				) a
 			limit
 				1

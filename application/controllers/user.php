@@ -156,6 +156,8 @@ class User_Controller extends Controller
 	 */
 	public function action_user($id_user) {
 		$user_data = $this->user->getUserData($id_user);
+		$workout = new Workout();
+		$feed = $workout->getUserFeed($id_user);
 		foreach($user_data as $key => $data) {
 			if(is_null($data) || empty($data)) {
 				$user_data[$key] = '-';
@@ -169,16 +171,16 @@ class User_Controller extends Controller
 		else {
 			$user_data['age'] = '-';
 		}
-		return View::make('users.user')->with('user_data', $user_data);
+		return View::make('users.user')->with('user_data', $user_data)->with('feed', $feed);
 	}
 	
-	public function action_workouts() {
+	public function action_workouts($id_user) {
 		$workout = new Workout();
-		$workouts = $workout->getLastWorkout();
+		$workouts = $workout->getLastWorkout($id_user);
 		if(empty($workouts['workout_number'])) {
 			return Redirect::to('profile');
 		}
-		return Redirect::to('workout/' . Auth::user()->user_id . '/' . $workouts['workout_number']);
+		return Redirect::to('workout/' . $id_user . '/' . $workouts['workout_number']);
 	}
 	
 	public function action_add_friend($id_friend) {

@@ -126,7 +126,7 @@
 			        	{{ Lang::line('locale.button_settings')->get($language) }}
 			        </a>
 			        <br><br>
-			        <a href="{{ URL::home() }}profile/workouts" class="blue-button">
+			        <a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button">
 			        	{{ Lang::line('locale.button_workouts')->get($language) }}
 			        </a>
 			    </div>

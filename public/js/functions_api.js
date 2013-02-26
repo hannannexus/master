@@ -193,7 +193,7 @@ function showMap(URL, id_user, workout_number) {
         function(result) {
         	drawMap(URL, result);
         	drawChart(result['points'], result['pulse']);
-        	drawCalendar(URL, id_user, result['calendar'], result['points'][1].date.substr(0,4), parseInt(result['points'][1].date.substr(5,6)));
+        	drawCalendar(URL, id_user, result['calendar'], parseInt(result['points'][1].date.substr(0,4)), parseInt(result['points'][1].date.substr(5,6)));
         },
         'json'
 	);
