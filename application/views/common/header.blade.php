@@ -1,7 +1,7 @@
 @section('header')
 
 <div class="header-block">
-<img src="../../img/system/logo.png" style="display: inline; float: left; margin-left: 15px; padding-top: 3px;">
+<img id="logo-image" src="../../img/system/logo.png" style="display: inline; float: left; padding-top: 3px;">
 	@if(!Auth::check())  
 		{{ Form::open('signup', 'GET', array('style' => 'display: inline;')) }}
 		{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'grey-button')) }}
@@ -16,21 +16,15 @@
 	@endif
 </div>
 @if(Auth::check())
-	<div class="white-block top-menu">
-		<!-- {{ Form::open('/', 'GET', array('style' => 'display: inline;')) }}
-		{{ Form::submit(Lang::line('locale.button_home')->get($language), array('class' => 'blue-button')) }}
-		{{ Form::close() }}
-		{{ Form::open('profile', 'GET', array('style' => 'display: inline;')) }}
-		{{ Form::submit(Lang::line('locale.button_profile')->get($language), array('class' => 'blue-button')) }}
-		{{ Form::close() }}
-		{{ Form::open('users', 'GET', array('style' => 'display: inline;')) }}
-		{{ Form::submit(Lang::line('locale.button_users')->get($language), array('class' => 'blue-button')) }}
-		{{ Form::close() }} -->
+	<div class="white-block" style="text-align: center;">
 		<a href="{{ URL::home() }}" class="blue-button">
 			{{ Lang::line('locale.button_home')->get($language) }}
 		</a>
 		<a href="{{ URL::home() }}profile" class="blue-button">
 			{{ Lang::line('locale.button_profile')->get($language) }}
+		</a>
+		<a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button">
+			{{ Lang::line('locale.my_workouts')->get($language) }}
 		</a>
 		<a href="{{ URL::home() }}users" class="blue-button">
 			{{ Lang::line('locale.button_users')->get($language) }}

@@ -122,6 +122,41 @@
 			            {{ Lang::line('locale.gender')->get($language) }} : {{ Lang::line('locale.gender_' . $user_data['sex'])->get($language) }}
 			        </span>
 			        <hr />
+			        @if($user_data['user_id'] != Auth::user()->user_id)
+				        @if(!$friend)
+				        	@if(is_null($status))
+						        <a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user_data['user_id'] }}">
+						        	{{ Lang::line('locale.add_to_friends')->get($language) }}
+						        </a>
+						        <br>
+						        <br>
+						    @endif
+						    @if($status == 'waiting_for_confirm')
+						    	<div class="info-message" style="font-size: x-small;" >
+						    		{{ Lang::line('locale.you_sent_request')->get($language) }}
+						    	</div>
+						    	<br>
+						    @endif
+						    @if($status == 'confirm_friend')
+						    	<div class="info-message" style="font-size: x-small;" >
+						    		{{ Lang::line('locale.wants_to_be_friends')->get($language) }}
+						    	</div>
+						    	<br>
+								<b>
+									<a class="mini-button" href="{{ URL::home() }}user/accept/{{ $user_data['user_id'] }}">
+										{{ Lang::line('locale.accept')->get($language) }}
+									</a>
+								</b>
+								<br>
+								<br>
+						    @endif
+					    @else
+					    	<div class="green-message" style="font-size: x-small;" >
+					    		{{ Lang::line('locale.your_friend')->get($language) }} 
+					    	</div>
+					    	<br>
+					    @endif
+					@endif
 			        <a href="{{ URL::home() }}workouts/{{ $user_data['id_user'] }}" class="blue-button">
 			        	{{ Lang::line('locale.button_workouts')->get($language) }}
 			        </a>
@@ -157,12 +192,14 @@
 				    					{{ substr($cur_feed['time_start'], 0, 5) }}
 			    					</b>
 			    				</i>
-			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
-			    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
-				    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
-				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
-				    				</div>
-			    				</form>
+			    				@if($friend)
+				    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
+				    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
+					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
+					    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
+					    				</div>
+				    				</form>
+				    			@endif
 			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
 			    			</div>
 			    		@endforeach

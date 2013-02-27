@@ -28,7 +28,7 @@
 }
 
 .title-gray {
-	border-radius: 4px 4px 4px 4px;
+	border-radius: 2px 2px 2px 2px;
     background: url("../../img/system/title_gray.png") repeat-x scroll left top transparent;
 	margin-left: -8px;
 	margin-top: 5px;
@@ -131,7 +131,7 @@
 }
 
 .header-block {
-	height: 35px;
+	/* height: 35px; */
 	padding: 5px;
 	/* padding-right: 20px; */
 	margin: 2px auto;
@@ -254,3 +254,21 @@ body {
 	    -moz-border-radius: 2px;
 	         border-radius: 2px;
    }
+
+.info-message {
+	background-color: #FDF5E6;
+	border: 1px #FFE4B5 solid;
+	width: auto;
+	text-align: center;
+	padding-left: 10px;
+   	color: #C4A23E;
+}
+
+.green-message {
+	background-color: #DCFFDF;
+	border: 1px #43C44E solid;
+	width: auto;
+	text-align: center;
+	padding-left: 10px;
+	color: #2A702F;
+}

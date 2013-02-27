@@ -158,6 +158,9 @@ class User_Controller extends Controller
 		$user_data = $this->user->getUserData($id_user);
 		$workout = new Workout();
 		$feed = $workout->getUserFeed($id_user);
+		$friend = $this->user->checkFriend($id_user);
+		$status = $this->user->checkFriendStatus($id_user);
+		
 		foreach($user_data as $key => $data) {
 			if(is_null($data) || empty($data)) {
 				$user_data[$key] = '-';
@@ -171,7 +174,10 @@ class User_Controller extends Controller
 		else {
 			$user_data['age'] = '-';
 		}
-		return View::make('users.user')->with('user_data', $user_data)->with('feed', $feed);
+		return View::make('users.user')->with('user_data', $user_data)->
+				with('feed', $feed)->
+				with('friend', $friend)->
+				with('status', $status);
 	}
 	
 	public function action_workouts($id_user) {

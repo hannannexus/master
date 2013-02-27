@@ -372,6 +372,98 @@ class User extends Base {
     	$result = $this->objectToArray(DB::query($stmt, array($id_user)));
     	return $result;
     }
+    
+    public function checkFriend($id_user) {
+    	$stmt = "
+    		select
+    			count(*) as `count`
+    		from
+    			`user_relations` as ur
+    		where
+    			(
+	    			ur.`id_user` = ? 
+	    		and
+	    			ur.`id_friend` = ?
+	    		and
+	    			ur.`relation` = 'accepted'
+    			)
+    		or
+    			(
+	    			ur.`id_user` = ? 
+	    		and
+	    			ur.`id_friend` = ?
+	    		and
+	    			ur.`relation` = 'accepted'
+    			)
+    	";
+    	
+    	$count = $this->objectToSingle(DB::query($stmt, array($id_user, Auth::user()->user_id, Auth::user()->user_id, $id_user)));
+    	if($count['count'] > 0) {
+    		return TRUE;
+    	}
+    	else {
+    		return FALSE;
+    	}
+    }
+    
+    public function checkFriendStatus($id_user) {
+    	$stmt = "
+    		select
+    			*
+    		from
+    			`user_relations` as ur
+    		where
+    			ur.`id_user` = ?
+    		and
+    			ur.`id_friend` = ?
+    	";
+    	$result = $this->objectToSingle(DB::query($stmt, array(Auth::user()->user_id, $id_user)));
+    	
+		if(isset($result['relation'])) {
+			switch($result['relation']) {
+				case 'waiting' : {
+					$status = 'waiting_for_confirm';
+					break;
+				}
+				case 'accepted' : {
+					$status = 'accepted';
+					break;
+				}
+				default: $status = 'accepted';
+			}
+		}
+		else {
+			$stmt = "
+	    		select
+	    			*
+	    		from
+	    			`user_relations` as ur
+	    		where
+	    			ur.`id_user` = ?
+	    		and
+	    			ur.`id_friend` = ?
+	    	";
+			$result = $this->objectToSingle(DB::query($stmt, array($id_user, Auth::user()->user_id)));
+			
+			if(isset($result['relation'])) {
+				switch($result['relation']) {
+					case 'waiting' : {
+						$status = 'confirm_friend';
+						break;
+					}
+					case 'accepted' : {
+						$status = 'accepted';
+						break;
+					}
+					default: $status = 'accepted';
+				}
+			}
+			else {
+				$status = NULL;
+			}
+		} 
+    	return $status;
+    }
 }
 
 ?>

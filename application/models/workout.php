@@ -214,7 +214,22 @@ class Workout extends Base {
 				array_push($graphics, $heartrate);
 			}
 		}
-		return $graphics;
+		
+		$sm_line = $this->smoothig($graphics);
+		
+		return $sm_line;
+	}
+	
+	private function smoothig($arr) {
+		$result = array();
+		foreach($arr as $key => $cur) {
+			if($key < count($arr)-1) {
+				if(abs($arr[$key]['pulse'] - $arr[$key+1]['pulse']) < 30) {
+					array_push($result, $arr[$key]);
+				}
+			}
+		}
+		return $result;
 	}
 	
 	public function getCalendarByDate($id_user, $month, $year) {

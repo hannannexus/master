@@ -81,5 +81,6 @@ return array(
 	'friday' => 'Friday',
 	'saturday' => 'Saturday',
 	'year' => 'Year',
+	'my_workouts' => 'My workouts',
 	'gender_-' => ''
 );
