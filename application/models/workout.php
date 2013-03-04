@@ -218,6 +218,7 @@ class Workout extends Base {
 		$sm_line = $this->smoothig($graphics);
 		
 		return $sm_line;
+		/* return $graphics; */
 	}
 	
 	private function smoothig($arr) {
@@ -375,6 +376,17 @@ class Workout extends Base {
 		}
 		
 		return $feed_info;
+	}
+	
+	public function getArythmy($pulse) {
+		$arythmy = array();
+		for($i = 2; $i < count($pulse); $i++) {
+			$avg = ($pulse[$i-2]['pulse'] + $pulse[$i-1]['pulse'] + $pulse[$i]['pulse'])/3;
+			if(($pulse[$i]['pulse'] < ($avg-10)) || ($pulse[$i]['pulse'] > ($avg+10))) {
+				array_push($arythmy, $pulse[$i]);
+			}
+		}
+		return $arythmy;
 	}
 }
 

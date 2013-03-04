@@ -192,7 +192,7 @@ function showMap(URL, id_user, workout_number) {
         },
         function(result) {
         	drawMap(URL, result);
-        	drawChart(result['points'], result['pulse']);
+        	drawChart(result['points'], result['pulse'], result['arythmy']);
         	drawCalendar(URL, id_user, result['calendar'], parseInt(result['points'][1].date.substr(0,4)), parseInt(result['points'][1].date.substr(5,6)));
         },
         'json'
@@ -203,7 +203,7 @@ function showMap(URL, id_user, workout_number) {
  * Draw chart of altitude/speed
  * @param result - database workout array
  */
-function drawChart(result, pulse) {
+function drawChart(result, pulse, arythmy) {
 	
 	var distance = 0;
 	var lat_chart = [], lan_chart = [], speed_chart = [], coords = [], altitude_chart = [], pulse_chart = [];
@@ -217,8 +217,17 @@ function drawChart(result, pulse) {
 		lan_chart.push([distance/1000, parseFloat(result[i].lan)]);
 	}
 	
-	for(var i = 0; i< pulse.length; i++) {
+	for(var i = 0; i < pulse.length; i++) {
 		pulse_chart.push([pulse[i].time, pulse[i].pulse]);
+	}
+	
+	var all_pulse = [];
+	
+	all_pulse.push({data: pulse_chart, color: '#67BCFA'});
+	if(arythmy !== '') {
+		for(var i = 0; i < arythmy.length; i++) {
+			all_pulse.push({data: [[arythmy[i].time, 0],[arythmy[i].time, arythmy[i].pulse+1]], color: '#C80000'});
+		}
 	}
 	
     plot = $.plot($("#chart_canvas"), [
@@ -246,9 +255,8 @@ function drawChart(result, pulse) {
 	        }]
         }
     );
-    
-    pulse_plot = $.plot($("#pulse_canvas"), [
-        {data: pulse_chart, color: '#67BCFA'}],
+    pulse_plot = $.plot($("#pulse_canvas"), 
+        all_pulse,
     {
     	lines: {show: true, fill: true },
     	crosshair: { mode: "x", color: '#045590', width: 3 },
