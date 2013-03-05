@@ -226,7 +226,12 @@ function drawChart(result, pulse, arythmy) {
 	all_pulse.push({data: pulse_chart, color: '#67BCFA'});
 	if(arythmy !== '') {
 		for(var i = 0; i < arythmy.length; i++) {
-			all_pulse.push({data: [[arythmy[i].time, 0],[arythmy[i].time, arythmy[i].pulse+1]], color: '#C80000'});
+			all_pulse.push(
+				{
+					data: [[arythmy[i].time, 0],[arythmy[i].time, arythmy[i].pulse+1]], 
+					color: '#C80000'
+				}
+				);
 		}
 	}
 	

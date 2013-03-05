@@ -85,7 +85,7 @@ $(function () {
     		
     		$('body').append('<div class="white-block" id="info" style="font-family: Arial; font-size: 10pt; position: absolute; background-color: white; opacity: 0.7;"></div>');
     		
-    		$('#info').html('<b style="color: #67BCFA">Altitude: ' + floorNumber(index_data[0],2) + ' m</b><br><b style="color: #045590"> Speed: ' + floorNumber(index_data[1]/7, 2) + ' km/h</b>');
+    		$('#info').html('<b style="color: #67BCFA">Altitude: ' + floorNumber(index_data[0],2) + ' m</b><br><b style="color: #045590"> Speed: ' + floorNumber(index_data[1], 2) + ' km/h</b>');
     		$('#info').css('left', e.clientX + 10);
     		$('#info').css('top', position.top + 10);
     	}
