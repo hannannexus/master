@@ -196,14 +196,14 @@ function showMap(URL, id_user, workout_number) {
         		drawChart(result['points'], result['pulse'], result['arythmy']);
         	}
         	else {
-        		$("#chart_container").height(500);
+        		/*$("#chart_container").height(500);
         		$("#chart_canvas").remove();
         		$("#map_canvas").remove();
         		$("#show_pulse").remove();
         		$("#show_chart").remove();
         		$("#pulse_canvas").show();
         		$("#pulse_canvas").height(400);
-            	$("#pulse_canvas").width(900);
+            	$("#pulse_canvas").width(900);*/
         		
         		drawChart(result['points'], result['pulse'], result['arythmy']);
         	}
@@ -233,6 +233,7 @@ function drawChart(result, pulse, arythmy) {
 	
 	for(var i = 0; i < pulse.length; i++) {
 		pulse_chart.push([pulse[i].time, pulse[i].pulse]);
+		console.log(i, pulse[i].time, pulse[i].pulse);
 	}
 	
 	var all_pulse = [];

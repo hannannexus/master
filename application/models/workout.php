@@ -193,7 +193,7 @@ class Workout extends Base {
 		
 		$stmt = "
 			select
-				`time`,
+				distinct `time`,
 				(substr(`time`, 1, 10)) as `unixtime`
 			from
 				`tp_" . $id_user . "_pulse`
