@@ -79,7 +79,7 @@
 			</tr>
 		</table>
 	</div>
-	<div class="well">
+	<div class="well" id="chart_container">
 		<div id="map_canvas" style="height: 400px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 		<hr>
 		<p align="center">

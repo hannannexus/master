@@ -191,8 +191,22 @@ function showMap(URL, id_user, workout_number) {
         	workout_number : workout_number
         },
         function(result) {
-        	drawMap(URL, result);
-        	drawChart(result['points'], result['pulse'], result['arythmy']);
+        	if(result['points'][0].lat != 0 && result['points'][0].lan != 0) {
+        		drawMap(URL, result);
+        		drawChart(result['points'], result['pulse'], result['arythmy']);
+        	}
+        	else {
+        		$("#chart_container").height(500);
+        		$("#chart_canvas").remove();
+        		$("#map_canvas").remove();
+        		$("#show_pulse").remove();
+        		$("#show_chart").remove();
+        		$("#pulse_canvas").show();
+        		$("#pulse_canvas").height(400);
+            	$("#pulse_canvas").width(900);
+        		
+        		drawChart(result['points'], result['pulse'], result['arythmy']);
+        	}
         	drawCalendar(URL, id_user, result['calendar'], parseInt(result['points'][1].date.substr(0,4)), parseInt(result['points'][1].date.substr(5,6)));
         },
         'json'
@@ -231,35 +245,39 @@ function drawChart(result, pulse, arythmy) {
 					data: [[arythmy[i].time, 0],[arythmy[i].time, arythmy[i].pulse+1]], 
 					color: '#C80000'
 				}
-				);
+			);
 		}
 	}
+
 	
-    plot = $.plot($("#chart_canvas"), [
-        {data: altitude_chart, color: '#67BCFA', xaxes: 1, yaxes: 1}, 
-        {data: speed_chart, color: '#045590', xaxes: 1, yaxes: 2, lines: {fill: false},  yaxis: 2},
-        {data: lat_chart, lines: {show: false}}, 
-        {data: lan_chart, lines: {show: false}}], 
-        {
-	    	lines: { show: true, fill: true },
-	        crosshair: { mode: "x", color: '#045590', width: 3 },
-	        grid: { hoverable: true, autoHighlight: false },
-	        xaxes: [{ 
-	        	position: 'bottom',
-	        	tickFormatter: distanceFormatter
-	        }],
-	        yaxes: [{
-	        	tickFormatter: altFormatter,
-	        	position: 'right',
-	        	color: '#67BCFA'
-	        },
-	        {
-	        	tickFormatter: speedFormatter,
-	        	position: 'left',
-	        	color: '#045590'
-	        }]
-        }
-    );
+	if(result[0].lat != 0 && result[0].lan != 0) {
+		plot = $.plot($("#chart_canvas"), [
+           {data: altitude_chart, color: '#67BCFA', xaxes: 1, yaxes: 1}, 
+           {data: speed_chart, color: '#045590', xaxes: 1, yaxes: 2, lines: {fill: false},  yaxis: 2},
+           {data: lat_chart, lines: {show: false}}, 
+           {data: lan_chart, lines: {show: false}}], 
+           {
+   	    	lines: { show: true, fill: true },
+   	        crosshair: { mode: "x", color: '#045590', width: 3 },
+   	        grid: { hoverable: true, autoHighlight: false },
+   	        xaxes: [{ 
+   	        	position: 'bottom',
+   	        	tickFormatter: distanceFormatter
+   	        }],
+   	        yaxes: [{
+   	        	tickFormatter: altFormatter,
+   	        	position: 'right',
+   	        	color: '#67BCFA'
+   	        },
+   	        {
+   	        	tickFormatter: speedFormatter,
+   	        	position: 'left',
+   	        	color: '#045590'
+   	        }]
+           }
+       );
+	}
+	
     pulse_plot = $.plot($("#pulse_canvas"), 
         all_pulse,
     {
