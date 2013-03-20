@@ -82,5 +82,7 @@ return array(
 	'saturday' => 'Saturday',
 	'year' => 'Year',
 	'my_workouts' => 'My workouts',
+	'weight' => 'Weight',
+	'arythmy_step' => 'Arythmy calculating step',
 	'gender_-' => ''
 );

@@ -79,20 +79,21 @@ class User_Controller extends Controller
 					'name' => $data['name'],
 					'midname' => $data['midname'],
 					'surname' => $data['surname'],
-					'photo' => Input::file('photo')
+					'photo' => Input::file('photo'),
+					'weight' => $data['weight']
 			);
 			$rules = array(
 					'name' => 'required|max:40|min:1',
 					'midname' => 'max:40|min:1',
 					'surname' => 'required|max:40|min:1',
-					'photo' => 'mimes:jpeg,jpg,png,gif|max:2048'
+					'photo' => 'mimes:jpeg,jpg,png,gif|max:2048',
+					'weight' => 'numeric|between:10,200'
 			);
 			$validator = Validator::make($input, $rules);
 			if(!$validator->fails()) {
 				
 				$user_id = Auth::user()->user_id;
 				$this->user->setUserData($data, $user_id);
-				
 				
 				Input::upload('photo', 'public/img/photos/' . Auth::user()->user_id . '/original/', md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']));
 				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/60' );
@@ -120,12 +121,14 @@ class User_Controller extends Controller
 			$input = array(
 					'name' => $data['name'],
 					'midname' => $data['midname'],
-					'surname' => $data['surname']
+					'surname' => $data['surname'],
+					'weight' => $data['weight']
 			);
 			$rules = array(
 					'name' => 'required|max:40|min:1',
 					'midname' => 'max:40|min:1',
-					'surname' => 'required|max:40|min:1'
+					'surname' => 'required|max:40|min:1',
+					'weight' => 'numeric|between:10,200'
 			);
 			$validator = Validator::make($input, $rules);
 			if(!$validator->fails()) {

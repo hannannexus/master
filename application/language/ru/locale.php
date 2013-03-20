@@ -82,6 +82,8 @@ return array(
 	'saturday' => 'Суббота',
 	'year' => 'Год',
 	'my_workouts' => 'Мои тренировки',
+	'weight' => 'Вес',
+	'arythmy_step' => 'Шаг расчета аритмии',
 	'gender_-' => '',
 	'admin_left_advertisement' => 'Левая панель',
 	'admin_left_advertisement_show' => 'Показывать рекламу',

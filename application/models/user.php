@@ -159,6 +159,17 @@ class User extends Base {
     	";
     	DB::query($stmt, array($data['name'], $data['surname'], $data['midname'], $data['borndate'], $data['gender'], $user_id));
     	
+    	$stmt = "
+    		update
+    			`user_config`
+    		set
+    			`weight` = ?,
+    			`arythmy_step` = ?
+    		where
+    			`id_user` = ?
+    		";
+    	DB::query($stmt, array($data['weight'], $data['arythmy_step'], $user_id));
+    	
     	if(!empty($data['photo']['name'])) {
     		$stmt = "
     		update
@@ -168,7 +179,7 @@ class User extends Base {
     		where
     			`id_user` = ?
     		";
-    		DB::query($stmt, array(md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']), $user_id));
+    		DB::query($stmt, array(md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']), $data['weight'], $user_id));
     	}
     }
     
@@ -463,6 +474,26 @@ class User extends Base {
 			}
 		} 
     	return $status;
+    }
+    
+    public function getUserWeight($user_id) {
+    	$stmt = "
+    		select
+    			uc.`weight` as `weight`
+    		from
+    			`user_config` as uc
+    		where
+    			uc.`id_user` = ?
+    		limit 
+    			1
+    	";
+    	$result = $this->objectToSingle(DB::query($stmt, array($user_id)));
+    	if($result['weight'] <= 0) {
+    		return 0;
+    	}
+    	else {
+    		return $result['weight'];
+    	}
     }
 }
 

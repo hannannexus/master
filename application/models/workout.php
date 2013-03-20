@@ -378,10 +378,26 @@ class Workout extends Base {
 		return $feed_info;
 	}
 	
-	public function getArythmy($pulse) {
+	public function getArythmy($pulse, $user_id) {
 		$arythmy = array();
-		for($i = 2; $i < count($pulse); $i++) {
-			$avg = ($pulse[$i-2]['pulse'] + $pulse[$i-1]['pulse'] + $pulse[$i]['pulse'])/3;
+		
+		$stmt = "
+			select
+				`arythmy_step`
+			from
+				`user_config`
+			where
+				`id_user` = ?
+		";
+		
+		$result = $this->objectToSingle(DB::query($stmt, array($user_id)));
+		
+		for($i = $result['arythmy_step']-1; $i < count($pulse); $i++) {
+			$sum = 0;
+			for($j = $i; $j >= $i-$result['arythmy_step']+1; $j--) {
+				$sum += $pulse[$j]['pulse'];
+			}
+			$avg = $sum/$result['arythmy_step'];
 			if(($pulse[$i]['pulse'] < ($avg-10)) || ($pulse[$i]['pulse'] > ($avg+10))) {
 				array_push($arythmy, $pulse[$i]);
 			}

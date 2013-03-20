@@ -65,7 +65,7 @@
 	    	{{ Form::open_for_files('profile/settings/process', 'POST') }}
 	    <table style="margin-left: auto; margin-right: auto; margin-top: 20px;">
 		    <tr>
-		    	<td rowspan="5" style="padding-left: 15px;">
+		    	<td rowspan="7" style="padding-left: 15px;">
 		    		@if($user_data['photo'] != '')
 			    	<div>
 			    		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
@@ -106,6 +106,14 @@
 		    </tr>
 		    <tr>
 		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('weight', Lang::line('locale.weight')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+		        	{{ Form::text('weight', $user_data['weight']) }}
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 15px;">
 		        	{{ Form::label('borndate', Lang::line('locale.born_date')->get($language)) }}
 		        </td>
 		        <td style="padding-left: 15px;">
@@ -119,6 +127,16 @@
 		        <td style="padding-left: 15px;">
 			        <div class="styled-select" style="width: 100px;">
 			        	{{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), $user_data['sex'], array("style" => "width: 125px;")) }}
+			        </div>
+		        </td>
+		    </tr>
+		    <tr>
+		    	<td style="padding-left: 15px;">
+		        	{{ Form::label('arythmy_step', Lang::line('locale.arythmy_step')->get($language)) }}
+		        </td>
+		        <td style="padding-left: 15px;">
+			        <div class="styled-select" style="width: 100px;">
+			        	{{ Form::select('arythmy_step', array('3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' => '7', '8' => '8', '9' => '9', '10' => '10'), $user_data['arythmy_step'], array("style" => "width: 125px;")) }}
 			        </div>
 		        </td>
 		    </tr>
