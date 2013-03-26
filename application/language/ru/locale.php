@@ -88,4 +88,17 @@ return array(
 	'admin_left_advertisement' => 'Левая панель',
 	'admin_left_advertisement_show' => 'Показывать рекламу',
 	'admin_left_advertisement_code' => 'Код рекламы',
+	/* 21.03.2013 */
+	'button_messages'=> 'Сообщения',
+	'messages_uppercase'=> 'СООБЩЕНИЯ',
+	/* 26.03.2013*/
+	'type_your_message' => 'Напишите ваше сообщение...',
+	'recipient' => 'Получатель',
+	'button_send_message' => 'Отправить',
+	'message_sent' => 'Сообщение отправлено!',
+	'empty_message' => 'Сообщение пустое!',
+	'some_message_error' => 'Произошла ошибка в отправке! Попробуйте позже...',
+	'messages_inbox' => 'Входящие',
+	'messages_outbox' => 'Исходящие',
+	'new_message' => 'Новое сообщение'
 );

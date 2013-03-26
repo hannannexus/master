@@ -84,5 +84,21 @@ return array(
 	'my_workouts' => 'My workouts',
 	'weight' => 'Weight',
 	'arythmy_step' => 'Arythmy calculating step',
-	'gender_-' => ''
+	'gender_-' => '',
+	'admin_left_advertisement' => 'Left Panel',
+	'admin_left_advertisement_show' => 'Show advertisement',
+	'admin_left_advertisement_code' => 'Advertisement code',
+	/* 21.03.2013 */
+	'button_messages'=> 'Messages',
+	'messages_uppercase'=> 'MESSAGES',
+	/* 26.03.2013*/
+	'type_your_message' => 'Type your message here...',
+	'recipient' => 'Recipient',
+	'button_send_message' => 'Send message',
+	'message_sent' => 'Message sent!',
+	'empty_message' => 'Empty message!',
+	'some_message_error' => 'Some message error! Try later...',
+	'messages_inbox' => 'Inbox',
+	'messages_outbox' => 'Outbox',
+	'new_message' => 'New message'
 );

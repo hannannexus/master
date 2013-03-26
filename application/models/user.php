@@ -219,19 +219,47 @@ class User extends Base {
     	return $workouts;
     }
     
-    public function getUserFriends($id_user) {
+    public function getUserFriends($id_user, $page = 'users') {
     	$stmt = "
     		select
     			*
     		from
     			`user_relations`
     		where
-    			`id_user` = ?
+    			(`id_user` = ?
     		or
-    			`id_friend` = ?		
+    			`id_friend` = ?)
+    		and
+    			`relation` = 'accepted'
     	";
     	$friendlist = $this->objectToArray(DB::query($stmt, array($id_user, $id_user)));
-    	return $friendlist;
+    	
+    	if($page == 'users') return $friendlist;
+    	
+    	$friends = array();
+    	
+    	$stmt = "
+   			select
+   				*
+   			from
+   				`users`
+    		where
+    			`user_id` = ?
+    	";
+    	
+    	foreach($friendlist as $key => $friend) {
+    		if($friend['id_user'] == $id_user) {
+    			$result = $this->objectToSingle(DB::query($stmt, array($friend['id_friend'])));
+    			array_push($friends, $result);
+    		}
+    		else {
+    			$result = $this->objectToSingle(DB::query($stmt, array($friend['id_user'])));
+    			array_push($friends, $result);
+    		}
+    		
+    	}
+    	
+    	return $friends;
     }
     
     public function makeFriendRequest($id_user, $id_friend) {
@@ -495,6 +523,117 @@ class User extends Base {
     		return $result['weight'];
     	}
     }
+    
+    /**
+     * 
+     * @param unknown_type $user_id
+     * @param unknown_type $count
+     * @return NULL|Ambigous <number, multitype:>|number
+     */
+    public function getUserMessages($user_id, $count = NULL) {
+    	if(!is_numeric($user_id)) {
+    		return NULL;
+    	}
+    	else {
+    		$stmt = "
+    			select
+    				*
+    			from
+    				`messages`
+    			where 
+    				`sender` = ?
+    		";
+    		
+    		$result = DB::query($stmt, array($user_id));
+    		if(!empty($result)) {
+    			$sent_messages = $this->objectToArray($result);
+    		}
+    		else {
+    			$sent_messages = 0;
+    		}
+    		
+    		$stmt = "
+    			select
+    				*
+    			from
+    				`messages`
+    			where
+    				`reciever` = ?		
+    		";
+    		
+    		$result = DB::query($stmt, array($user_id));
+    		if(!empty($result)) {
+    			$recieved_messages = $this->objectToArray($result);
+    		}
+    		else {
+    			$recieved_messages = 0;
+    		}
+    		
+    		$stmt = "
+    				select
+    					*
+    				from
+    					`messages`
+    				where
+    					`reciever` = ?
+    				and
+    					`status` = 'unread'
+    			";
+    		$result = DB::query($stmt, array($user_id));
+    		
+    		if(!empty($result)) {
+    			$unread_messages = $this->objectToArray($result);
+    		}
+    		else {
+    			$unread_messages = 0;
+    		}
+    		
+    		if(is_null($count)) {
+    			$messages['sent'] = $sent_messages;
+    			$messages['recieved'] = $recieved_messages;
+    			$messages['unread'] = $unread_messages;
+    			return $messages;
+    		}
+    		else {
+    			$count_messages['sent'] = ($sent_messages == 0) ? 0 : count($sent_messages);
+    			$count_messages['recieved'] = ($recieved_messages == 0) ? 0 : count($recieved_messages);
+    			$count_messages['unread'] = ($unread_messages == 0) ? 0 : count($unread_messages);
+    			return $count_messages;
+    		}
+    	}
+    }
+    
+    public function sendMessage($data) {
+    	$stmt = "
+    		insert into
+    			`messages`
+    			(
+    				`sender`,
+    				`reciever`,
+    				`type`,
+    				`text`,
+    				`status`,
+    				`stamp`
+    			)
+    		values
+    			(
+    				?,
+    				?,
+    				'user',
+    				?,
+    				'unread',
+    				now()
+    			)
+    	";
+    	if(!empty($data['text'])) {
+    		DB::query($stmt, array($data['sender'], $data['reciever'], $data['text']));
+    		return TRUE;
+    	}
+    	else {
+    		return FALSE;
+    	}
+    }
+    
 }
 
 ?>

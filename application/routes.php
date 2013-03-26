@@ -23,6 +23,8 @@ Route::post('signup/process', 'auth@signup_process');
  * User routes
  */
 Route::post('profile/settings/process', 'user@settings_process');
+Route::get('profile/messages', 'user@messages');
+Route::post('profile/messages/send', 'user@send_message');
 Route::get('information', array('before' => 'confirm', 'uses' => 'user@information'));
 Route::post('information/process', array('before' => 'confirm', 'uses' => 'user@information_process'));
 Route::get('profile', array('before' => 'information', 'uses' => 'user@profile'));
@@ -49,7 +51,14 @@ Route::post('workout/update_calendar', 'workout@update_calendar');
  */
 Route::get('/', function()
 {
-	return View::make('home.index');
+	if(Auth::check()) {
+		$user = new User();
+		$messages_count = $user->getUserMessages(Auth::user()->user_id, TRUE);
+	}
+	else {
+		$messages_count = '-';
+	}
+	return View::make('home.index')->with('messages_count', $messages_count);
 });
 
 /*

@@ -83,6 +83,8 @@
 		<div id="map_canvas" style="height: 400px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 		<hr>
 		<p align="center">
+			<!-- <img src="../../img/workout/speed_avg_4.png">
+			<img src="../../img/workout/speed_max_3.png"> -->
 			<a href="#" id="show_pulse" class="blue-button">
 				{{ Lang::line('locale.show_pulse')->get($language) }}
 			</a>

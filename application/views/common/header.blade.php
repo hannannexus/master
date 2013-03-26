@@ -29,6 +29,12 @@
 		<a href="{{ URL::home() }}users" class="blue-button">
 			{{ Lang::line('locale.button_users')->get($language) }}
 		</a>
+		<a href="{{ URL::home() }}profile/messages" class="blue-button">
+			{{ Lang::line('locale.button_messages')->get($language) }} 
+			@if(isset($messages_count))
+			({{ $messages_count['unread'] }})
+			@endif
+		</a>
 	</div>
 @endif
 @endsection
