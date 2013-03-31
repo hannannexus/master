@@ -100,5 +100,10 @@ return array(
 	'some_message_error' => 'Some message error! Try later...',
 	'messages_inbox' => 'Inbox',
 	'messages_outbox' => 'Outbox',
-	'new_message' => 'New message'
+	'new_message' => 'New message',
+	/* 28.03. 2013*/
+	'from' => 'From: ',
+	'to' => 'To: ',
+	'at' => 'at',
+	'reply' => 'Reply'
 );

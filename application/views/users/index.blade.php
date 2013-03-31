@@ -26,6 +26,7 @@
 @section('content')
 <div class="white-block">
 	@foreach($users as $user)
+	@if(!empty($user['name']) || !empty($user['surname']))
 		<?php $flag = 'false'; ?>
 		<div class="well" style="display: block; width: 400px; height: 70px; padding: 10px; margin: 3px auto;">
 			<div style="float: left; display: inline; margin-right: 10px; width: 65px;">
@@ -86,6 +87,7 @@
 				@endif
 			</div>
 		</div>
+	@endif
 	@endforeach
 </div>
 @endsection

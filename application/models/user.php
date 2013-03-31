@@ -634,6 +634,135 @@ class User extends Base {
     	}
     }
     
+    public function getInbox($user_id, $pack = 0) {
+    	
+    	$stmt = "
+    		select
+    			m.*,
+    			u.`name`,
+    			u.`surname`,
+    			u.`user_id`
+    		from
+    			`messages` as m
+    		join
+    			`users` as u
+    		on
+    			m.`sender` = u.`user_id`
+    		where
+    			`reciever` = ?
+    		order by
+    			`stamp`,
+    			`status`
+    	";
+    	
+    	$result = $this->objectToArray(DB::query($stmt, array($user_id)));
+    	
+    	if(empty($result)) {
+    		return FALSE;
+    	}
+    	else {
+    		$messages = array();
+    		    		
+    		for($i = $pack*30; $i < ($pack+1)*30; $i++) {
+    			if(isset($result[$i])) {
+    				if(strlen($result[$i]['text']) > 40) {
+    					$result[$i]['short'] = mb_substr($result[$i]['text'], 0, 39, 'utf8') . '...';
+    				}
+    				else {
+    					$result[$i]['short'] = $result[$i]['text'];
+    				}
+    				$result[$i]['time'] = date('d M Y H:i', strtotime($result[$i]['stamp']));
+    				array_push($messages, $result[$i]);
+    			}
+    			else {
+    				break;
+    			}
+    			
+    		}
+    		return $messages;
+    	}
+    }
+    
+    public function getMessage($message_id) {
+    	$stmt = "
+    		update
+    			`messages`
+    		set
+    			`status` = 'read'
+    		where
+    			`id_message` = ?		
+    	";
+    	
+    	DB::query($stmt, array($message_id));
+    	
+    	$stmt = "
+    		select
+    			m.*,
+    			u.`name`,
+    			u.`surname`,
+    			u.`user_id`
+    		from
+    			`messages` as m
+    		join
+    			`users` as u
+    		on
+    			m.`sender` = u.`user_id`
+    		where
+    			m.`id_message` = ?		
+    	";
+    	
+    	$result = $this->objectToSingle(DB::query($stmt, array($message_id)));
+    	$result['time'] = date('H:i d M Y', strtotime($result['stamp']));
+    	return $result;
+    }
+    
+	public function getOutbox($user_id, $pack = 0) {
+    	$stmt = "
+    		select
+    			m.*,
+    			u.`name`,
+    			u.`surname`,
+    			u.`user_id`
+    		from
+    			`messages` as m
+    		join
+    			`users` as u
+    		on
+    			m.`sender` = u.`user_id`
+    		where
+    			`sender` = ?
+    		order by
+    			`stamp`,
+    			`status`
+    	";
+    	
+    	$result = $this->objectToArray(DB::query($stmt, array($user_id)));
+    	
+    	if(empty($result)) {
+    		return FALSE;
+    	}
+    	else {
+    		$messages = array();
+    		    		
+    		for($i = $pack*30; $i <= ($pack+1)*30; $i++) {
+    			if(isset($result[$i])) {
+    				if(strlen($result[$i]['text']) > 40) {
+    					$result[$i]['short'] = substr($result[$i]['text'], 0, 39) . '...';
+    				}
+    				else {
+    					$result[$i]['short'] = $result[$i]['text'];
+    				}
+    				$result[$i]['time'] = date('d M Y H:i', strtotime($result[$i]['stamp']));
+    				array_push($messages, $result[$i]);
+    			}
+    			else {
+    				break;
+    			}
+    			
+    		}
+    		return $messages;
+    	}
+    }
 }
 
 ?>

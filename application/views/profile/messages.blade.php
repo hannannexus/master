@@ -30,16 +30,65 @@
 
 <script type="text/javascript">
 	$(function() {
+		pack = 1;
 		$("#msg").hide();
 		$("#send_message").click(function(event) {
 			event.preventDefault();
-			$("#msg").show();
+			if($("#msg").css('display') == 'none') {
+				$("#msg").show();
+			}
+			else {
+				$("#msg").hide();
+			}
 		});
+		function getPack() {
+			$.post (
+				'{{URL::home()}}profile/messages',
+				{
+					pack : pack
+				},
+				function (result) {
+					for(i = 0; i < result.length; i++) {
+						if(result[i].status == 'unread') {
+							var home = '{{URL::home()}}';
+							var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
+			    			inside += '&nbsp;&nbsp;<b><a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
+			    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
+			    			inside += '</a></b>';
+			    			inside += '</div>';
+			    			$("#end").after(inside);
+			    			$("#end").remove();
+			    			$("#message"+result[i].id_message).after('<div id="end"></div>');
+						}
+						else {
+							var home = '{{URL::home()}}';
+							var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
+			    			inside += '&nbsp;&nbsp'; 
+			    			inside += '<a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
+			    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
+			    			inside += '</a>';
+			    			inside += '</div>';
+			    			$("#end").after(inside);
+			    			$("#end").remove();
+			    			$("#message"+result[i].id_message).after('<div id="end" style="display: none;"></div>');
+						}
+					}
+				},
+				'json'
+			);
+			pack++;
+		};
+
+		$(window).scroll(function(){
+	        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+	          getPack();
+	        }
+		}); 
+		
 	});
 </script>
 
-<div class="well" style="width: 640px; margin: 0 auto; margin-bottom: 5px;">
-	{{ Form::open('profile/messages/send', 'POST', array('style' => 'display: inline;')) }}
+<div class="well" id="container" style="width: 640px; margin: 0 auto; margin-bottom: 5px;">
 	<div class="title-gray" style="width: auto; height: auto;">
     	{{ Lang::line('locale.messages_uppercase')->get($language) }}
     </div>
@@ -47,17 +96,12 @@
     	<a id="send_message" href="#" class="blue-button" style="margin-top: 5px;">
 			{{ Lang::line('locale.new_message')->get($language) }}
 		</a>
-	    <a href="{{URL::home()}}profile/messages/inbox" class="blue-button" style="margin-top: 5px;">
-		{{ Lang::line('locale.messages_inbox')->get($language) }}
-			@if(isset($messages_count))
-				({{ $messages_count['unread'] }})
-			@endif
-		</a>
 		<a href="{{URL::home()}}profile/messages/outbox" class="blue-button" style="margin-top: 5px;">
 			{{ Lang::line('locale.messages_outbox')->get($language) }}
 		</a>
 	</div>
 	<div id="msg">
+		{{ Form::open('profile/messages/send', 'POST', array('style' => 'display: inline;')) }}
 	    <div style="font-family: 'Century Gothic','Helvetica'; margin-top:10px;">
 	    	{{Lang::line('locale.recipient')->get($language)}} 
 	    </div>
@@ -74,6 +118,25 @@
 	    {{ Form::submit(Lang::line('locale.button_send_message')->get($language), array('class' => 'blue-button')) }}
 	    {{ Form::close() }}
     </div>
+    {{ Form::open('profile/messages/reply', 'POST', array('style' => 'display: inline;')) }}
+    <div style="margin-top: 5px;">
+    	@foreach($messages as $key => $message)
+    		<div id="message{{$message['id_message']}}" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: 'Century Gothic', 'Helvetica'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">
+    			&nbsp;&nbsp; 
+    			@if($message['status'] == 'unread')
+    				<b>
+    			@endif
+    			<a href="{{URL::home()}}profile/messages/{{$message['id_message']}}" id="{{$message['id_message']}}">
+    				{{Lang::line('locale.from')->get($language) }}{{$message['name'] . ' ' . $message['surname']}} ({{ $message['time'] }}) &#8211 {{ $message['short'] }}
+    			</a>
+    			@if($message['status'] == 'unread')
+    				</b>
+    			@endif
+    		</div>
+    	@endforeach
+    	<div id="end" style="display: none;"></div>
+    </div>
+	{{ Form::close() }}
 </div>
 @endsection
 

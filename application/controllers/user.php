@@ -292,9 +292,23 @@ class User_Controller extends Controller
 	public function action_messages() {
 		$friends = $this->user->getUserFriends(Auth::user()->user_id, 'messages');
 		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
-		return View::make('profile.messages')->with('friends', $friends)->with('messages_count', $messages_count);
+		$pack = Input::get('pack');
+		if(empty($pack)) {
+			$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+			$messages = $this->user->getInbox(Auth::user()->user_id, 0);
+			return View::make('profile.messages')->with('messages_count', $messages_count)->with('messages', $messages)->with('friends', $friends);
+		}
+		else {
+			$messages = $this->user->getInbox(Auth::user()->user_id, $pack);
+			echo json_encode($messages);
+			return;
+		}
 	}
 	
+	/**
+	 * 
+	 * @return Ambigous <\Laravel\Redirect, \Laravel\\Laravel\Redirect>
+	 */
 	public function action_send_message() {
 		$data['reciever'] = Input::get('reciever');
 		$data['text'] = Input::get('text');
@@ -313,6 +327,13 @@ class User_Controller extends Controller
 		else {
 			return Redirect::to('profile/messages')->with('friends', $friends)->with('messages_count', $messages_count)->with('success', 'error');
 		}
+	}
+	
+	public function action_inbox($message_id) {
+		$friends = $this->user->getUserFriends(Auth::user()->user_id, 'messages');
+		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+		$message = $this->user->getMessage($message_id);
+		return View::make('profile.inbox')->with('friends', $friends)->with('messages_count', $messages_count)->with('message', $message); 
 	}
 }
 ?>
