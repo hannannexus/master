@@ -10,6 +10,15 @@
 	
 	<script type="text/javascript">
 		comment_count = {{ count($feed) }};
+		pack = 1;
+
+		function roundPlus(x, n) { //x - число, n - количество знаков 
+		  if(isNaN(x) || isNaN(n)) return false;
+		  var m = Math.pow(10,n);
+		  return Math.round(x*m)/m;
+		}
+					
+		
 		function loadComments() {
 			$(".comment_text").remove();
 			$.post(
@@ -72,6 +81,99 @@
 					'json'
 				);
 			});
+
+			function getPack() {
+				$.post (
+					'{{URL::home()}}profile',
+					{
+						pack : pack
+					},
+					function (result) {
+						if(result.length != 0) {
+							for(i = 0; i < result.length; i++) {
+								input = '<div class="white-block" id="forend'+result[i].workout_number+'">';
+			    				input += '<a href="{{ URL::home() }}profile">';
+			    				input += "{{ $user_data['name'] }} {{ $user_data['surname'] }} ";
+			    				input += '</a>'; 
+			    				input += "{{ Lang::line('locale.was_out')->get($language) }} "; 
+		    					input += "{{ Lang::line('locale.temp_training')->get($language) }}. ";
+		    					input += "{{ Lang::line('locale.he_tracked')->get($language) }} "; 
+		    					input += roundPlus(result[i].distance/1000, 2) + ' ';
+		    					input += "{{ Lang::line('locale.km')->get($language) }} ";
+		    					input += "{{ Lang::line('locale.in')->get($language) }} ";
+		    					input += result[i].time + ' '; 
+		    					input += "<a href=\"{{ URL::home()}}workout/{{ Auth::user()->user_id }}/"+result[i].workout_number+"\">";
+		    					input += "{{ Lang::line('locale.show')->get($language) }}";
+		    					input += "</a>";
+		    					input += "<br />";
+		    					input += '<i style="font-size: x-small;">';
+		    					input += '<b>';
+			    				input += "{{ Lang::line('locale.date_doubledot')->get($language) }} ";
+			    				input += result[i].cdate + ' ';
+				    			input += "{{ Lang::line('locale.time_doubledot')->get($language) }} ";
+				    			input += result[i].ctime_start + ' ';
+			    				input += "</b>";
+			    				input += "</i>";
+			    				input += "<a href=\"#\" class=\"comment"+result[i].workout_number+"\" id=\"workout_"+result[i].workout_number+"\">{{ Lang::line('locale.comment')->get($language) }}</a>";
+			    				input += "<form id=\"form_workout_"+result[i].workout_number+"\" class=\"form_workout"+result[i].workout_number+"\" action=\"\">";
+				    			input += "<div class=\"\" id=\"div_workout_"+result[i].workout_number+"\" style=\"display: none; margin-bottom: 5px;\">";
+				    			input += "<input type=\"text\" name=\"workout_"+result[i].workout_number+"\" style=\"margin-bottom: 0px; width: 270px;\" placeholder=\"{{ Lang::line('locale.your_comment')->get($language) }}\">";
+				    			input += "</div>";
+			    				input += "</form>";
+			    				input += "<div id=\"comment_line_"+result[i].workout_number+"\"></div>";
+			    				input += "</div>";
+		    					$("#end").after(input);
+		    					$("#end").remove();
+		    					$("#forend"+result[i].workout_number).after('<div id="end" style="display:none;"></div>');
+
+		    					$(".comment"+result[i].workout_number).click(function(event) {
+		    						event.preventDefault();
+		    						var target = $(event.target);
+		    						$("#div_" + target.attr('id')).css('display', 'block');
+		    					});
+		    					$(".form_workout"+result[i].workout_number).submit(function(event) {
+		    						event.preventDefault();
+		    						var target = $(event.target);
+		    						var targetId = target.attr('id');
+		    						var workoutNumber = parseInt(targetId.substring(13));
+		    						if($("input[name='workout_" + workoutNumber + "']").val() == '') return;
+		    						$.post(
+		    							'{{ URL::home() }}add_feed_comment',
+		    							{
+		    								workout_number: workoutNumber,
+		    								id_workout: {{ $user_data['user_id'] }},
+		    								comment: $("input[name='workout_" + workoutNumber + "']").val()
+		    							},
+		    							function(result) {
+		    								if(result == 0) {
+		    									$("#div_workout_" + workoutNumber).css('display', 'none');
+		    									$("#div_workout_" + workoutNumber).after('<div class="alert" data-dismiss="alert">Error! Click to hide message.</div>');
+		    									return;
+		    								}
+		    								else {
+		    									loadComments();
+		    									$("input[name='workout_" + workoutNumber + "']").val('');
+		    									$("#div_workout_" + workoutNumber).css('display', 'none');
+		    								}
+		    							},
+		    							'json'
+		    						);
+		    					});
+							}
+							loadComments();
+						}
+						
+					},
+					'json'
+				);
+				pack++;
+			};
+			
+			$(window).scroll(function(){
+		        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+		          getPack();
+		        }
+			}); 
 		});
 	</script>
 	
@@ -170,6 +272,7 @@
 			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
 			    			</div>
 			    		@endforeach
+			    		<div id="end" style="display:none;"></div>
 			    	@else
 			    		{{ Lang::line('locale.no_trainings')->get($language) }}
 			    	@endif

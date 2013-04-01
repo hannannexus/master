@@ -10,6 +10,15 @@
 	
 	<script type="text/javascript">
 		comment_count = {{ count($feed) }};
+		pack = 1;
+
+		function roundPlus(x, n) { //x - число, n - количество знаков 
+		  if(isNaN(x) || isNaN(n)) return false;
+		  var m = Math.pow(10,n);
+		  return Math.round(x*m)/m;
+		}
+					
+		
 		function loadComments() {
 			$(".comment_text").remove();
 			$.post(
@@ -72,6 +81,99 @@
 					'json'
 				);
 			});
+
+			function getPack() {
+				$.post (
+					'{{URL::home()}}user/'+{{$user_data['user_id']}},
+					{
+						pack : pack
+					},
+					function (result) {
+						if(result.length != 0) {
+							for(i = 0; i < result.length; i++) {
+								input = '<div class="white-block" id="forend'+result[i].workout_number+'">';
+			    				input += '<a href="{{ URL::home() }}profile">';
+			    				input += "{{ $user_data['name'] }} {{ $user_data['surname'] }} ";
+			    				input += '</a>'; 
+			    				input += "{{ Lang::line('locale.was_out')->get($language) }} "; 
+		    					input += "{{ Lang::line('locale.temp_training')->get($language) }}. ";
+		    					input += "{{ Lang::line('locale.he_tracked')->get($language) }} "; 
+		    					input += roundPlus(result[i].distance/1000, 2) + ' ';
+		    					input += "{{ Lang::line('locale.km')->get($language) }} ";
+		    					input += "{{ Lang::line('locale.in')->get($language) }} ";
+		    					input += result[i].time + ' '; 
+		    					input += "<a href=\"{{ URL::home()}}workout/{{ Auth::user()->user_id }}/"+result[i].workout_number+"\">";
+		    					input += "{{ Lang::line('locale.show')->get($language) }}";
+		    					input += "</a>";
+		    					input += "<br />";
+		    					input += '<i style="font-size: x-small;">';
+		    					input += '<b>';
+			    				input += "{{ Lang::line('locale.date_doubledot')->get($language) }} ";
+			    				input += result[i].cdate + ' ';
+				    			input += "{{ Lang::line('locale.time_doubledot')->get($language) }} ";
+				    			input += result[i].ctime_start + ' ';
+			    				input += "</b>";
+			    				input += "</i>";
+			    				input += "<a href=\"#\" class=\"comment"+result[i].workout_number+"\" id=\"workout_"+result[i].workout_number+"\">{{ Lang::line('locale.comment')->get($language) }}</a>";
+			    				input += "<form id=\"form_workout_"+result[i].workout_number+"\" class=\"form_workout"+result[i].workout_number+"\" action=\"\">";
+				    			input += "<div class=\"\" id=\"div_workout_"+result[i].workout_number+"\" style=\"display: none; margin-bottom: 5px;\">";
+				    			input += "<input type=\"text\" name=\"workout_"+result[i].workout_number+"\" style=\"margin-bottom: 0px; width: 270px;\" placeholder=\"{{ Lang::line('locale.your_comment')->get($language) }}\">";
+				    			input += "</div>";
+			    				input += "</form>";
+			    				input += "<div id=\"comment_line_"+result[i].workout_number+"\"></div>";
+			    				input += "</div>";
+		    					$("#end").after(input);
+		    					$("#end").remove();
+		    					$("#forend"+result[i].workout_number).after('<div id="end" style="display:none;"></div>');
+
+		    					$(".comment"+result[i].workout_number).click(function(event) {
+		    						event.preventDefault();
+		    						var target = $(event.target);
+		    						$("#div_" + target.attr('id')).css('display', 'block');
+		    					});
+		    					$(".form_workout"+result[i].workout_number).submit(function(event) {
+		    						event.preventDefault();
+		    						var target = $(event.target);
+		    						var targetId = target.attr('id');
+		    						var workoutNumber = parseInt(targetId.substring(13));
+		    						if($("input[name='workout_" + workoutNumber + "']").val() == '') return;
+		    						$.post(
+		    							'{{ URL::home() }}add_feed_comment',
+		    							{
+		    								workout_number: workoutNumber,
+		    								id_workout: {{ $user_data['user_id'] }},
+		    								comment: $("input[name='workout_" + workoutNumber + "']").val()
+		    							},
+		    							function(result) {
+		    								if(result == 0) {
+		    									$("#div_workout_" + workoutNumber).css('display', 'none');
+		    									$("#div_workout_" + workoutNumber).after('<div class="alert" data-dismiss="alert">Error! Click to hide message.</div>');
+		    									return;
+		    								}
+		    								else {
+		    									loadComments();
+		    									$("input[name='workout_" + workoutNumber + "']").val('');
+		    									$("#div_workout_" + workoutNumber).css('display', 'none');
+		    								}
+		    							},
+		    							'json'
+		    						);
+		    					});
+							}
+							loadComments();
+						}
+						
+					},
+					'json'
+				);
+				pack++;
+			};
+			
+			$(window).scroll(function(){
+		        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+		          getPack();
+		        }
+			}); 
 		});
 	</script>
 	
@@ -122,42 +224,11 @@
 			            {{ Lang::line('locale.gender')->get($language) }} : {{ Lang::line('locale.gender_' . $user_data['sex'])->get($language) }}
 			        </span>
 			        <hr />
-			        @if($user_data['user_id'] != Auth::user()->user_id)
-				        @if(!$friend)
-				        	@if(is_null($status))
-						        <a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user_data['user_id'] }}">
-						        	{{ Lang::line('locale.add_to_friends')->get($language) }}
-						        </a>
-						        <br>
-						        <br>
-						    @endif
-						    @if($status == 'waiting_for_confirm')
-						    	<div class="info-message" style="font-size: x-small;" >
-						    		{{ Lang::line('locale.you_sent_request')->get($language) }}
-						    	</div>
-						    	<br>
-						    @endif
-						    @if($status == 'confirm_friend')
-						    	<div class="info-message" style="font-size: x-small;" >
-						    		{{ Lang::line('locale.wants_to_be_friends')->get($language) }}
-						    	</div>
-						    	<br>
-								<b>
-									<a class="mini-button" href="{{ URL::home() }}user/accept/{{ $user_data['user_id'] }}">
-										{{ Lang::line('locale.accept')->get($language) }}
-									</a>
-								</b>
-								<br>
-								<br>
-						    @endif
-					    @else
-					    	<div class="green-message" style="font-size: x-small;" >
-					    		{{ Lang::line('locale.your_friend')->get($language) }} 
-					    	</div>
-					    	<br>
-					    @endif
-					@endif
-			        <a href="{{ URL::home() }}workouts/{{ $user_data['id_user'] }}" class="blue-button">
+			        <a href="{{ URL::home() }}profile/settings" class="blue-button">
+			        	{{ Lang::line('locale.button_settings')->get($language) }}
+			        </a>
+			        <br><br>
+			        <a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button">
 			        	{{ Lang::line('locale.button_workouts')->get($language) }}
 			        </a>
 			    </div>
@@ -170,7 +241,7 @@
 			    	@if(!is_null($feed))
 				    	@foreach ($feed as $cur_feed)
 			    			<div class="white-block">
-			    				<a href="{{ URL::home() }}user/{{ $user_data['user_id'] }}">
+			    				<a href="{{ URL::home() }}profile">
 			    					{{ $user_data['name'] }} {{ $user_data['surname'] }}
 			    				</a> 
  		    					{{ Lang::line('locale.was_out')->get($language) }} 
@@ -180,7 +251,7 @@
 		    					{{ Lang::line('locale.km')->get($language) }}
 		    					{{ Lang::line('locale.in')->get($language) }}
 		    					{{ $cur_feed['time'] }} 
-		    					<a href="{{ URL::home()}}workout/{{ $user_data['user_id'] }}/{{ $cur_feed['workout_number'] }}">
+		    					<a href="{{ URL::home()}}workout/{{ Auth::user()->user_id }}/{{ $cur_feed['workout_number'] }}">
 		    						{{ Lang::line('locale.show')->get($language) }}
 		    					</a>
 		    					<br />
@@ -192,17 +263,16 @@
 				    					{{ substr($cur_feed['time_start'], 0, 5) }}
 			    					</b>
 			    				</i>
-			    				@if($friend)
-				    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
-				    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
-					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
-					    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
-					    				</div>
-				    				</form>
-				    			@endif
+			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
+			    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
+				    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
+				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
+				    				</div>
+			    				</form>
 			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
 			    			</div>
 			    		@endforeach
+			    		<div id="end" style="display:none;"></div>
 			    	@else
 			    		{{ Lang::line('locale.no_trainings')->get($language) }}
 			    	@endif

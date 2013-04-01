@@ -34,7 +34,14 @@ class User_Controller extends Controller
 	public function action_profile() {
         $user_data = $this->user->getUserData(Auth::user()->user_id);
         $workout = new Workout();
-        $feed = $workout->getUserFeed(Auth::user()->user_id);
+        $pack = Input::get('pack');
+        if(empty($pack)) {
+        	$feed = $workout->getUserFeed(Auth::user()->user_id);
+        }
+        else {
+        	$feed = $workout->getUserFeed(Auth::user()->user_id, $pack);
+        	echo json_encode($feed); return;
+        }
         foreach($user_data as $key => $data) {
             if(is_null($data) || empty($data)) {
                 $user_data[$key] = '-';
@@ -163,7 +170,15 @@ class User_Controller extends Controller
 	public function action_user($id_user) {
 		$user_data = $this->user->getUserData($id_user);
 		$workout = new Workout();
-		$feed = $workout->getUserFeed($id_user);
+		$pack = Input::get('pack');
+		if(empty($pack)) {
+			$feed = $workout->getUserFeed($id_user);
+		}
+		else {
+			$feed = $workout->getUserFeed($id_user, $pack);
+			echo json_encode($feed); return;
+		}
+		
 		$friend = $this->user->checkFriend($id_user);
 		$status = $this->user->checkFriendStatus($id_user);
 		

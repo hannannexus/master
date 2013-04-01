@@ -31,10 +31,12 @@ Route::get('profile/messages/outbox', array('before' => 'auth', 'uses' => 'user@
 Route::get('information', array('before' => 'confirm', 'uses' => 'user@information'));
 Route::post('information/process', array('before' => 'confirm', 'uses' => 'user@information_process'));
 Route::get('profile', array('before' => 'information', 'uses' => 'user@profile'));
+Route::post('profile', array('before' => 'information', 'uses' => 'user@profile'));
 Route::post('language', 'user@language');
 Route::get('profile/settings', array('before' => 'auth', 'uses' => 'user@settings'));
 Route::get('users', array('before' => 'auth', 'before' => 'confirm', 'before' => 'information', 'uses' => 'user@users'));
 Route::get('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
+Route::post('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::get('workouts/(:num)', array('before' => 'auth', 'uses' => 'user@workouts'));
 Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
 Route::get('user/accept/(:num)', array('before' => 'auth', 'uses' => 'user@accept_friend'));

@@ -343,13 +343,15 @@ class Workout extends Base {
 		$stats['date'] = $data['date'];
 		$stats['time_start'] = $data['time_start'];
 		$stats['workout_number'] = $data['workout_number'];
+		$stats['cdate'] = date("d M Y", mktime(0, 0, 0, substr($stats['date'], 5, 2), substr($stats['date'], 8, 2), substr($stats['date'], 0, 4)));
+		$stats['ctime_start'] = substr($stats['time_start'], 0, 5);
 		
 		unset($data, $stmt);
 		
 		return $stats;
 	}
 	
-	public function getUserFeed($id_user) {
+	public function getUserFeed($id_user, $pack = 0) {
 		$feed = array();
 		$stmt = "
     		select
@@ -367,8 +369,13 @@ class Workout extends Base {
 		$feed_info = array();
 		
 		if(!empty($feed)) {
-			foreach($feed as $key => $cur) {
-				array_push($feed_info, $this->getTotalInfo($id_user, $cur['workout_number']));
+			for($i = $pack*10; $i < ($pack+1)*10; $i++) {
+				if(isset($feed[$i])) {
+					array_push($feed_info, $this->getTotalInfo($id_user, $feed[$i]['workout_number']));
+				}
+				else {
+					break;
+				}
 			}
 		}
 		else {
