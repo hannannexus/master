@@ -179,7 +179,7 @@ class User extends Base {
     		where
     			`id_user` = ?
     		";
-    		DB::query($stmt, array(md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']), $data['weight'], $user_id));
+    		DB::query($stmt, array(md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']), $user_id));
     	}
     }
     
