@@ -11,6 +11,7 @@
 	<script type="text/javascript">
 		comment_count = {{ count($feed) }};
 		pack = 1;
+		ended = false;
 
 		function roundPlus(x, n) { //x - число, n - количество знаков 
 		  if(isNaN(x) || isNaN(n)) return false;
@@ -124,7 +125,7 @@
 			    				input += "</div>";
 		    					$("#end").after(input);
 		    					$("#end").remove();
-		    					$("#forend"+result[i].workout_number).after('<div id="end" style="display:none;"></div>');
+		    					$("#forend"+result[i].workout_number).after('<div id="end" class="end"></div>');
 
 		    					$(".comment"+result[i].workout_number).click(function(event) {
 		    						event.preventDefault();
@@ -162,7 +163,11 @@
 							}
 							loadComments();
 						}
-						
+						else {
+							pack--;
+							ended = true;
+							$("#end").hide();
+						}
 					},
 					'json'
 				);
@@ -171,7 +176,7 @@
 			
 			$(window).scroll(function(){
 		        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-		          getPack();
+		          if(!ended) getPack();
 		        }
 			}); 
 		});
@@ -272,7 +277,7 @@
 			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
 			    			</div>
 			    		@endforeach
-			    		<div id="end" style="display:none;"></div>
+			    		<div id="end" class="end"></div>
 			    	@else
 			    		{{ Lang::line('locale.no_trainings')->get($language) }}
 			    	@endif

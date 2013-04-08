@@ -35,6 +35,7 @@ Route::post('profile', array('before' => 'information', 'uses' => 'user@profile'
 Route::post('language', 'user@language');
 Route::get('profile/settings', array('before' => 'auth', 'uses' => 'user@settings'));
 Route::get('users', array('before' => 'auth', 'before' => 'confirm', 'before' => 'information', 'uses' => 'user@users'));
+Route::post('users', array('before' => 'auth', 'before' => 'confirm', 'before' => 'information', 'uses' => 'user@users'));
 Route::get('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::post('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::get('workouts/(:num)', array('before' => 'auth', 'uses' => 'user@workouts'));

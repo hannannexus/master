@@ -156,10 +156,21 @@ class User_Controller extends Controller
 	 * @return Laravel\Response
 	 */
 	public function action_users() {
-		$users = $this->user->getAllUsers();
-		$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
-		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
-		return View::make('users.index')->with('users', $users)->with('friendlist', $friendlist)->with('messages_count', $messages_count);
+		$pack = Input::get('pack');
+		if(empty($pack)) {
+			$users = $this->user->getAllUsers();
+			$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
+			$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+			return View::make('users.index')->with('users', $users)->with('friendlist', $friendlist)->with('messages_count', $messages_count);
+		}
+		else {
+			unset($users);
+			$users = array();
+			$users['users'] = $this->user->getAllUsers($pack);
+			$users['friendlist'] = $this->user->getUserFriends(Auth::user()->user_id);
+			echo json_encode($users);
+			return;
+		}
 	}
 	
 	/**

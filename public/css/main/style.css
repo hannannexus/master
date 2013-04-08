@@ -272,3 +272,10 @@ body {
 	padding-left: 10px;
 	color: #2A702F;
 }
+
+.end {
+	background: url(../../img/system/ajax-loader.gif) no-repeat center;
+	margin: 0 auto;
+	width: 250px;
+	height: 20px;
+}

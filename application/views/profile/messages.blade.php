@@ -31,6 +31,7 @@
 <script type="text/javascript">
 	$(function() {
 		pack = 1;
+		ended = false;
 		$("#msg").hide();
 		$("#send_message").click(function(event) {
 			event.preventDefault();
@@ -48,30 +49,37 @@
 					pack : pack
 				},
 				function (result) {
-					for(i = 0; i < result.length; i++) {
-						if(result[i].status == 'unread') {
-							var home = '{{URL::home()}}';
-							var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
-			    			inside += '&nbsp;&nbsp;<b><a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
-			    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
-			    			inside += '</a></b>';
-			    			inside += '</div>';
-			    			$("#end").after(inside);
-			    			$("#end").remove();
-			    			$("#message"+result[i].id_message).after('<div id="end"></div>');
+					if(result.length != 0) {
+						for(i = 0; i < result.length; i++) {
+							if(result[i].status == 'unread') {
+								var home = '{{URL::home()}}';
+								var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
+				    			inside += '&nbsp;&nbsp;<b><a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
+				    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
+				    			inside += '</a></b>';
+				    			inside += '</div>';
+				    			$("#end").after(inside);
+				    			$("#end").remove();
+				    			$("#message"+result[i].id_message).after('<div id="end"></div>');
+							}
+							else {
+								var home = '{{URL::home()}}';
+								var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
+				    			inside += '&nbsp;&nbsp'; 
+				    			inside += '<a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
+				    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
+				    			inside += '</a>';
+				    			inside += '</div>';
+				    			$("#end").after(inside);
+				    			$("#end").remove();
+				    			$("#message"+result[i].id_message).after('<div id="end" class="end"></div>');
+							}
 						}
-						else {
-							var home = '{{URL::home()}}';
-							var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
-			    			inside += '&nbsp;&nbsp'; 
-			    			inside += '<a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
-			    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
-			    			inside += '</a>';
-			    			inside += '</div>';
-			    			$("#end").after(inside);
-			    			$("#end").remove();
-			    			$("#message"+result[i].id_message).after('<div id="end" style="display: none;"></div>');
-						}
+					}
+					else {
+						pack--;
+						ended = true;
+						$("#end").hide();
 					}
 				},
 				'json'
@@ -81,7 +89,7 @@
 
 		$(window).scroll(function(){
 	        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-	          getPack();
+	          if(!ended) getPack();
 	        }
 		}); 
 		
@@ -134,7 +142,7 @@
     			@endif
     		</div>
     	@endforeach
-    	<div id="end" style="display: none;"></div>
+    	<div id="end" class="end"></div>
     </div>
 	{{ Form::close() }}
 </div>

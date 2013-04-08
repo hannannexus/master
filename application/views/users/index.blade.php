@@ -10,6 +10,8 @@
 	
 	<script type="text/javascript">
 		$(function() {
+			ended = false;
+			pack = 1;
 			$('a#user_photo').fancybox(
 				{
 					'transitionIn'	:	'elastic',
@@ -19,6 +21,103 @@
 					'overlayShow'	:	true
 				}
 			);
+
+			function getPack() {
+				$.post(
+					'{{URL::home()}}users',
+					{
+						pack : pack
+					},
+					function(result) {
+						if(result.users.length != 0) {
+							for(i=0; i< result.users.length; i++) {
+								if(result.users[i].name != '' || result.users[i].surname != '') {
+									var flag = false;
+									var content = '<div class="well" id="forend'+result.users[i].user_id+'" style="display: block; width: 400px; height: 70px; padding: 10px; margin: 3px auto;">';
+									content += '<div style="float: left; display: inline; margin-right: 10px; width: 65px;">';
+									if(result.users[i].photo != '') {
+										content += "<a id=\"user_photo\" href=\"{{ URL::home()}}img/photos/"+result.users[i].user_id+"'/320/'"+result.users[i].photo+"\">";
+										content += "<img src=\"{{ URL::home()}}img/photos/"+result.users[i].user_id+"'/60/'"+result.users[i].photo+"\">";
+										content += "</a>";
+									}
+									else {
+										content += "<img alt=\"\" src=\"{{ URL::home() . 'img/system/no_image_60.jpg' }}\">";
+									}
+									content += "</div>";
+									content += '<div style="display: inline; margin-right: 10px; vertical-align: top;">';
+									content += "<a style=\"font-size: 9pt; font-weight: bold;\" href=\"{{ URL::home() }}user/"+result.users[i].user_id+"\">";
+									content += result.users[i].name + ' ';
+									if(result.users[i].patronymic != '') {
+										content += result.users[i].patronymic + ' ';
+									} 
+									content += result.users[i].surname;
+									content += '</a></div>';
+									content += '<div style="display: block; margin-right: 10px;">';
+									if(result.users[i].user_id != {{Auth::user()->user_id}}) {
+										if(result.friendlist.length != 0) {
+											for(j=0; j < result.friendlist.length; j++) {
+												if(result.users[i].user_id == result.friendlist[j].id_user) {
+													if(result.friendlist[j].relation === 'accepted') {
+														content += "<br><p style=\"font-size: x-small;\" >{{ Lang::line('locale.your_friend')->get($language) }} </p>";
+														flag = false;
+														break;
+													}
+													else {
+														content += "<br><p style=\"font-size: x-small;\" >{{ Lang::line('locale.wants_to_be_friends')->get($language) }} </p>";
+														content += "<b><a href=\"{{ URL::home() }}user/accept/"+result.users[i].user_id+"\">{{ Lang::line('locale.accept')->get($language) }}</a></b>";
+														flag = false;
+														break;
+													}
+												}
+												if(result.users[i].user_id == result.friendlist[j].id_friend) {
+													if(result.friendlist[j].relation === 'accepted') {
+														content += "<br><p style=\"font-size: x-small;\" >{{ Lang::line('locale.your_friend')->get($language) }} </p>";
+														flag = false;
+														break;
+													}
+													else {
+														content += "<p style=\"font-size: x-small;\" > {{ Lang::line('locale.you_sent_request')->get($language) }} </p>";
+														flag = false;
+														break; 
+													}
+												}
+												flag = true;
+											}
+										}
+										else {
+											content += "<br><a class=\"mini-button\" style=\"font-size: x-small;\" href=\"{{ URL::home() }}user/add/"+result.users[i].user_id+"\">{{ Lang::line('locale.add_to_friends')->get($language) }}</a>";
+										}
+									}
+									else {
+										content += "<br><p style=\"font-size: x-small;\" > {{ Lang::line('locale.this_is_you')->get($language) }} </p>";
+									}
+									if(flag == true) {
+										content += "<br><a class=\"mini-button\" style=\"font-size: x-small;\" href=\"{{ URL::home() }}user/add/"+result.users[i].user_id+"\">{{ Lang::line('locale.add_to_friends')->get($language) }}</a>";
+									}
+									content += "</div></div>";
+									$("#end").after(content);
+									$("#end").remove();
+									$("#forend"+result.users[i].user_id).after('<div id="end" class="end"></div>');
+								}
+							}
+						}
+						else {
+							pack--;
+							ended = true;
+							$("#end").hide();
+						}
+						pack++;
+					},
+					'json'
+				);
+			}
+
+			$(window).scroll(function(){
+		        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
+		          if(!ended) getPack();
+		        }
+			}); 
+			
 		});
 	</script>
 @endsection
@@ -89,6 +188,7 @@
 		</div>
 	@endif
 	@endforeach
+	<div id="end" class="end"></div>
 </div>
 @endsection
 

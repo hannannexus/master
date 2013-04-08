@@ -183,21 +183,39 @@ class User extends Base {
     	}
     }
     
-    public function getAllUsers() {
+    public function getAllUsers($pack = 0) {
     	$stmt = "
     		select
-    			*
+    			users.`user_id`,
+    			users.`name`,
+    			users.`surname`,
+    			users.`patronymic`,
+    			config.*
     		from
     			`users` as users
     		join
     			`user_config` as config
     		on
     			users.`user_id` = config.`id_user`
+    		where
+    			users.`user_id` != ?
+    		and
+    			users.`name` != ''
     		order by
-    			`name`
+    			users.`name`
     		asc
     	";
-    	$users = $this->objectToArray(DB::query($stmt));
+    	$result = $this->objectToArray(DB::query($stmt, array(Auth::user()->user_id)));
+    	$users = array();
+    	
+    	for($i = $pack*10; $i < ($pack+1)*10; $i++) {
+    		if(isset($result[$i])) {
+    			array_push($users, $result[$i]);
+    		}
+    		else {
+    			break;
+    		}
+    	}
     	return $users;
     }
     
@@ -229,8 +247,6 @@ class User extends Base {
     			(`id_user` = ?
     		or
     			`id_friend` = ?)
-    		and
-    			`relation` = 'accepted'
     	";
     	$friendlist = $this->objectToArray(DB::query($stmt, array($id_user, $id_user)));
     	

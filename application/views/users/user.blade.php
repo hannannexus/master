@@ -11,6 +11,7 @@
 	<script type="text/javascript">
 		comment_count = {{ count($feed) }};
 		pack = 1;
+		ended = false;
 
 		function roundPlus(x, n) { //x - число, n - количество знаков 
 		  if(isNaN(x) || isNaN(n)) return false;
@@ -102,7 +103,7 @@
 		    					input += "{{ Lang::line('locale.km')->get($language) }} ";
 		    					input += "{{ Lang::line('locale.in')->get($language) }} ";
 		    					input += result[i].time + ' '; 
-		    					input += "<a href=\"{{ URL::home()}}workout/{{ Auth::user()->user_id }}/"+result[i].workout_number+"\">";
+		    					input += "<a href=\"{{ URL::home()}}workout/"+result[i].user_id+"/"+result[i].workout_number+"\">";
 		    					input += "{{ Lang::line('locale.show')->get($language) }}";
 		    					input += "</a>";
 		    					input += "<br />";
@@ -124,7 +125,7 @@
 			    				input += "</div>";
 		    					$("#end").after(input);
 		    					$("#end").remove();
-		    					$("#forend"+result[i].workout_number).after('<div id="end" style="display:none;"></div>');
+		    					$("#forend"+result[i].workout_number).after('<div id="end" class="end"></div>');
 
 		    					$(".comment"+result[i].workout_number).click(function(event) {
 		    						event.preventDefault();
@@ -162,7 +163,11 @@
 							}
 							loadComments();
 						}
-						
+						else {
+							ended = true;
+							pack--;
+							$("#end").hide();
+						}
 					},
 					'json'
 				);
@@ -171,7 +176,7 @@
 			
 			$(window).scroll(function(){
 		        if  ($(window).scrollTop() == $(document).height() - $(window).height()){
-		          getPack();
+		          if (!ended) getPack();
 		        }
 			}); 
 		});
@@ -224,11 +229,42 @@
 			            {{ Lang::line('locale.gender')->get($language) }} : {{ Lang::line('locale.gender_' . $user_data['sex'])->get($language) }}
 			        </span>
 			        <hr />
-			        <a href="{{ URL::home() }}profile/settings" class="blue-button">
-			        	{{ Lang::line('locale.button_settings')->get($language) }}
-			        </a>
-			        <br><br>
-			        <a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button">
+			        @if($user_data['user_id'] != Auth::user()->user_id)
+							@if(!$friend)
+								@if(is_null($status))
+									<a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user_data['user_id'] }}">
+										{{ Lang::line('locale.add_to_friends')->get($language) }}
+									</a>
+									<br>
+									<br>
+								@endif
+								@if($status == 'waiting_for_confirm')
+									<div class="info-message" style="font-size: x-small;" >
+										{{ Lang::line('locale.you_sent_request')->get($language) }}
+									</div>
+									<br>
+								@endif
+								@if($status == 'confirm_friend')
+									<div class="info-message" style="font-size: x-small;" >
+										{{ Lang::line('locale.wants_to_be_friends')->get($language) }}
+									</div>
+									<br>
+									<b>
+										<a class="mini-button" href="{{ URL::home() }}user/accept/{{ $user_data['user_id'] }}">
+											{{ Lang::line('locale.accept')->get($language) }}
+										</a>
+									</b>
+									<br>
+									<br>
+								@endif
+								@else
+									<div class="green-message" style="font-size: x-small;" >
+										{{ Lang::line('locale.your_friend')->get($language) }}
+									</div>
+									<br>
+								@endif
+						@endif
+			        <a href="{{ URL::home() }}workouts/{{ $user_data['user_id'] }}" class="blue-button">
 			        	{{ Lang::line('locale.button_workouts')->get($language) }}
 			        </a>
 			    </div>
@@ -241,7 +277,7 @@
 			    	@if(!is_null($feed))
 				    	@foreach ($feed as $cur_feed)
 			    			<div class="white-block">
-			    				<a href="{{ URL::home() }}profile">
+			    				<a href="{{ URL::home() }}user/{{$user_data['user_id']}}">
 			    					{{ $user_data['name'] }} {{ $user_data['surname'] }}
 			    				</a> 
  		    					{{ Lang::line('locale.was_out')->get($language) }} 
@@ -251,7 +287,7 @@
 		    					{{ Lang::line('locale.km')->get($language) }}
 		    					{{ Lang::line('locale.in')->get($language) }}
 		    					{{ $cur_feed['time'] }} 
-		    					<a href="{{ URL::home()}}workout/{{ Auth::user()->user_id }}/{{ $cur_feed['workout_number'] }}">
+		    					<a href="{{ URL::home()}}workout/{{ $user_data['user_id'] }}/{{ $cur_feed['workout_number'] }}">
 		    						{{ Lang::line('locale.show')->get($language) }}
 		    					</a>
 		    					<br />
@@ -272,7 +308,7 @@
 			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
 			    			</div>
 			    		@endforeach
-			    		<div id="end" style="display:none;"></div>
+			    		<div id="end" class="end"></div>
 			    	@else
 			    		{{ Lang::line('locale.no_trainings')->get($language) }}
 			    	@endif
