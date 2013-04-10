@@ -224,7 +224,7 @@ class User_Controller extends Controller
 		$workout = new Workout();
 		$workouts = $workout->getLastWorkout($id_user);
 		if(empty($workouts['workout_number'])) {
-			return Redirect::to('profile');
+			return Redirect::to('profile')->with('workouts', 'no');
 		}
 		return Redirect::to('workout/' . $id_user . '/' . $workouts['workout_number']);
 	}
@@ -326,6 +326,22 @@ class User_Controller extends Controller
 		}
 		else {
 			$messages = $this->user->getInbox(Auth::user()->user_id, $pack);
+			echo json_encode($messages);
+			return;
+		}
+	}
+	
+	public function action_outmessages() {
+		$friends = $this->user->getUserFriends(Auth::user()->user_id, 'messages');
+		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+		$pack = Input::get('pack');
+		if(empty($pack)) {
+			$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+			$messages = $this->user->getOutbox(Auth::user()->user_id, 0);
+			return View::make('profile.outmessages')->with('messages_count', $messages_count)->with('messages', $messages)->with('friends', $friends);
+		}
+		else {
+			$messages = $this->user->getOutbox(Auth::user()->user_id, $pack);
 			echo json_encode($messages);
 			return;
 		}

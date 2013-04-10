@@ -168,7 +168,7 @@ class User extends Base {
     		where
     			`id_user` = ?
     		";
-    	DB::query($stmt, array($data['weight'], $data['arythmy_step'], $user_id));
+    	DB::query($stmt, array(0, 10, $user_id));
     	
     	if(!empty($data['photo']['name'])) {
     		$stmt = "
@@ -667,8 +667,8 @@ class User extends Base {
     		where
     			`reciever` = ?
     		order by
-    			`stamp`,
-    			`status`
+    			`stamp` desc,
+    			`status` asc
     	";
     	
     	$result = $this->objectToArray(DB::query($stmt, array($user_id)));
@@ -693,7 +693,6 @@ class User extends Base {
     			else {
     				break;
     			}
-    			
     		}
     		return $messages;
     	}
@@ -744,12 +743,12 @@ class User extends Base {
     		join
     			`users` as u
     		on
-    			m.`sender` = u.`user_id`
+    			m.`reciever` = u.`user_id`
     		where
     			`sender` = ?
     		order by
-    			`stamp`,
-    			`status`
+    			`stamp` desc,
+    			`status` asc
     	";
     	
     	$result = $this->objectToArray(DB::query($stmt, array($user_id)));

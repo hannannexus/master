@@ -362,7 +362,7 @@ class Workout extends Base {
 				`workout_number`
 			order by
 				`workout_number`
-			asc
+			desc
     	";
 		$feed = $this->objectToArray(DB::query($stmt));
 		

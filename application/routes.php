@@ -25,6 +25,8 @@ Route::post('signup/process', 'auth@signup_process');
 Route::post('profile/settings/process', 'user@settings_process');
 Route::get('profile/messages',  array('before' => 'auth', 'uses' => 'user@messages'));
 Route::post('profile/messages',  array('before' => 'auth', 'uses' => 'user@messages'));
+Route::get('profile/outmessages',  array('before' => 'auth', 'uses' => 'user@outmessages'));
+Route::post('profile/outmessages',  array('before' => 'auth', 'uses' => 'user@outmessages'));
 Route::post('profile/messages/send', 'user@send_message');
 Route::get('profile/messages/(:num)', array('before' => 'auth', 'uses' => 'user@inbox'));
 Route::get('profile/messages/outbox', array('before' => 'auth', 'uses' => 'user@outbox'));

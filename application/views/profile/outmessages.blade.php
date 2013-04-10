@@ -44,7 +44,7 @@
 		});
 		function getPack() {
 			$.post (
-				'{{URL::home()}}profile/messages',
+				'{{URL::home()}}profile/outmessages',
 				{
 					pack : pack
 				},
@@ -104,8 +104,8 @@
     	<a id="send_message" href="#" class="blue-button" style="margin-top: 5px;">
 			{{ Lang::line('locale.new_message')->get($language) }}
 		</a>
-		<a href="{{URL::home()}}profile/outmessages" class="blue-button" style="margin-top: 5px;">
-			{{ Lang::line('locale.messages_outbox')->get($language) }}
+		<a href="{{URL::home()}}profile/messages" class="blue-button" style="margin-top: 5px;">
+			{{ Lang::line('locale.messages_inbox')->get($language) }}
 		</a>
 	</div>
 	<div id="msg">
@@ -136,7 +136,7 @@
     				<b>
     			@endif
     			<a href="{{URL::home()}}profile/messages/{{$message['id_message']}}" id="{{$message['id_message']}}">
-    				{{Lang::line('locale.from')->get($language) }}{{$message['name'] . ' ' . $message['surname']}} ({{ $message['time'] }}) &#8211 {{ $message['short'] }}
+    				{{Lang::line('locale.to')->get($language) }}{{$message['name'] . ' ' . $message['surname']}} ({{ $message['time'] }}) &#8211 {{ $message['short'] }}
     			</a>
     			@if($message['status'] == 'unread')
     				</b>

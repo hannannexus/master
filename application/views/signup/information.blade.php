@@ -18,11 +18,13 @@
 	{{ Form::open('information/process', 'POST') }}
 	<div class="well">
         {{ Form::label('name', Lang::line('locale.name')->get($language)) }}
-        {{ Form::text('name') }}
+        {{ Form::text('name') }}<br>
         {{ Form::label('surname', Lang::line('locale.surname')->get($language)) }}
-        {{ Form::text('surname') }}
+        {{ Form::text('surname') }}<br>
         {{ Form::label('gender', Lang::line('locale.gender')->get($language)) }}
-        {{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language))) }}
+        <div class="styled-select" style="width: 100px;">
+        	{{ Form::select('gender', array('male' => Lang::line('locale.gender_male')->get($language), 'female'=> Lang::line('locale.gender_female')->get($language)), '', array("style" => "width: 125px;")) }}
+        </div>
         <br />
         {{ Form::submit(Lang::line('locale.save')->get($language), array('class' => 'blue-button')) }}
     </div>

@@ -191,6 +191,11 @@
 		{{Lang::line('locale.settings_saved')->get($language) }}
 	</div>
 	@endif
+	@if(Session::get('workouts') == 'no')
+	<div class="alert alert-error" style="width: 854px; margin: 0 auto;">
+		{{Lang::line('locale.no_trainings')->get($language)}}
+	</div>
+	@endif
 	<table style="margin: 0 auto;">
 		<tr>
 			<td style="vertical-align: top;">
