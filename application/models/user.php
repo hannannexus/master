@@ -698,37 +698,63 @@ class User extends Base {
     	}
     }
     
-    public function getMessage($message_id) {
-    	$stmt = "
-    		update
-    			`messages`
-    		set
-    			`status` = 'read'
-    		where
-    			`id_message` = ?		
-    	";
+    public function getMessage($message_id, $outbox = 'false') {
+    	if($outbox == FALSE) {
+    		$stmt = "
+	    		update
+	    			`messages`
+	    		set
+	    			`status` = 'read'
+	    		where
+	    			`id_message` = ?
+	    		";
+    		 
+    		DB::query($stmt, array($message_id));
+    		
+    		$stmt = "
+	    		select
+	    			m.*,
+	    			u.`name`,
+	    			u.`surname`,
+	    			u.`user_id`
+	    		from
+	    			`messages` as m
+	    		join
+	    			`users` as u
+	    		on
+	    			m.`sender` = u.`user_id`
+	    		where
+	    			m.`id_message` = ?
+	    	";
+    		 
+    		$result = $this->objectToSingle(DB::query($stmt, array($message_id)));
+    		$result['time'] = date('H:i d M Y', strtotime($result['stamp']));
+    		return $result;
+    	}
     	
-    	DB::query($stmt, array($message_id));
+    	else {
+    		$stmt = "
+	    		select
+	    			m.*,
+	    			u.`name`,
+	    			u.`surname`,
+	    			u.`user_id`
+	    		from
+	    			`messages` as m
+	    		join
+	    			`users` as u
+	    		on
+	    			m.`reciever` = u.`user_id`
+	    		where
+	    			m.`id_message` = ?
+	    	";
+    		 
+    		$result = $this->objectToSingle(DB::query($stmt, array($message_id)));
+    		$result['time'] = date('H:i d M Y', strtotime($result['stamp']));
+    		return $result;
+    	}
     	
-    	$stmt = "
-    		select
-    			m.*,
-    			u.`name`,
-    			u.`surname`,
-    			u.`user_id`
-    		from
-    			`messages` as m
-    		join
-    			`users` as u
-    		on
-    			m.`sender` = u.`user_id`
-    		where
-    			m.`id_message` = ?		
-    	";
     	
-    	$result = $this->objectToSingle(DB::query($stmt, array($message_id)));
-    	$result['time'] = date('H:i d M Y', strtotime($result['stamp']));
-    	return $result;
     }
     
 	public function getOutbox($user_id, $pack = 0) {

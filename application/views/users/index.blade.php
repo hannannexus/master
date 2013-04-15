@@ -10,6 +10,7 @@
 	
 	<script type="text/javascript">
 		$(function() {
+			$('#end').hide();
 			ended = false;
 			pack = 1;
 			$('a#user_photo').fancybox(
@@ -23,6 +24,7 @@
 			);
 
 			function getPack() {
+				$('#end').show();
 				$.post(
 					'{{URL::home()}}users',
 					{

@@ -30,6 +30,7 @@
 
 <script type="text/javascript">
 	$(function() {
+		$('#end').hide();
 		pack = 1;
 		ended = false;
 		$("#msg").hide();
@@ -43,6 +44,7 @@
 			}
 		});
 		function getPack() {
+			$('#end').show();
 			$.post (
 				'{{URL::home()}}profile/outmessages',
 				{
@@ -54,7 +56,7 @@
 							if(result[i].status == 'unread') {
 								var home = '{{URL::home()}}';
 								var inside = '<div id="message'+result[i].id_message+'" style="border:1px solid #CEECF5; background: #FFFFFF; width: 630px; font-family: \'Century Gothic\', \'Helvetica\'; margin-top: 3px; border-radius: 3px; font-size: 10pt;">';
-				    			inside += '&nbsp;&nbsp;<b><a href="'+home+'profile/messages/'+result[i].id_message+'" id="'+result[i].id_message+'">';
+				    			inside += '&nbsp;&nbsp;<b><a href="'+home+'profile/messages/outbox/'+result[i].id_message+'" id="'+result[i].id_message+'">';
 				    			inside += " {{Lang::line('locale.from')->get($language) }}" + result[i].name + ' ' + result[i].surname + ' (' + result[i].time + ') &#8211' + result[i].short;
 				    			inside += '</a></b>';
 				    			inside += '</div>';
@@ -135,7 +137,7 @@
     			@if($message['status'] == 'unread')
     				<b>
     			@endif
-    			<a href="{{URL::home()}}profile/messages/{{$message['id_message']}}" id="{{$message['id_message']}}">
+    			<a href="{{URL::home()}}profile/messages/outbox/{{$message['id_message']}}" id="{{$message['id_message']}}">
     				{{Lang::line('locale.to')->get($language) }}{{$message['name'] . ' ' . $message['surname']}} ({{ $message['time'] }}) &#8211 {{ $message['short'] }}
     			</a>
     			@if($message['status'] == 'unread')

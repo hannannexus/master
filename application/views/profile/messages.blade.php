@@ -30,6 +30,7 @@
 
 <script type="text/javascript">
 	$(function() {
+		$('#end').hide();
 		pack = 1;
 		ended = false;
 		$("#msg").hide();
@@ -43,6 +44,7 @@
 			}
 		});
 		function getPack() {
+			$('#end').show();
 			$.post (
 				'{{URL::home()}}profile/messages',
 				{

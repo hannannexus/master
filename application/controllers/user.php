@@ -108,6 +108,9 @@ class User_Controller extends Controller
 				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/60' );
 				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/100' );
 				File::mkdir('public/img/photos/' . Auth::user()->user_id . '/320' );
+				File::cleandir('public/img/photos/' . Auth::user()->user_id . '/60' );
+				File::cleandir('public/img/photos/' . Auth::user()->user_id . '/100' );
+				File::cleandir('public/img/photos/' . Auth::user()->user_id . '/320' );
 				
 				Resizer::open( 'public/img/photos/' . Auth::user()->user_id . '/original/' . md5(Auth::user()->email . $data['photo']['name']) . '.' . File::extension($data['photo']['name']) )
 				->resize( 60 , 60 , 'auto' )
@@ -376,6 +379,13 @@ class User_Controller extends Controller
 		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
 		$message = $this->user->getMessage($message_id);
 		return View::make('profile.inbox')->with('friends', $friends)->with('messages_count', $messages_count)->with('message', $message); 
+	}
+	
+	public function action_outbox($message_id) {
+		$friends = $this->user->getUserFriends(Auth::user()->user_id, 'messages');
+		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+		$message = $this->user->getMessage($message_id, TRUE);
+		return View::make('profile.outbox')->with('friends', $friends)->with('messages_count', $messages_count)->with('message', $message);
 	}
 }
 ?>
