@@ -161,16 +161,16 @@ class User_Controller extends Controller
 	public function action_users() {
 		$pack = Input::get('pack');
 		if(empty($pack)) {
-			$users = $this->user->getAllUsers();
-			$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
+			$users = $this->user->getUserFriendsFull(Auth::user()->user_id);
+			//$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
 			$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
-			return View::make('users.index')->with('users', $users)->with('friendlist', $friendlist)->with('messages_count', $messages_count);
+			return View::make('users.index')->with('users', $users)/* ->with('friendlist', $friendlist) */->with('messages_count', $messages_count);
 		}
 		else {
 			unset($users);
 			$users = array();
-			$users['users'] = $this->user->getAllUsers($pack);
-			$users['friendlist'] = $this->user->getUserFriends(Auth::user()->user_id);
+			$users['users'] = $this->user->getUserFriendsFull(Auth::user()->user_id, $pack);
+			//$users['friendlist'] = $this->user->getUserFriends(Auth::user()->user_id);
 			echo json_encode($users);
 			return;
 		}

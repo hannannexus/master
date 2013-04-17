@@ -39,6 +39,7 @@
 		}
 	
 		$(function() {
+			$('#end').hide();
 			loadComments();
 			$('a#user_photo').fancybox(
 				{
@@ -84,6 +85,7 @@
 			});
 
 			function getPack() {
+				$('#end').show();
 				$.post (
 					'{{URL::home()}}user/'+{{$user_data['user_id']}},
 					{

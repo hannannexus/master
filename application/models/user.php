@@ -278,6 +278,85 @@ class User extends Base {
     	return $friends;
     }
     
+     public function getUserFriendsFull($id_user, $pack = 0) {
+     	$friends = array();
+     	$stmt = "
+     		select
+     			u.`user_id`,
+     			u.`name`,
+     			u.`surname`,
+     			u.`patronymic`,
+     			r.`relation`
+     		from
+     			`users` as u
+     		join
+     			`user_relations` as r
+     		on
+     			u.`user_id` = r.`id_friend`
+     		where
+     			r.`id_user` = ?
+     		and
+     			r.`relation` = 'accepted'
+     		order by
+     			u.`name`
+     	";
+     	
+     	$result = $this->objectToArray(DB::query($stmt, array($id_user)));
+     	if(!empty($result)) {
+     		foreach($result as $key => $res) {
+     			array_push($friends, $res);
+     		}
+     	}
+     	
+     	$stmt = "
+     		select
+     			u.`user_id`,
+     			u.`name`,
+     			u.`surname`,
+     			u.`patronymic`,
+     			r.`relation`
+     		from
+     			`users` as u
+     		join
+     			`user_relations` as r
+     		on
+     			u.`user_id` = r.`id_user`
+     		where
+     			r.`id_friend` = ?
+     		and
+     			(r.`relation` = 'accepted'
+     				or
+     			r.`relation` = 'waiting')
+     		order by
+     			u.`name`
+     	";
+     	
+     	$result = $this->objectToArray(DB::query($stmt, array($id_user)));
+     	if(!empty($result)) {
+     		foreach($result as $key => $res) {
+     			array_push($friends, $res);
+     		}
+     	}
+     	
+     	if(empty($friends)) {
+     		return NULL;
+     	}
+     	else {
+     		$users = array();
+    	
+	    	for($i = $pack*10; $i < ($pack+1)*10; $i++) {
+	    		if(isset($friends[$i])) {
+	    			array_push($users, $friends[$i]);
+	    		}
+	    		else {
+	    			break;
+	    		}
+	    	}
+	    	return $users;
+     	}
+     	
+     }
+    
     public function makeFriendRequest($id_user, $id_friend) {
     	$stmt = "
     		insert into

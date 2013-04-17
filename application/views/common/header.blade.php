@@ -27,7 +27,7 @@
 			{{ Lang::line('locale.my_workouts')->get($language) }}
 		</a>
 		<a href="{{ URL::home() }}users" class="blue-button">
-			{{ Lang::line('locale.button_users')->get($language) }}
+			{{ Lang::line('locale.friends')->get($language) }}
 		</a>
 		<a href="{{ URL::home() }}profile/messages" class="blue-button">
 			{{ Lang::line('locale.button_messages')->get($language) }} 

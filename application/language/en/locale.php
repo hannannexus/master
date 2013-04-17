@@ -105,5 +105,9 @@ return array(
 	'from' => 'From: ',
 	'to' => 'To: ',
 	'at' => 'at',
-	'reply' => 'Reply'
+	'reply' => 'Reply',
+	/* 17.04.2013 */
+	'friends_workouts' => 'Friend\'s workouts',
+	'friends' => 'Friends',
+	'no_friends' => 'You have no friends yet...'
 );

@@ -279,3 +279,32 @@ body {
 	width: 250px;
 	height: 20px;
 }
+
+.mini-button-orange {
+	-moz-box-shadow:inset 0px 1px 0px 0px #FFAF0A;
+	-webkit-box-shadow:inset 0px 1px 0px 0px #FFAF0A;
+	box-shadow:inset 0px 1px 0px 0px #FFAF0A;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FFAF0A), color-stop(1, #FFAF0A) );
+	background:-moz-linear-gradient( center top, #FFAF0A 5%, #FFAF0A 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#1c5d9e', endColorstr='#FFAF0A');
+	background-color:#FFAF0A;
+	border:1px solid #FFAF0A;
+	display:inline-block;
+	color:#000000;
+	font-family: 'Century Gothic', arial;
+	font-size:10px;
+	font-weight:bold;
+	padding:3px 10px;
+	text-decoration:none;
+	text-shadow:0px 0px 0px #1570cd;
+	opacity: 0.7;
+}.mini-button-orange:hover {
+	color:#000000;
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #FFAF0A), color-stop(1, #FFAF0A) );
+	background:-moz-linear-gradient( center top, #FFB914 5%, #FFAF0A 100% );
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#FFAF0A', endColorstr='#FFAF0A');
+	background-color:#FFAF0A;
+}.mini-button-orange:active {
+	position:relative;
+	top:1px;
+}
