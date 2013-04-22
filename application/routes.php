@@ -43,7 +43,7 @@ Route::post('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::get('workouts/(:num)', array('before' => 'auth', 'uses' => 'user@workouts'));
 Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
 Route::get('user/accept/(:num)', array('before' => 'auth', 'uses' => 'user@accept_friend'));
-Route::post('search', array('before' => 'auth', 'uses' => 'user@search'));
+Route::any('search', array('before' => 'auth', 'uses' => 'user@search'));
 Route::post('add_feed_comment', array('before' => 'auth', 'uses' => 'user@add_comment'));
 Route::post('get_feed_comment', array('before' => 'auth', 'uses' => 'user@get_comment'));
 

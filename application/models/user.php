@@ -777,7 +777,7 @@ class User extends Base {
     	}
     }
     
-    public function getMessage($message_id, $outbox = 'false') {
+    public function getMessage($message_id, $outbox = FALSE) {
     	if($outbox == FALSE) {
     		$stmt = "
 	    		update

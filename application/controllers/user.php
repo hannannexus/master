@@ -239,7 +239,7 @@ class User_Controller extends Controller
 	 */
 	public function action_add_friend($id_friend) {
 		$this->user->makeFriendRequest(Auth::user()->user_id, $id_friend);
-		return Redirect::back();
+		return Redirect::to('profile');
 	}
 	
 	/**

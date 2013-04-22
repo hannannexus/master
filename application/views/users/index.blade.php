@@ -91,6 +91,7 @@
 
 @section('content')
 <div class="white-block">
+@if(!is_null($users))
 	@foreach($users as $user)
 	@if(!empty($user['name']) || !empty($user['surname']))
 		<div class="well" style="display: block; width: 400px; height: 60px; padding: 10px; margin: 3px auto;">
@@ -133,6 +134,11 @@
 		</div>
 	@endif
 	@endforeach
+@else
+	<div class="well" style="display: block; width: 400px; padding: 10px; margin: 3px auto;">
+		{{ Lang::line('locale.no_friends')->get($language) }}
+	</div>
+@endif
 	<div id="end" class="end"></div>
 </div>
 @endsection
