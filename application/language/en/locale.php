@@ -109,5 +109,6 @@ return array(
 	/* 17.04.2013 */
 	'friends_workouts' => 'Friend\'s workouts',
 	'friends' => 'Friends',
-	'no_friends' => 'You have no friends yet...'
+	'no_friends' => 'You have no friends yet...',
+	'request_sent' => 'Your friend request sent successfuly...'
 );

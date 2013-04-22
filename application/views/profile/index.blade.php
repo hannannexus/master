@@ -198,6 +198,11 @@
 		{{Lang::line('locale.no_trainings')->get($language)}}
 	</div>
 	@endif
+	@if(Session::get('request') == 'yes')
+	<div class="alert alert-success">
+		{{Lang::line('locale.request_sent')->get($language) }}
+	</div>
+	@endif
 	<table style="margin: 0 auto;">
 		<tr>
 			<td style="vertical-align: top;">
