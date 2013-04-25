@@ -110,5 +110,10 @@ return array(
 	'friends_workouts' => 'Тренировки пользователя',
 	'friends' => 'Друзья',
 	'no_friends' => 'У Вас пока еще нет друзей...',
-	'request_sent' => 'Вы успешно отправили запрос на добавление в друзья...'
+	'request_sent' => 'Вы успешно отправили запрос на добавление в друзья...',
+	/* 25.04.2013 */
+	'admin_right_advertisement' => 'Правая панель',
+	'admin_right_advertisement_show' => 'Показывать рекламу',
+	'admin_right_advertisement_code' => 'Код рекламы',
+	'symbol_error' => 'Специальные символы запрещены'
 );

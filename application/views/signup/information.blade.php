@@ -5,9 +5,13 @@
 @section('errors')
 
     <? $information_error = Session::get('information_error'); ?>
+    <? $symbol_error = Session::get('symbol_error'); ?>
     
     @if (!empty($information_error))
         <div class="alert alert-error">{{ Lang::line('locale.information_error')->get($language) }}</div>
+    @endif
+    @if (!empty($symbol_error))
+        <div class="alert alert-error">{{ Lang::line('locale.symbol_error')->get($language) }}</div>
     @endif
 
 @endsection

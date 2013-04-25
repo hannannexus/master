@@ -110,5 +110,10 @@ return array(
 	'friends_workouts' => 'Friend\'s workouts',
 	'friends' => 'Friends',
 	'no_friends' => 'You have no friends yet...',
-	'request_sent' => 'Your friend request sent successfuly...'
+	'request_sent' => 'Your friend request sent successfuly...',
+	/* 25.04.2013 */
+	'admin_right_advertisement' => 'Right panel',
+	'admin_right_advertisement_show' => 'Show advertisement',
+	'admin_right_advertisement_code' => 'Advertisement code',
+	'symbol_error' => 'Special symbols are not alowed!'
 );

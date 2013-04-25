@@ -279,6 +279,15 @@ class User_Controller extends Controller
 		$data['gender'] = Input::get('gender');
 		$data['midname'] = $data['patronymic'] = $data['borndate'] = '';
 		if(!empty($data['name']) && !empty($data['surname']) && !empty($data['gender'])) {
+			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['name']) ) { 
+				return Redirect::to('information')->with('symbol_error', 'true');
+			}
+			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['surname']) ) {
+				return Redirect::to('information')->with('symbol_error', 'true');
+			}
+			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['patronymic']) ) {
+				return Redirect::to('information')->with('symbol_error', 'true');
+			}
 			$this->user->setUserData($data, $id_user);
 			return Redirect::to('profile');
 		}

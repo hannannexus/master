@@ -6,6 +6,8 @@ use Laravel\Redirect;
  */
 
 Route::get('admin', 'admin@index');
+Route::post('admin/set/left', 'admin@set_left');
+Route::post('admin/set/right', 'admin@set_right');
 
 /**
  * Login routes
@@ -66,7 +68,9 @@ Route::get('/', function()
 	else {
 		$messages_count = '-';
 	}
-	return View::make('home.index')->with('messages_count', $messages_count);
+	$admin = new Admin();
+	$settings = $admin->getParams();
+	return View::make('home.index')->with('messages_count', $messages_count)->with('settings', $settings);
 });
 
 /*
