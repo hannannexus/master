@@ -101,7 +101,7 @@
 			    				input += "{{ Lang::line('locale.was_out')->get($language) }} "; 
 		    					input += "{{ Lang::line('locale.temp_training')->get($language) }}. ";
 		    					input += "{{ Lang::line('locale.he_tracked')->get($language) }} "; 
-		    					input += roundPlus(result[i].distance/1000, 2) + ' ';
+		    					input += roundPlus(result[i].distance, 2) + ' ';
 		    					input += "{{ Lang::line('locale.km')->get($language) }} ";
 		    					input += "{{ Lang::line('locale.in')->get($language) }} ";
 		    					input += result[i].time + ' '; 
@@ -112,9 +112,9 @@
 		    					input += '<i style="font-size: x-small;">';
 		    					input += '<b>';
 			    				input += "{{ Lang::line('locale.date_doubledot')->get($language) }} ";
-			    				input += result[i].cdate + ' ';
+			    				input += result[i].date + ' ';
 				    			input += "{{ Lang::line('locale.time_doubledot')->get($language) }} ";
-				    			input += result[i].ctime_start + ' ';
+				    			input += result[i].date + ' ';
 			    				input += "</b>";
 			    				input += "</i>";
 			    				input += "<a href=\"#\" class=\"comment"+result[i].workout_number+"\" id=\"workout_"+result[i].workout_number+"\">{{ Lang::line('locale.comment')->get($language) }}</a>";
@@ -264,7 +264,7 @@
  		    					{{ Lang::line('locale.was_out')->get($language) }} 
 		    					{{ Lang::line('locale.temp_training')->get($language) }}.
 		    					{{ Lang::line('locale.he_tracked')->get($language) }} 
-		    					{{ round($cur_feed['distance']/1000, 2) }} 
+		    					{{ round($cur_feed['distance'], 2) }} 
 		    					{{ Lang::line('locale.km')->get($language) }}
 		    					{{ Lang::line('locale.in')->get($language) }}
 		    					{{ $cur_feed['time'] }} 
@@ -277,7 +277,7 @@
 			    						{{ Lang::line('locale.date_doubledot')->get($language) }}
 			    						{{ date("d M Y", mktime(0, 0, 0, substr($cur_feed['date'], 5, 2), substr($cur_feed['date'], 8, 2), substr($cur_feed['date'], 0, 4))) }}
 				    					{{ Lang::line('locale.time_doubledot')->get($language) }}
-				    					{{ substr($cur_feed['time_start'], 0, 5) }}
+				    					{{ substr($cur_feed['date'], 11, 5) }}
 			    					</b>
 			    				</i>
 			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>

@@ -115,5 +115,7 @@ return array(
 	'admin_right_advertisement' => 'Right panel',
 	'admin_right_advertisement_show' => 'Show advertisement',
 	'admin_right_advertisement_code' => 'Advertisement code',
-	'symbol_error' => 'Special symbols are not alowed!'
+	'symbol_error' => 'Special symbols are not alowed!',
+	/* 17.06.2013 */
+	'no_feeds' => 'There are no feeds yet...'
 );

@@ -351,7 +351,13 @@ class Workout extends Base {
 		return $stats;
 	}
 	
-	public function getUserFeed($id_user, $pack = 0) {
+	/**
+	 * @deprecated
+	 * @param unknown_type $id_user
+	 * @param unknown_type $pack
+	 * @return NULL|multitype:
+	 */
+	public function getUserFeed_deprecated($id_user, $pack = 0) {
 		$feed = array();
 		$stmt = "
     		select
@@ -372,6 +378,41 @@ class Workout extends Base {
 			for($i = $pack*10; $i < ($pack+1)*10; $i++) {
 				if(isset($feed[$i])) {
 					array_push($feed_info, $this->getTotalInfo($id_user, $feed[$i]['workout_number']));
+				}
+				else {
+					break;
+				}
+			}
+		}
+		else {
+			return NULL;
+		}
+		
+		return $feed_info;
+	}
+	
+	public function getUserFeed($id_user, $pack = 0) {
+		$feed = array();
+		$stmt = "
+			select
+				*
+			from
+				`user_news`
+			where
+				`user_id` = ?
+			order by
+				`id`
+			desc
+		";
+		
+		$feed = $this->objectToArray(DB::query($stmt, array($id_user)));
+		
+		$feed_info = array();
+		
+		if(!empty($feed)) {
+			for($i = $pack*10; $i < ($pack+1)*10; $i++) {
+				if(isset($feed[$i])) {
+					array_push($feed_info, $feed[$i]);
 				}
 				else {
 					break;
@@ -410,6 +451,36 @@ class Workout extends Base {
 			}
 		}
 		return $arythmy;
+	}
+	
+	public function getMainFeed() {
+		$feed = array();
+		$stmt = "
+			select
+				*
+			from
+				`user_news` as un
+			join
+				`user_config` as uc
+			on
+				un.`user_id` = uc.`id_user`
+			join
+				`users` as us
+			on
+				un.`user_id` = us.`user_id`
+			order by
+				`id`
+			desc
+			limit 30	
+		";
+		
+		$feed = $this->objectToArray(DB::query($stmt));
+		
+		if(!empty($feed)) {
+			return $feed;
+		} else {
+			return NULL;
+		}
 	}
 }
 

@@ -70,7 +70,9 @@ Route::get('/', function()
 	}
 	$admin = new Admin();
 	$settings = $admin->getParams();
-	return View::make('home.index')->with('messages_count', $messages_count)->with('settings', $settings);
+	$workout = new Workout();
+	$feed = $workout->getMainFeed();
+	return View::make('home.index')->with('messages_count', $messages_count)->with('settings', $settings)->with('feed', $feed);
 });
 
 /*

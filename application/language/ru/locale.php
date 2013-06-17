@@ -115,5 +115,7 @@ return array(
 	'admin_right_advertisement' => 'Правая панель',
 	'admin_right_advertisement_show' => 'Показывать рекламу',
 	'admin_right_advertisement_code' => 'Код рекламы',
-	'symbol_error' => 'Специальные символы запрещены'
+	'symbol_error' => 'Специальные символы запрещены',
+	/* 17.06.2013 */
+	'no_feeds' => 'Тренировок пока ещё не было...'
 );
