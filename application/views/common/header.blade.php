@@ -2,6 +2,11 @@
 
 <div class="header-block">
 <img id="logo-image" src="../../img/system/logo.png" style="display: inline; float: left; padding-top: 3px;">
+{{ Form::open('language', 'POST', array('id' => 'language_form')) }}
+	<div class="styled-select" style="text-align: right; display: inline; float: right; margin-top: 5px; margin-left: 5px;">
+		{{ Form::select('language', array('en' => 'EN', 'cz' => 'CZ', 'ru' => 'RU', 'hu' => 'HU'), $language, array('onchange' => 'changeLanguage()')) }}
+	</div>
+{{ Form::close() }}
 	@if(!Auth::check())  
 		{{ Form::open('signup', 'GET', array('style' => 'display: inline;')) }}
 		{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'grey-button')) }}

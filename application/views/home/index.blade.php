@@ -22,7 +22,7 @@
 					<div style="display:inline-block; align:left;">
 						@if(!empty($value['photo']))
 							<a id="user_photo" href="{{ URL::home() . 'user/' . $value['id_user'] }}">
-								<img src="{{ URL::home() . 'img/photos/' . $valu['user_id'] . '/60/' . $value['photo'] }}" >
+								<img src="{{ URL::home() . 'img/photos/' . $value['user_id'] . '/60/' . $value['photo'] }}" >
 							</a>
 						@else
 							<a id="user_photo" href="{{ URL::home() . 'user/' . $value['id_user'] }}">
@@ -47,7 +47,7 @@
 	    				{{ Lang::line('locale.km')->get($language) }}
 	   					{{ Lang::line('locale.in')->get($language) }}
 	   					{{ $value['time'] }} 
-	   					<a href="{{ URL::home()}}workout/{{ Auth::user()->user_id }}/{{ $value['workout_number'] }}">
+	   					<a href="{{ URL::home()}}workout/{{ $value['user_id'] }}/{{ $value['workout_number'] }}">
 	    					{{ Lang::line('locale.show')->get($language) }}
 	    				</a>
 	    				<br />
