@@ -38,6 +38,21 @@ class Admin extends Base {
 			";
 			DB::query($stmt, array($params['right_panel_show'], $params['right_panel_text']));
 		}
+	}
+	
+	public function isAdmin($user_id) {
+		$stmt = "
+			select
+				`role`
+			from
+				`users`
+			where
+				`user_id` = ?
+			limit 1
+		";
 		
+		$role = $this->objectToSingle(DB::query($stmt, array($user_id)));
+		
+		return ($role['role'] == 'USR') ? FALSE : TRUE;
 	}
 }

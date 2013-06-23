@@ -6,8 +6,13 @@ class Admin_controller extends Controller
 		$this->admin = new Admin();
 	}
 	public function action_index() {
-		$settings = $this->admin->getParams();
-		return View::make('admin.index')->with('settings', $settings);
+		if(Auth::check()) {
+			if($this->admin->isAdmin(Auth::user()->user_id)) {
+				$settings = $this->admin->getParams();
+				return View::make('admin.index')->with('settings', $settings);
+			}
+		}
+		return Redirect::to('/');
 	}
 	
 	public function action_set_left() {
