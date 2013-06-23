@@ -6,8 +6,10 @@ use Laravel\Redirect;
  */
 
 Route::get('admin', 'admin@index');
+Route::any('manual', 'admin@manual');
 Route::post('admin/set/left', 'admin@set_left');
 Route::post('admin/set/right', 'admin@set_right');
+Route::post('admin/set/manual', 'admin@set_manual');
 
 /**
  * Login routes

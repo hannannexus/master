@@ -55,4 +55,18 @@ class Admin extends Base {
 		
 		return ($role['role'] == 'USR') ? FALSE : TRUE;
 	}
+	
+	public function setManual($text) {
+		$stmt = "
+			update
+				`advertisement`
+			set
+				`manual` = ?
+			where
+				`id` = 1
+		";
+		
+		DB::query($stmt, array($text));
+		return;
+	}
 }
