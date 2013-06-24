@@ -38,4 +38,9 @@ class Workout_Controller extends Controller {
 		
 		echo json_encode($this->workout->getCalendarByDate(Input::get('id_user'), $month, $year));
 	}
+	
+	public function action_delete_workout($workout_number) {
+		$this->workout->deleteWorkout($workout_number);
+		return Redirect::to('profile');
+	}
 }

@@ -119,5 +119,6 @@ return array(
 	/* 17.06.2013 */
 	'no_feeds' => 'There are no feeds yet...',
 	/* 20.06.2013 */
-	'manual' => 'Manual'
+	'manual' => 'Manual',
+	'delete' => 'Delete',
 );

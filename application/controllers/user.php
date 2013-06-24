@@ -182,6 +182,11 @@ class User_Controller extends Controller
 	 * @return Laravel\Response
 	 */
 	public function action_user($id_user) {
+		
+		if($id_user == Auth::user()->user_id) {
+			return Redirect::to('profile');
+		}
+		
 		$user_data = $this->user->getUserData($id_user);
 		$workout = new Workout();
 		$pack = Input::get('pack');

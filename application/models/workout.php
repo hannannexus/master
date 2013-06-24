@@ -482,6 +482,48 @@ class Workout extends Base {
 			return NULL;
 		}
 	}
+	
+	public function deleteWorkout($id_workout) {
+		$stmt = "
+    		select
+    			max(`time`) as `max`, min(`time`) as `min`
+    		from
+    			`tp_" . Auth::user()->user_id . "_gps`
+    		where
+    			`workout_number` = ?
+    	";
+		 
+		$brackets = $this->objectToSingle(DB::query($stmt, array($id_workout)));
+		 
+		$stmt = "
+    		delete
+    		from
+    			`tp_" . Auth::user()->user_id . "_gps`
+    		where
+    			`workout_number` = ?
+    	";
+		DB::query($stmt, array($id_workout));
+		
+		$stmt = "
+    		delete
+    		from
+    			`user_news`
+    		where
+				`user_id` = ?
+			and
+    			`workout_number` = ?
+    	";
+		DB::query($stmt, array(Auth::user()->user_id, $id_workout));
+		 
+		$stmt = "
+    		delete
+    		from
+    			`tp_" . Auth::user()->user_id . "_pulse`
+    		where
+    			`time` between ? and ?
+    	";
+		DB::query($stmt, array($brackets['min'], $brackets['max']));
+	}
 }
 
 

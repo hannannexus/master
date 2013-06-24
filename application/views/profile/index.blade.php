@@ -281,6 +281,7 @@
 			    					</b>
 			    				</i>
 			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
+			    				<a href="{{ URL::home() }}delete/{{ $cur_feed['workout_number'] }}" class="" id="delete_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
 			    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
 				    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
 				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
