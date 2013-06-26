@@ -121,4 +121,7 @@ return array(
 	/* 20.06.2013 */
 	'manual' => 'Справка',
 	'delete' => 'Удалить',
+	'forgot_password' => 'Забыли пароль?',
+	'button_restore' => 'Восстановить',
+	'mail_new_password' => 'Новый пароль: '
 );

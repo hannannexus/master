@@ -20,7 +20,7 @@ Login
 	    	{{ $password_error }}
 	    @endforeach
     @endif
-
+    
 @endsection
 
 @section('content')
@@ -33,6 +33,7 @@ Login
 	{{ Form::password('password') }}
 	<br>
 	{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'blue-button')) }}
+	<a href="{{ URL::home() }}restore" style="display:inline-block; margin-left: 15px;" >{{ Lang::line('locale.forgot_password')->get($language) }}</a>
 	{{ Form::close() }}
 </div>	
 @endsection

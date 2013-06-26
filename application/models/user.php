@@ -883,6 +883,62 @@ class User extends Base {
     		return $messages;
     	}
     }
+    
+    public function sendNewPassword($name, $language) {
+    	$stmt = "
+			select
+				`user_id`
+			from
+				`users`
+			where
+				`login_name` = ?
+		";
+    	$user = $this->objectToSingle(DB::query($stmt, array($name)));
+    	$password = $this->generatePassword();
+    	
+    	$stmt = "
+    		update 
+    			`users`
+    		set
+    			`pwd` = ?
+    		where
+    			`login_name` = ?
+    	";
+    	
+    	DB::query($stmt, array(Hash::make($password), $name));
+    	
+    	mail(
+    	$name,
+    	Lang::line('locale.mail_new_password')->get($language),
+    	Lang::line('locale.mail_new_password')->get($language) . ' ' . $password
+    	);
+    }
+    
+    public function generatePassword ($length = 8) {
+    	$password = "";
+    
+    	$possible = "2346789bcdfghjkmnpqrtvwxyzBCDFGHJKLMNPQRTVWXYZ";
+    
+    	$maxlength = strlen($possible);
+    
+    	if ($length > $maxlength) {
+    		$length = $maxlength;
+    	}
+    
+    	$i = 0;
+    
+    	while ($i < $length) {
+    
+    		$char = substr($possible, mt_rand(0, $maxlength-1), 1);
+    
+    		if (!strstr($password, $char)) {
+    			$password .= $char;
+    			$i++;
+    		}
+    
+    	}
+    	return $password;
+    }
 }
 
 ?>

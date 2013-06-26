@@ -121,4 +121,7 @@ return array(
 	/* 20.06.2013 */
 	'manual' => 'Manual',
 	'delete' => 'Delete',
+	'forgot_password' => 'Forgot password?',
+	'button_restore' => 'Restore',
+	'mail_new_password' => 'New password: '
 );

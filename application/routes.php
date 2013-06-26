@@ -22,6 +22,8 @@ Route::post('confirm/process', 'auth@number_confirm');
 Route::get('confirm/(:num)/(:num)', 'auth@link_confirm');
 Route::post('login/process', 'auth@login_process');
 Route::post('signup/process', 'auth@signup_process');
+Route::get('restore', 'auth@restore');
+Route::post('restore/send', 'auth@restore_send');
 
 /**
  * User routes

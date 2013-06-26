@@ -1,4 +1,5 @@
 <?php 
+
 class Auth_Controller extends Controller {
 	
 	/**
@@ -144,6 +145,16 @@ class Auth_Controller extends Controller {
 				return Redirect::to('confirm');
 			}
 		}
+	}
+	
+	public function action_restore() {
+		return View::make('restore.index');
+	}
+	
+	public function action_restore_send() {
+		$user = new User();
+		$user->sendNewPassword(Input::get('email'), Cookie::get('language'));
+		return Redirect::to('login');
 	}
 }
 ?>
