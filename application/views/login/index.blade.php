@@ -5,8 +5,13 @@ Login
 @section('errors')
 
     <? $login_error = Session::get('login_error') ?>
+    <? $restore = Session::get('restore') ?>
 	@if(!empty($login_error))
 		<div class="alert alert-error">{{ Session::get('login_error') }}</div>
+	@endif
+	
+	@if(!empty($restore))
+		<div class="alert alert-info">{{ Session::get('restore') }}</div>
 	@endif
 	
 	@if ($errors->has('email'))

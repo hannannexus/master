@@ -123,5 +123,6 @@ return array(
 	'delete' => 'Delete',
 	'forgot_password' => 'Forgot password?',
 	'button_restore' => 'Restore',
-	'mail_new_password' => 'New password: '
+	'mail_new_password' => 'New password: ',
+	'password_sent' => 'New password sent to email you entered!'
 );

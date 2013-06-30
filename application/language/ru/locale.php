@@ -123,5 +123,6 @@ return array(
 	'delete' => 'Удалить',
 	'forgot_password' => 'Забыли пароль?',
 	'button_restore' => 'Восстановить',
-	'mail_new_password' => 'Новый пароль: '
+	'mail_new_password' => 'Новый пароль: ',
+	'password_sent' => 'Новый пароль отправлен на указанный вами email!'
 );

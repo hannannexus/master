@@ -154,7 +154,7 @@ class Auth_Controller extends Controller {
 	public function action_restore_send() {
 		$user = new User();
 		$user->sendNewPassword(Input::get('email'), Cookie::get('language'));
-		return Redirect::to('login');
+		return Redirect::to('login')->with('restore', Lang::line('locale.password_sent')->get(Cookie::get('language')));
 	}
 }
 ?>
