@@ -159,7 +159,7 @@ class Workout extends Base {
 		$result[0] = $route[0];
 		$count = round(count($route)/1000, 0);
 		
-		if($count == 0) {$count += 1;}
+		if($count == 0) {$count++;}
 		
 		for($i=1; $i<count($route); $i++) {
 			if(fmod($i, $count) == 0) {
@@ -297,15 +297,26 @@ class Workout extends Base {
 		
 		$stmt = "
 			select
-				*
+				*,
+				date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
+				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 			from
-				`tp_" . $id_user . "_gps`
+				`user_news` as un
+			join
+				`tracks` as tr
+			on
+				un.`user_id` = tr.`user_id`
 			where
-				`workout_number` = ?		
+				un.`user_id` = ?
+			and
+				un.`workout_number` = ?
+			order by
+				un.`id`
+			desc	
 		";
-		$workout = $this->objectToArray(DB::query($stmt, array($w_number)));
+		$workout = $this->objectToSingle(DB::query($stmt, array($id_user, $w_number)));
 		
-		$stats = array();
+		/* $stats = array();
 		$tmp_distance = 0;
 		
 		foreach($workout as $key => $current) {
@@ -346,9 +357,8 @@ class Workout extends Base {
 		$stats['cdate'] = date("d M Y", mktime(0, 0, 0, substr($stats['date'], 5, 2), substr($stats['date'], 8, 2), substr($stats['date'], 0, 4)));
 		$stats['ctime_start'] = substr($stats['time_start'], 0, 5);
 		
-		unset($data, $stmt);
-		
-		return $stats;
+		unset($data, $stmt); */
+		return $workout;
 	}
 	
 	/**
@@ -395,13 +405,19 @@ class Workout extends Base {
 		$feed = array();
 		$stmt = "
 			select
-				*
+				*,
+				date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
+				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 			from
-				`user_news`
+				`user_news` as un
+			join
+				`tracks` as tr
+			on
+				un.`user_id` = tr.`user_id`
 			where
-				`user_id` = ?
+				un.`user_id` = ?
 			order by
-				`id`
+				un.`id`
 			desc
 		";
 		
@@ -412,14 +428,13 @@ class Workout extends Base {
 		if(!empty($feed)) {
 			for($i = $pack*10; $i < ($pack+1)*10; $i++) {
 				if(isset($feed[$i])) {
+					$feed[$i]['time'] = date("H:i:s", $feed[$i]['time']);
 					array_push($feed_info, $feed[$i]);
-				}
-				else {
+				} else {
 					break;
 				}
 			}
-		}
-		else {
+		} else {
 			return NULL;
 		}
 		
@@ -468,8 +483,12 @@ class Workout extends Base {
 				`users` as us
 			on
 				un.`user_id` = us.`user_id`
+			join
+				`tracks` as tr
+			on
+				un.`user_id` = tr.`user_id`
 			order by
-				`id`
+				un.`id`
 			desc
 			limit 30	
 		";

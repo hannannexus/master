@@ -251,43 +251,29 @@
 			    </div>
 		    </td>
 		    <td style="vertical-align: top;">
-			    <div class="well" style="display: inline-block; width:300px; height: auto; margin-left: 15px;">
+			    <div class="well" style="display: inline-block; width:420px; height: auto; margin-left: 15px;">
 			    	<div class="title-gray" style="width: auto; height: auto; margin-bottom: 7px;">
 			    		{{ Lang::line('locale.feed')->get($language) }}
 			    	</div>
 			    	@if(!is_null($feed))
 				    	@foreach ($feed as $cur_feed)
 			    			<div class="white-block">
-			    				<a href="{{ URL::home() }}profile">
-			    					{{ $user_data['name'] }} {{ $user_data['surname'] }}
-			    				</a> 
- 		    					{{ Lang::line('locale.was_out')->get($language) }} 
-		    					{{ Lang::line('locale.temp_training')->get($language) }}.
-		    					{{ Lang::line('locale.he_tracked')->get($language) }} 
-		    					{{ round($cur_feed['distance'], 2) }} 
-		    					{{ Lang::line('locale.km')->get($language) }}
-		    					{{ Lang::line('locale.in')->get($language) }}
-		    					{{ $cur_feed['time'] }} 
-		    					<a href="{{ URL::home()}}workout/{{ Auth::user()->user_id }}/{{ $cur_feed['workout_number'] }}">
-		    						{{ Lang::line('locale.show')->get($language) }}
-		    					</a>
-		    					<br />
-		    					<i style="font-size: x-small;">
-		    						<b>
-			    						{{ Lang::line('locale.date_doubledot')->get($language) }}
-			    						{{ date("d M Y", mktime(0, 0, 0, substr($cur_feed['date'], 5, 2), substr($cur_feed['date'], 8, 2), substr($cur_feed['date'], 0, 4))) }}
-				    					{{ Lang::line('locale.time_doubledot')->get($language) }}
-				    					{{ substr($cur_feed['date'], 11, 5) }}
-			    					</b>
-			    				</i>
-			    				<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
-			    				<a href="{{ URL::home() }}delete/{{ $cur_feed['workout_number'] }}" class="" id="delete_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
-			    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
-				    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
-				    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 270px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
+				    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_id'] }}" style="decoration: none;">
+				    				<div style="display: inline-block;">
+				    					<div style="margin: 10px; display: inline-block;  width: 110px; height: 110px;">
+			    							<img alt="" src="{{ URL::home() }}img/workout/sports/{{ $cur_feed['sport_type'] }}.png" width="100%" height="100%">
+				    					</div>
+				    					<div style="margin: 10px; display: inline-block; font-size: 8pt; float: right;">
+				    						<p style="padding: 0;">{{ Lang::line('locale.date_doubledot')->get($language) }} <b>{{ $cur_feed['formatted_date'] }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.distance_doubledot')->get($language) }} <b>{{ $cur_feed['distance']/1000 }} {{ Lang::line('locale.km')->get($language) }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.duration')->get($language) }} <b>{{ $cur_feed['time'] }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.avg_speed')->get($language) }} <b>{{ $cur_feed['avg_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.time_for_km')->get($language) }} <b>{{ $cur_feed['time_for_km'] }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.avg_pulse')->get($language) }} <b>{{ $cur_feed['avg_pulse'] }} {{ Lang::line('locale.bps')->get($language) }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.arrhythmia')->get($language) }} <b>{{ $cur_feed['arrhythmia'] }}</b></p>
+				    					</div>
 				    				</div>
-			    				</form>
-			    				<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
+				    			</a>
 			    			</div>
 			    		@endforeach
 			    		<div id="end" class="end"></div>

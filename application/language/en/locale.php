@@ -124,5 +124,16 @@ return array(
 	'forgot_password' => 'Forgot password?',
 	'button_restore' => 'Restore',
 	'mail_new_password' => 'New password: ',
-	'password_sent' => 'New password sent to email you entered!'
+	'password_sent' => 'New password sent to email you entered!',
+	/* 11.08.2013 */
+	'distance_doubledot' => 'Distance:',
+	'avg_speed' => 'Average speed:',
+	'min_speed' => 'Min speed:',
+	'max_speed' => 'Max speed:',
+	'km_h' => 'km/h',
+	'duration' => 'Duration:',
+	'time_for_km' => 'Average time for kilometer lap:',
+	'avg_pulse' => 'Average pulse:',
+	'bps' => 'bps',
+	'arrhythmia' => 'Arrhythmia:'
 );

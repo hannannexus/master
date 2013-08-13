@@ -1,11 +1,5 @@
 <?php 
 
-use Laravel\Validator;
-
-use Laravel\Redirect;
-
-use Laravel\Input;
-
 class User_Controller extends Controller 
 {
 	protected $user;
