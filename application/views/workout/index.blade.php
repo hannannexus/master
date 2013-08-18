@@ -84,7 +84,7 @@
 		<hr>
 		<div style="width: 1000px; margin: 0 auto; position: relative; text-align: center;">
 				{{ Lang::line('locale.distance_doubledot')->get($language) }} {{ $stats['distance']/1000 }} {{ Lang::line('locale.km')->get($language) }}<br>
-				{{ Lang::line('locale.duration')->get($language) }} {{ date("H:i:s", $stats['time']) }} <br>
+				{{ Lang::line('locale.duration')->get($language) }} {{ $stats['time'] }} <br>
 				{{ Lang::line('locale.avg_speed')->get($language) }} {{ $stats['avg_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}<br>
 				{{ Lang::line('locale.min_speed')->get($language) }} {{ $stats['min_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}<br>
 				{{ Lang::line('locale.max_speed')->get($language) }} {{ $stats['max_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}<br>

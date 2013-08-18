@@ -92,7 +92,9 @@ class Workout extends Base {
 		$marker_set = FALSE;
 		
 		$p_previous = $route[0];
-		$lap_time = $route[1]['unixtime'];
+		if(isset($route[1]['unixtime'])) {
+			$lap_time = $route[1]['unixtime'];
+		}
 		$p_previous['lap'] = '0:00:00';
 	
 		array_push($markers, $p_previous);
@@ -424,11 +426,10 @@ class Workout extends Base {
 		$feed = $this->objectToArray(DB::query($stmt, array($id_user)));
 		
 		$feed_info = array();
-		
 		if(!empty($feed)) {
 			for($i = $pack*10; $i < ($pack+1)*10; $i++) {
 				if(isset($feed[$i])) {
-					$feed[$i]['time'] = date("H:i:s", $feed[$i]['time']);
+					//$feed[$i]['time'] = date("H:i:s", $feed[$i]['time']);
 					array_push($feed_info, $feed[$i]);
 				} else {
 					break;

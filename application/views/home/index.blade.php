@@ -3,7 +3,7 @@
 @endsection
 
 @section('content')
-@if(isset($settings))
+@if(isset($settings) && !empty($settings))
 <div class="white-block" style="margin: 0 auto; text-align: center;">
 	<div class="well" id="left_panel" style="display:inline-block; height: auto; padding-top: 5px; vertical-align: top;">
 		{{ $settings['left_panel_text'] }}
