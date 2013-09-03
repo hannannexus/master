@@ -168,7 +168,7 @@ class User extends Base {
     		where
     			`id_user` = ?
     		";
-    	DB::query($stmt, array(0, 10, $user_id));
+    	DB::query($stmt, array($data['weight'], $data['arythmy_step'], $user_id));
     	
     	if(!empty($data['photo']['name'])) {
     		$stmt = "

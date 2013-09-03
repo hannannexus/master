@@ -265,7 +265,7 @@
 				    					</div>
 				    					<div style="margin: 10px; display: inline-block; font-size: 8pt; float: right;">
 				    						<p style="padding: 0;">{{ Lang::line('locale.date_doubledot')->get($language) }} <b>{{ $cur_feed['formatted_date'] }}</b></p>
-				    						<p style="padding: 0;">{{ Lang::line('locale.distance_doubledot')->get($language) }} <b>{{ $cur_feed['distance']/1000 }} {{ Lang::line('locale.km')->get($language) }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.distance_doubledot')->get($language) }} <b>{{ round($cur_feed['distance']/1000, 2) }} {{ Lang::line('locale.km')->get($language) }}</b></p>
 				    						<p style="padding: 0;">{{ Lang::line('locale.duration')->get($language) }} <b>{{ $cur_feed['time'] }}</b></p>
 				    						<p style="padding: 0;">{{ Lang::line('locale.avg_speed')->get($language) }} <b>{{ round($cur_feed['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}</b></p>
 				    						<p style="padding: 0;">{{ Lang::line('locale.time_for_km')->get($language) }} <b>{{ $cur_feed['time_for_km'] }}</b></p>
@@ -274,6 +274,16 @@
 				    					</div>
 				    				</div>
 				    			</a>
+				    			<div style="display: block;">
+					    			<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
+					    			<a style="color:red;" href="{{ URL::home() }}delete/{{ $cur_feed['workout_id'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
+				    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
+					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
+					    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 390px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
+					    				</div>
+				    				</form>
+			    					<div id="comment_line_{{ $cur_feed['workout_number'] }}"></div>
+		    					</div>
 			    			</div>
 			    		@endforeach
 			    		<div id="end" class="end"></div>

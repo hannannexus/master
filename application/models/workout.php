@@ -415,7 +415,7 @@ class Workout extends Base {
 			join
 				`tracks` as tr
 			on
-				un.`user_id` = tr.`user_id`
+				un.`workout_number` = tr.`workout_id`
 			where
 				un.`user_id` = ?
 			order by
@@ -429,7 +429,6 @@ class Workout extends Base {
 		if(!empty($feed)) {
 			for($i = $pack*10; $i < ($pack+1)*10; $i++) {
 				if(isset($feed[$i])) {
-					//$feed[$i]['time'] = date("H:i:s", $feed[$i]['time']);
 					array_push($feed_info, $feed[$i]);
 				} else {
 					break;
