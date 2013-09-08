@@ -135,5 +135,7 @@ return array(
 	'time_for_km' => 'Среднее время на километр:',
 	'avg_pulse' => 'Средний пульс:',
 	'bps' => 'уд/сек',
-	'arrhythmia' => 'Аритмия:'
+	'arrhythmia' => 'Аритмия:',
+	'hide' => 'Скрыть',
+	'show_workout' => 'Показать'
 );

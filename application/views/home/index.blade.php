@@ -8,7 +8,7 @@
 	<div class="well" id="left_panel" style="display:inline-block; height: auto; padding-top: 5px; vertical-align: top;">
 		{{ $settings['left_panel_text'] }}
 	</div>
-	<div class="well" id="left_panel" style="width: 600px; display:inline-block; vertical-align: top;">
+	<div class="well" style="width: 600px; display:inline-block; vertical-align: top;">
 		<div class="title-gray">
 			{{Lang::line('locale.feed')->get($language)}}
 		</div>
@@ -17,51 +17,26 @@
 				{{ Lang::line('locale.no_feeds')->get($language) }}
 			</div>
 		@else
-			@foreach($feed as $value)
-				<div class="white-block">
-					<div style="display:inline-block; align:left;">
-						@if(!empty($value['photo']))
-							<a id="user_photo" href="{{ URL::home() . 'user/' . $value['id_user'] }}">
-								<img src="{{ URL::home() . 'img/photos/' . $value['user_id'] . '/60/' . $value['photo'] }}" >
-							</a>
-						@else
-							<a id="user_photo" href="{{ URL::home() . 'user/' . $value['id_user'] }}">
-								<img alt="" src="{{ URL::home() . 'img/system/no_image_60.jpg' }}">
-							</a>
-						@endif
-					</div>
-					<div style="display:inline;">
-						<a href="{{ URL::home() . 'user/' . $value['id_user'] }}">
-							@if(!empty($value['name']))
-								{{ $value['name'] . ' ' }}
-							@endif
-							@if(!empty($value['surname']))
-								{{ $value['surname'] . ' ' }}
-							@endif
-						</a>
-						{{ Lang::line('locale.was_out')->get($language) }} 
-	    				{{ Lang::line('locale.temp_training')->get($language) }}.
-	    				<br>
-	    				{{ Lang::line('locale.he_tracked')->get($language) }} 
-	    				{{ round($value['distance'], 2) }} 
-	    				{{ Lang::line('locale.km')->get($language) }}
-	   					{{ Lang::line('locale.in')->get($language) }}
-	   					{{ $value['time'] }} 
-	   					<a href="{{ URL::home()}}workout/{{ $value['user_id'] }}/{{ $value['workout_number'] }}">
-	    					{{ Lang::line('locale.show')->get($language) }}
-	    				</a>
-	    				<br />
-	    				<i style="font-size: x-small;">
-	    					<b>
-		   						{{ Lang::line('locale.date_doubledot')->get($language) }}
-		   						{{ date("d M Y", mktime(0, 0, 0, substr($value['date'], 5, 2), substr($value['date'], 8, 2), substr($value['date'], 0, 4))) }}
-		    					{{ Lang::line('locale.time_doubledot')->get($language) }}
-		    					{{ substr($value['date'], 11, 5) }}
-		    				</b>
-		    			</i>
-					</div>
-				</div>
-			@endforeach
+			@foreach ($feed as $cur_feed)
+    			<div class="white-block" style="">
+	    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_id'] }}" style="decoration: none;">
+	    				<div style="display: inline-block;">
+	    					<div style="margin: 10px; display: inline-block;  width: 120px; height: 120px;">
+    							<img alt="" src="{{ URL::home() }}img/workout/sports/{{ $cur_feed['sport_type'] }}.png" width="100%" height="100%">
+	    					</div>
+	    					<div style="margin: 10px; display: inline-block; font-size: 8pt; float: right;">
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.date_doubledot')->get($language) }} <b>{{ $cur_feed['formatted_date'] }}</b></p>
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.distance_doubledot')->get($language) }} <b>{{ round($cur_feed['distance']/1000, 2) }} {{ Lang::line('locale.km')->get($language) }}</b></p>
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.duration')->get($language) }} <b>{{ $cur_feed['time'] }}</b></p>
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.avg_speed')->get($language) }} <b>{{ round($cur_feed['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}</b></p>
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.time_for_km')->get($language) }} <b>{{ $cur_feed['time_for_km'] }}</b></p>
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.avg_pulse')->get($language) }} <b>{{ $cur_feed['avg_pulse'] }} {{ Lang::line('locale.bps')->get($language) }}</b></p>
+	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.arrhythmia')->get($language) }} <b>{{ $cur_feed['arrhythmia'] }}</b></p>
+	    					</div>
+	    				</div>
+	    			</a>
+    			</div>
+    		@endforeach
 		@endif
 	</div>
 	<div class="well" id="left_panel" style="display:inline-block; height: auto; padding-top: 5px; vertical-align: top;">

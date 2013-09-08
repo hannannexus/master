@@ -275,7 +275,13 @@
 				    				</div>
 				    			</a>
 				    			<div style="display: block;">
-					    			<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
+					    			<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a> | 
+					    			@if( $cur_feed['visible'] == 0) 
+					    				<a href="{{ URL::home() }}workout/visible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.show_workout')->get($language) }}</a>
+					    			@else
+					    				<a href="{{ URL::home() }}workout/invisible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.hide')->get($language) }}</a>
+					    			@endif
+					    			|
 					    			<a style="color:red;" href="{{ URL::home() }}delete/{{ $cur_feed['workout_id'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
 				    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
 					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">

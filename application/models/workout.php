@@ -307,7 +307,7 @@ class Workout extends Base {
 			join
 				`tracks` as tr
 			on
-				un.`user_id` = tr.`user_id`
+				un.`workout_number` = tr.`workout_id`
 			where
 				un.`user_id` = ?
 			and
@@ -405,23 +405,46 @@ class Workout extends Base {
 	
 	public function getUserFeed($id_user, $pack = 0) {
 		$feed = array();
-		$stmt = "
-			select
-				*,
-				date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
-				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
-			from
-				`user_news` as un
-			join
-				`tracks` as tr
-			on
-				un.`workout_number` = tr.`workout_id`
-			where
-				un.`user_id` = ?
-			order by
-				un.`id`
-			desc
-		";
+		if($id_user == Auth::user()->user_id) {
+			$stmt = "
+				select
+					*,
+					date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
+					sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
+				from
+					`user_news` as un
+				join
+					`tracks` as tr
+				on
+					un.`workout_number` = tr.`workout_id`
+				where
+					un.`user_id` = ?
+				order by
+					un.`id`
+				desc
+			";
+		} else {
+			$stmt = "
+				select
+					*,
+					date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
+					sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
+				from
+					`user_news` as un
+				join
+					`tracks` as tr
+				on
+					un.`workout_number` = tr.`workout_id`
+				where
+					un.`user_id` = ?
+				and
+					visible = 1
+				order by
+					un.`id`
+				desc
+			";
+		}
+		
 		
 		$feed = $this->objectToArray(DB::query($stmt, array($id_user)));
 		
@@ -472,27 +495,20 @@ class Workout extends Base {
 		$feed = array();
 		$stmt = "
 			select
-				*
+				*,
+				date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
+				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 			from
 				`user_news` as un
 			join
-				`user_config` as uc
-			on
-				un.`user_id` = uc.`id_user`
-			join
-				`users` as us
-			on
-				un.`user_id` = us.`user_id`
-			join
 				`tracks` as tr
 			on
-				un.`user_id` = tr.`user_id`
+				un.`workout_number` = tr.`workout_id`
 			order by
 				un.`id`
 			desc
 			limit 30	
 		";
-		
 		$feed = $this->objectToArray(DB::query($stmt));
 		
 		if(!empty($feed)) {
@@ -542,6 +558,40 @@ class Workout extends Base {
     			`time` between ? and ?
     	";
 		DB::query($stmt, array($brackets['min'], $brackets['max']));
+	}
+	
+	public function visible($workout_number) {
+		if(empty($workout_number)) {
+			return false;
+		}
+		$stmt = "
+			update 
+				`user_news`
+			set
+				`visible` = 1
+			where
+				`user_id` = ?
+			and
+				`workout_number` = ?
+			";
+		DB::query($stmt, array(Auth::user()->user_id, $workout_number));
+	}
+	
+	public function invisible($workout_number) {
+		if(empty($workout_number)) {
+			return false;
+		}
+		$stmt = "
+			update
+				`user_news`
+			set
+				`visible` = 0
+			where
+				`user_id` = ?
+			and
+				`workout_number` = ?
+			";
+		DB::query($stmt, array(Auth::user()->user_id, $workout_number));
 	}
 }
 

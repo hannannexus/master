@@ -60,6 +60,8 @@ Route::post('get_feed_comment', array('before' => 'auth', 'uses' => 'user@get_co
 Route::get('workout/(:num)/(:num)', array('before' => 'auth', 'uses' => 'workout@index'));
 Route::post('workout/get', array('before' => 'auth', 'uses' => 'workout@get_route'));
 Route::post('workout/update_calendar', 'workout@update_calendar');
+Route::get('workout/visible/(:num)', array('before' => 'auth', 'uses' => 'workout@visible'));
+Route::get('workout/invisible/(:num)', array('before' => 'auth', 'uses' => 'workout@invisible'));
 Route::get('delete/(:num)', array('before' => 'auth', 'uses' => 'workout@delete_workout'));
 /**
  * Root route

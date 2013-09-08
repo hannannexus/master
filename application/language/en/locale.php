@@ -135,5 +135,8 @@ return array(
 	'time_for_km' => 'Average time for kilometer lap:',
 	'avg_pulse' => 'Average pulse:',
 	'bps' => 'bps',
-	'arrhythmia' => 'Arrhythmia:'
+	'arrhythmia' => 'Arrhythmia:',
+	/* 8.09.2013 */
+	'hide' => 'Hide',
+	'show_workout' => 'Show'
 );

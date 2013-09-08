@@ -47,4 +47,14 @@ class Workout_Controller extends Controller {
 		$this->workout->deleteWorkout($workout_number);
 		return Redirect::to('profile');
 	}
+	
+	public function action_visible($workout_number) {
+		$this->workout->visible($workout_number);
+		return Redirect::to('profile');
+	}
+	
+	public function action_invisible($workout_number) {
+		$this->workout->invisible($workout_number);
+		return Redirect::to('profile');
+	}
 }
