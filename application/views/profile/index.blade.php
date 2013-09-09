@@ -269,7 +269,7 @@
 				    						<p style="padding: 0;">{{ Lang::line('locale.duration')->get($language) }} <b>{{ $cur_feed['time'] }}</b></p>
 				    						<p style="padding: 0;">{{ Lang::line('locale.avg_speed')->get($language) }} <b>{{ round($cur_feed['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}</b></p>
 				    						<p style="padding: 0;">{{ Lang::line('locale.time_for_km')->get($language) }} <b>{{ $cur_feed['time_for_km'] }}</b></p>
-				    						<p style="padding: 0;">{{ Lang::line('locale.avg_pulse')->get($language) }} <b>{{ $cur_feed['avg_pulse'] }} {{ Lang::line('locale.bps')->get($language) }}</b></p>
+				    						<p style="padding: 0;">{{ Lang::line('locale.avg_pulse')->get($language) }} <b>{{ round($cur_feed['avg_pulse'],2) }} {{ Lang::line('locale.bps')->get($language) }}</b></p>
 				    						<p style="padding: 0;">{{ Lang::line('locale.arrhythmia')->get($language) }} <b>{{ $cur_feed['arrhythmia'] }}</b></p>
 				    					</div>
 				    				</div>

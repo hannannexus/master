@@ -265,7 +265,7 @@ class Workout extends Base {
 				for( $i = 0; $i < 7; $i++ ) {
 					$new_days[$dkey][$i]['value'] = $day[$i];
 					if(intval($day[$i]) == intval($trainings[$tkey]['date'][2])  && $trainings[$tkey]['date'][0] == $year && $trainings[$tkey]['date'][1] == $month) {
-						$new_days[$dkey][$i]['training'] = intval($trainings[$tkey]['workout_number']);
+						$new_days[$dkey][$i]['training'] = strval($trainings[$tkey]['workout_number']);
 					} 
 				}
 			} 
@@ -550,6 +550,16 @@ class Workout extends Base {
     	";
 		DB::query($stmt, array(Auth::user()->user_id, $id_workout));
 		 
+		$stmt = "
+    		delete
+    		from
+    			`tracks`
+    		where
+				`user_id` = ?
+			and
+    			`workout_id` = ?
+    	";
+		
 		$stmt = "
     		delete
     		from

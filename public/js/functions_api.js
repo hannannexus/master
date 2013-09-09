@@ -325,7 +325,6 @@ function speedFormatter(v, axis) {
 function drawCalendar(URL, id_user, date, y, m) {
 	
 	draw_header = true;
-	
 	calendar = $("#calendar");
 	calendar.empty();
 	
