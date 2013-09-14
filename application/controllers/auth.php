@@ -81,7 +81,9 @@ class Auth_Controller extends Controller {
 			}
 			else {
 				$user->registerUser(Input::get('email'), Hash::make(Input::get('password')), Cookie::get('language'), rand(100000, 999999));
-				Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')));
+				if(!Auth::attempt(array('username' => Input::get('email'), 'password' =>Input::get('password')))){
+					return Redirect::to('/');
+				}
 				return Redirect::to('confirm');
 			}
 		}

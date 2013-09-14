@@ -159,7 +159,8 @@ class User extends Base {
     	";
     	DB::query($stmt, array($data['name'], $data['surname'], $data['midname'], $data['borndate'], $data['gender'], $user_id));
     	
-    	$stmt = "
+    	if(isset($data['weight']) && isset($data['arythmy_step'])) {
+    		$stmt = "
     		update
     			`user_config`
     		set
@@ -168,7 +169,8 @@ class User extends Base {
     		where
     			`id_user` = ?
     		";
-    	DB::query($stmt, array($data['weight'], $data['arythmy_step'], $user_id));
+    		DB::query($stmt, array($data['weight'], $data['arythmy_step'], $user_id));
+    	}
     	
     	if(!empty($data['photo']['name'])) {
     		$stmt = "
