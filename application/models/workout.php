@@ -304,10 +304,6 @@ class Workout extends Base {
 				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 			from
 				`user_news` as un
-			join
-				`tracks` as tr
-			on
-				un.`workout_number` = tr.`workout_id`
 			where
 				un.`user_id` = ?
 			and
@@ -413,10 +409,6 @@ class Workout extends Base {
 					sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 				from
 					`user_news` as un
-				join
-					`tracks` as tr
-				on
-					un.`workout_number` = tr.`workout_id`
 				where
 					un.`user_id` = ?
 				order by
@@ -431,10 +423,6 @@ class Workout extends Base {
 					sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 				from
 					`user_news` as un
-				join
-					`tracks` as tr
-				on
-					un.`workout_number` = tr.`workout_id`
 				where
 					un.`user_id` = ?
 				and
@@ -500,10 +488,6 @@ class Workout extends Base {
 				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 			from
 				`user_news` as un
-			join
-				`tracks` as tr
-			on
-				un.`workout_number` = tr.`workout_id`
 			order by
 				un.`id`
 			desc
@@ -550,16 +534,6 @@ class Workout extends Base {
     	";
 		DB::query($stmt, array(Auth::user()->user_id, $id_workout));
 		 
-		$stmt = "
-    		delete
-    		from
-    			`tracks`
-    		where
-				`user_id` = ?
-			and
-    			`workout_id` = ?
-    	";
-		
 		$stmt = "
     		delete
     		from
