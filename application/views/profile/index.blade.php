@@ -258,7 +258,7 @@
 			    	@if(!is_null($feed))
 				    	@foreach ($feed as $cur_feed)
 			    			<div class="white-block">
-				    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_id'] }}" style="decoration: none;">
+				    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_number'] }}" style="decoration: none;">
 				    				<div style="display: inline-block;">
 				    					<div style="margin: 10px; display: inline-block;  width: 110px; height: 110px;">
 			    							<img alt="" src="{{ URL::home() }}img/workout/sports/{{ $cur_feed['sport_type'] }}.png" width="100%" height="100%">
@@ -282,7 +282,7 @@
 					    				<a href="{{ URL::home() }}workout/invisible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.hide')->get($language) }}</a>
 					    			@endif
 					    			|
-					    			<a style="color:red;" href="{{ URL::home() }}delete/{{ $cur_feed['workout_id'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
+					    			<a style="color:red;" href="{{ URL::home() }}delete/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
 				    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
 					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
 					    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 390px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">

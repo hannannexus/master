@@ -19,7 +19,7 @@
 		@else
 			@foreach ($feed as $cur_feed)
     			<div class="white-block" style="">
-	    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_id'] }}" style="decoration: none;">
+	    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_number'] }}" style="decoration: none;">
 	    				<div style="display: inline-block;">
 	    					<div style="margin: 10px; display: inline-block;  width: 120px; height: 120px;">
     							<img alt="" src="{{ URL::home() }}img/workout/sports/{{ $cur_feed['sport_type'] }}.png" width="100%" height="100%">

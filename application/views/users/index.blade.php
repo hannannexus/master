@@ -114,15 +114,21 @@
 				@if(empty($user['patronymic'])) 
 				@endif 
 			</div>
-			@if($user['relation'] == 'accepted')
+			@if(isset($user['relation']) && $user['relation'] == 'accepted')
 				<div style="display: block; margin-top: 3px;">
 					<a class="mini-button" href="{{ URL::home() }}workouts/{{ $user['user_id'] }}">
 						{{ Lang::line('locale.friends_workouts')->get($language) }}
 					</a>
 				</div>
-			@else
+			@elseif(isset($user['relation']) && $user['relation'] == 'waiting')
 				<div style="display: block; margin-top: 3px;">
 					<a class="mini-button-orange" style="font-size: x-small;" href="{{ URL::home() }}user/accept/{{ $user['user_id'] }}">
+						{{ Lang::line('locale.add_to_friends')->get($language) }}
+					</a>
+				</div>
+			@else
+				<div style="display: block; margin-top: 3px;">
+					<a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user['user_id'] }}">
 						{{ Lang::line('locale.add_to_friends')->get($language) }}
 					</a>
 				</div>

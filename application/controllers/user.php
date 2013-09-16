@@ -1,5 +1,7 @@
 <?php 
 
+use Laravel\Redirect;
+
 class User_Controller extends Controller 
 {
 	protected $user;
@@ -300,6 +302,7 @@ class User_Controller extends Controller
 		$is_empty = trim($string);
 		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
 		if(empty($is_empty)) {
+			return Redirect::to('profile');
 			$users = $this->user->getAllUsers();
 			$friendlist = $this->user->getUserFriends(Auth::user()->user_id);
 			return View::make('users.index')->with('users', $users)->with('friendlist', $friendlist)->with('messages_count', $messages_count);

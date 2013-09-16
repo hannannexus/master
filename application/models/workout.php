@@ -157,7 +157,6 @@ class Workout extends Base {
 			asc
 		";
 		$route = $this->objectToArray(DB::query($stmt, array($workout_number)));
-		
 		$result[0] = $route[0];
 		$count = round(count($route)/1000, 0);
 		

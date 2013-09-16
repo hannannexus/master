@@ -52,7 +52,7 @@
 					@if(!empty($friendlist))
 						@foreach($friendlist as $list)
 							@if($user['user_id'] == $list['id_user'])
-								@if($list['relation'] == 'accepted')
+								@if(isset($list['relation']) && $list['relation'] == 'accepted')
 									<br><p style="font-size: x-small;" >{{ Lang::line('locale.your_friend')->get($language) }} </p>
 									<?php $flag = 'false'; ?>
 									<?php break; ?>
