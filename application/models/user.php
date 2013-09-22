@@ -46,7 +46,7 @@ class User extends Base {
 				`lan` double not null,
 				`alt` double not null,
 				`speed` float not null,
-				`workout_number` int(10) unsigned not null,
+				`workout_number` bigint(20) unsigned not null,
 				`time` bigint(20) not null,
 				primary key (`id`)
 			) engine=MyISAM  default charset=utf8 collate=utf8_general_ci auto_increment=1

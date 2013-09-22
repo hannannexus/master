@@ -260,14 +260,16 @@ class Workout extends Base {
 		$trainings = array();
 		$new_days = array();
 		$trainings = $this->objectToArray(DB::query($stmt));
-		
 		foreach($trainings as $tkey => $training) {
 			$trainings[$tkey]['date'] = explode("-", $trainings[$tkey]['date']);
 			 foreach($days as $dkey => $day) {
 				for( $i = 0; $i < 7; $i++ ) {
 					$new_days[$dkey][$i]['value'] = $day[$i];
+					if(!isset($new_days[$dkey][$i]['training'])) {
+						$new_days[$dkey][$i]['training'] = array();
+					}
 					if(intval($day[$i]) == intval($trainings[$tkey]['date'][2])  && $trainings[$tkey]['date'][0] == $year && $trainings[$tkey]['date'][1] == $month) {
-						$new_days[$dkey][$i]['training'] = strval($trainings[$tkey]['workout_number']);
+						array_push($new_days[$dkey][$i]['training'], strval($trainings[$tkey]['workout_number']));
 					} 
 				}
 			} 
@@ -490,13 +492,18 @@ class Workout extends Base {
 				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
 			from
 				`user_news` as un
+			join
+				`users` as u
+			on
+				un.`user_id` = u.`user_id`
+			where
+				un.`visible` = 1
 			order by
 				un.`id`
 			desc
 			limit 30	
 		";
 		$feed = $this->objectToArray(DB::query($stmt));
-		
 		if(!empty($feed)) {
 			return $feed;
 		} else {

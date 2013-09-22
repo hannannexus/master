@@ -20,13 +20,13 @@
 		ID_USER 	= {{ $id_user }};
 		W_NUMBER	= {{ $workout_number }};
 		DAYS = [];
-		DAYS[0] = '{{ Lang::line('locale.sunday')->get($language) }}';
-		DAYS[1] = '{{ Lang::line('locale.monday')->get($language) }}';
-		DAYS[2] = '{{ Lang::line('locale.tuesday')->get($language) }}';
-		DAYS[3] = '{{ Lang::line('locale.wednesday')->get($language) }}';
-		DAYS[4] = '{{ Lang::line('locale.thursday')->get($language) }}';
-		DAYS[5] = '{{ Lang::line('locale.friday')->get($language) }}';
-		DAYS[6] = '{{ Lang::line('locale.saturday')->get($language) }}';
+		DAYS[6] = '{{ Lang::line('locale.sunday')->get($language) }}';
+		DAYS[0] = '{{ Lang::line('locale.monday')->get($language) }}';
+		DAYS[1] = '{{ Lang::line('locale.tuesday')->get($language) }}';
+		DAYS[2] = '{{ Lang::line('locale.wednesday')->get($language) }}';
+		DAYS[3] = '{{ Lang::line('locale.thursday')->get($language) }}';
+		DAYS[4] = '{{ Lang::line('locale.friday')->get($language) }}';
+		DAYS[5] = '{{ Lang::line('locale.saturday')->get($language) }}';
 
 		$(function() {
 	        $( "#radio_div_1" ).buttonsetv();

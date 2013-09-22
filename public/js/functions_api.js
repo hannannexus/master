@@ -348,13 +348,13 @@ function drawCalendar(URL, id_user, date, y, m) {
 						"<td>"+ DAYS[5] +"</td>" +
 						"<td>"+ DAYS[6] +"</td>" +
 					"<tr>" +
-						"<td id=" + String(i) + "0" + ">" + date[i][0].value + "</td>" +
-						"<td id=" + String(i) + "1" + ">" + date[i][1].value + "</td>" +
-						"<td id=" + String(i) + "2" + ">" + date[i][2].value + "</td>" +
-						"<td id=" + String(i) + "3" + ">" + date[i][3].value + "</td>" +
-						"<td id=" + String(i) + "4" + ">" + date[i][4].value + "</td>" +
-						"<td id=" + String(i) + "5" + ">" + date[i][5].value + "</td>" +
-						"<td id=" + String(i) + "6" + ">" + date[i][6].value + "</td>" +
+						"<td id=" + String(i) + "0" + ">" + date[i][0].value + "<br></td>" +
+						"<td id=" + String(i) + "1" + ">" + date[i][1].value + "<br></td>" +
+						"<td id=" + String(i) + "2" + ">" + date[i][2].value + "<br></td>" +
+						"<td id=" + String(i) + "3" + ">" + date[i][3].value + "<br></td>" +
+						"<td id=" + String(i) + "4" + ">" + date[i][4].value + "<br></td>" +
+						"<td id=" + String(i) + "5" + ">" + date[i][5].value + "<br></td>" +
+						"<td id=" + String(i) + "6" + ">" + date[i][6].value + "<br></td>" +
 					"</tr>"
 			);
 			draw_header = false;
@@ -362,25 +362,27 @@ function drawCalendar(URL, id_user, date, y, m) {
 		else {
 			calendar.append(
 					"<tr>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "0" + ">" + date[i][0].value + "</td>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "1" + ">" + date[i][1].value + "</td>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "2" + ">" + date[i][2].value + "</td>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "3" + ">" + date[i][3].value + "</td>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "4" + ">" + date[i][4].value + "</td>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "5" + ">" + date[i][5].value + "</td>" +
-						"<td style=\"width: 100px;\" id=" + String(i) + "6" + ">" + date[i][6].value + "</td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "0" + ">" + date[i][0].value + "<br></td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "1" + ">" + date[i][1].value + "<br></td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "2" + ">" + date[i][2].value + "<br></td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "3" + ">" + date[i][3].value + "<br></td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "4" + ">" + date[i][4].value + "<br></td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "5" + ">" + date[i][5].value + "<br></td>" +
+						"<td style=\"width: 100px;\" id=" + String(i) + "6" + ">" + date[i][6].value + "<br></td>" +
 					"</tr>"
 			);
 		}
 		
 	}
-	for(i = 0; i < date.length; i++) {
-		for(j = 0; j < 7; j++) {
-			if(date[i][j].training !== '') {
-				a = date[i][j].training;
-				$("#" + String(i) + String(j)).append(
-					"<div><a href=\""+ URL +"workout/"+ id_user +"/"+ a +"\"><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></a></div>"
-				);
+	for(var i = 0; i < date.length; i++) {
+		for(var j = 0; j < 7; j++) {
+			if(date[i][j].training.length != 0) {
+				for(var k = 0; k < date[i][j].training.length; k++) {
+					a = date[i][j].training[k];
+					$("#" + String(i) + String(j)).append(
+						"<a href=\""+ URL +"workout/"+ id_user +"/"+ a +"\"><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></a>"
+					);
+				}
 			}
 		}
 	}
