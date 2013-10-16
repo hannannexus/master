@@ -137,5 +137,6 @@ return array(
 	'bps' => 'уд/сек',
 	'arrhythmia' => 'Аритмия:',
 	'hide' => 'Скрыть',
-	'show_workout' => 'Показать'
+	'show_workout' => 'Показать',
+	'social_login_troubles' => 'Возникли проблемы при авторизации'
 );

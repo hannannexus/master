@@ -15,8 +15,12 @@ Route::post('admin/set/manual', 'admin@set_manual');
  * Login routes
  */
 Route::get('login', 'auth@index');
+Route::get('vklogin', 'auth@vklogin');
+Route::get('fblogin', 'auth@fblogin');
 Route::any('logout', 'auth@logout');
 Route::get('signup', 'auth@signup');
+Route::get('vksignup', 'auth@vklogin');
+Route::get('fbsignup', 'auth@fblogin');
 Route::get('confirm', 'auth@confirm');
 Route::post('confirm/process', 'auth@number_confirm');
 Route::get('confirm/(:num)/(:num)', 'auth@link_confirm');
@@ -148,6 +152,7 @@ Route::filter('before', function() {
 	else {
 		$language = Session::get('language');
 	}
+	Session::put('language', $language);
 	View::share('language', $language);
 });
 

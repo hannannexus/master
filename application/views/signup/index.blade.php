@@ -43,6 +43,8 @@ Signup
 	{{ Form::password('password_confirm') }}
 	<br>
 	{{ Form::submit(Lang::line('locale.button_signup')->get($language), array('class' => 'blue-button')) }}
+	<a href="https://www.facebook.com/dialog/oauth?client_id=565943740127810&redirect_uri=http://www.localsport.com/fbsignup&response_type=code" title="Зайти через Facebook"><img src="../../img/system/social/Facebook.png" width="25px" height="25px"></a>
+	<a href="{{ 'http://oauth.vk.com/authorize?client_id=3905879&redirect_uri=http://www.localsport.com/vksignup&response_type=code' }}" title="Зайти через ВКонтакте"><img src="../../img/system/social/vk.png" width="25px" height="25px"></a>
 	{{ Form::close() }}
 </div>
 @endsection

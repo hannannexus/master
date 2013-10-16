@@ -38,7 +38,10 @@ Login
 	{{ Form::password('password') }}
 	<br>
 	{{ Form::submit(Lang::line('locale.button_login')->get($language), array('class' => 'blue-button')) }}
-	<a href="{{ URL::home() }}restore" style="display:inline-block; margin-left: 15px;" >{{ Lang::line('locale.forgot_password')->get($language) }}</a>
+	<a href="https://www.facebook.com/dialog/oauth?client_id=565943740127810&redirect_uri=http://www.localsport.com/fblogin&response_type=code" title="Зайти через Facebook"><img src="../../img/system/social/Facebook.png" width="25px" height="25px"></a>
+	<a href="{{ 'http://oauth.vk.com/authorize?client_id=3905879&redirect_uri=http://www.localsport.com/vklogin&response_type=code' }}" title="Зайти через ВКонтакте"><img src="../../img/system/social/vk.png" width="25px" height="25px"></a>
+	<br>
+	<a href="{{ URL::home() }}restore" style="display:inline-block;" >{{ Lang::line('locale.forgot_password')->get($language) }}</a>
 	{{ Form::close() }}
 </div>	
 @endsection

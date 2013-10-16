@@ -1,6 +1,14 @@
 <?php
 
 return array(
+		
+	'vk_app_id' => '3905879',
+	'vk_secret_key' => 'g000gle',
+	'vk_auth_url' => 'https://oauth.vk.com/access_token?client_id=[%CLIENT_ID%]&client_secret=[%CLIENT_SECRET%]&code=[%CODE%]&redirect_uri=http://www.localsport.com/vklogin',
+	'vk_get_user_url' => 'https://api.vk.com/method/users.get?uids=[%UIDS%]&fields=uid,first_name,last_name,nickname,screen_name,sex,bdate,city,country,timezone,photo_100&access_token=[%TOKEN%]',
+	'facebook_app_id' => '565943740127810',
+	'facebook_secret_key' => '1d4c265955804eea42203cdbd12bb0fb',
+	'facebook_auth_url' => 'https://graph.facebook.com/oauth/access_token?client_id=[%CLIENT_ID%]&redirect_uri=http://www.localsport.com/fblogin&client_secret=[%CLIENT_SECRET%]&code=[%CODE%]',
 
 	/*
 	|--------------------------------------------------------------------------

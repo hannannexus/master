@@ -61,6 +61,7 @@ Laravel\Autoloader::$aliases = $aliases;
 Autoloader::map(array(
 	'Base_Controller' => path('app').'controllers/base.php',
 	'Resizer' => path('bundle').'/Resizer/resizer.php',
+	'Curl' => path('bundle').'/laravel-curl/Curl.php',
 ));
 
 /*

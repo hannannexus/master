@@ -233,7 +233,6 @@ function drawChart(result, pulse, arythmy) {
 	
 	for(var i = 0; i < pulse.length; i++) {
 		pulse_chart.push([pulse[i].time, pulse[i].pulse]);
-		console.log(i, pulse[i].time, pulse[i].pulse);
 	}
 	
 	var all_pulse = [];

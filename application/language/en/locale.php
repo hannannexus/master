@@ -138,5 +138,6 @@ return array(
 	'arrhythmia' => 'Arrhythmia:',
 	/* 8.09.2013 */
 	'hide' => 'Hide',
-	'show_workout' => 'Show'
+	'show_workout' => 'Show',
+	'social_login_troubles' => 'There are some troubles during authorization'
 );
