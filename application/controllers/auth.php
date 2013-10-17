@@ -183,16 +183,35 @@ class Auth_Controller extends Controller {
 		$check_user = $this->auth->checkUserByExternalId($vk_user_id, 'vk');
 		if(is_null($check_user)) {
 			return Redirect::to('/')->with('login_error', Lang::line('locale.social_login_troubles')->get(Session::get('language')));
+		} elseif (!$check_user) {
+			$curl->setDefaultsExceptOptions();
+			$replacements = array(
+					'[%UIDS%]' => $vk_user_id,
+					'[%TOKEN%]' => $vk_access_token
+			);
+			$curl->create(strtr(Config::get('application.vk_get_user_url'), $replacements));
+			$result = json_decode($curl->execute());
+			$vk_user_data = array_pop($result->response);
+			if(!$this->auth->registerUserByVk((array)$vk_user_data)) {
+				return Redirect::to('/')->with('login_error', Lang::line('locale.social_login_troubles')->get(Session::get('language')));
+			}
 		}
-		$curl->setDefaultsExceptOptions();
 		$replacements = array(
-			'[%UIDS%]' => $vk_user_id,
-			'[%TOKEN%]' => $vk_access_token
+				'[%USER_ID%]' => $vk_user_id,
+				'[%MD5%]' => md5($vk_user_id)
 		);
-		$curl->create(strtr(Config::get('application.vk_get_user_url'), $replacements));
-		$result = json_decode($curl->execute());
-		$vk_user_data = array_pop($result->response);
-		return Redirect::to('/');
+		if(Auth::attempt(array('username' => strtr(Config::get('application.vk_default_username'), $replacements), 'password' =>md5($vk_user_id . Config::get('application.vk_salt'))))) {
+			$language = Cookie::get('language');
+			if(!empty($language)) {
+				$user = new User();
+				$user->storeUserLanguage(Auth::user()->user_id, $language);
+			}
+			return Redirect::to('profile');
+		} else {
+			$login_error = Lang::line('locale.login_error')->get(Cookie::get('language'));
+			return Redirect::to('login')->with('login_error', $login_error);
+		}
+		
 	}
 	
 	public function action_fblogin() {

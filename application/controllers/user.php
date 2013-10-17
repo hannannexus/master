@@ -51,6 +51,12 @@ class User_Controller extends Controller
         else {
         	$user_data['age'] = '-';
         }
+        if(!preg_match('/^http/', $user_data['photo'])) {
+        	$user_data['photo_min'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'];
+        	$user_data['photo'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'];
+        } else {
+        	$user_data['photo_min'] = $user_data['photo'];
+        }
         $messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
 		return View::make('profile.index')->with('user_data', $user_data)->with('feed', $feed)->with('messages_count', $messages_count);
 	}
