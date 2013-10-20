@@ -104,4 +104,84 @@ class Authorization extends Base {
 		DB::query($stmt);
 		return true;
 	}
+	
+	public function registerUserByFacebook($args) {
+		if(empty($args)) return false;
+		$replacements = array(
+				'[%USER_ID%]' => $args['id'],
+				'[%MD5%]' => md5($args['id'])
+		);
+		$args['login_name'] = $args['email'] = strtr(Config::get('application.facebook_default_username'), $replacements);
+		$args['pwd'] = Hash::make(md5($args['id'] . Config::get('application.facebook_salt')));
+		if(!isset($args['middle_name'])) {
+			$args['middle_name'] = '';
+		}
+		if(isset($args['birthday'])) {
+			$date = explode($args['birthday']);
+			$args['birthday'] = $date[1] . '-' . $date[0] . '-' . $date[2];
+		} else {
+			$args['birthday'] = '';
+		}
+		$stmt = "
+			insert into
+				`users` (
+					`name`,
+					`surname`,
+					`patronymic`,
+					`sex`,
+					`email`,
+					`login_name`,
+					`pwd`,
+					`registration_confirm`
+				)
+			values
+				(?, ?, ?, ?, ?, ?, ?, ?)
+		";
+		DB::query($stmt, array($args['first_name'], $args['last_name'], $args['middle_name'], $args['gender'], $args['email'], $args['login_name'], $args['pwd'], 1));
+	
+		$stmt = "
+			insert into
+				`user_config` (`id_user`, `photo`, `facebook_id`)
+			values
+				((select `user_id` from `users` WHERE `login_name` = ?), ?, ?)
+		";
+		DB::query($stmt, array($args['login_name'], $args['picture']->data->url, $args['id']));
+	
+		$stmt = "
+			select
+				*
+			from
+				`users`
+			where
+				`email` = ?
+		";
+		$data = $this->objectToSingle(DB::query($stmt, array($args['email'])));
+	
+		$stmt = "
+			create table if not exists `tp_" . $data['user_id'] . "_gps` (
+				`id` int(11) not null auto_increment,
+				`lat` double not null,
+				`lan` double not null,
+				`alt` double not null,
+				`speed` float not null,
+				`workout_number` bigint(20) unsigned not null,
+				`time` bigint(20) not null,
+				primary key (`id`)
+			) engine=MyISAM  default charset=utf8 collate=utf8_general_ci auto_increment=1
+		";
+	
+		DB::query($stmt);
+	
+		$stmt = "
+			create table if not exists `tp_" . $data['user_id'] . "_pulse` (
+				`id` int(11) not null auto_increment,
+				`pulse` int(4) not null,
+				`time` bigint(20) not null,
+				primary key (`id`)
+			) engine=MyISAM default charset=utf8 collate=utf8_unicode_ci auto_increment=1 ;
+		";
+	
+		DB::query($stmt);
+		return true;
+	}
 }

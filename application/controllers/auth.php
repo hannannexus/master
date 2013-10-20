@@ -186,8 +186,8 @@ class Auth_Controller extends Controller {
 		} elseif (!$check_user) {
 			$curl->setDefaultsExceptOptions();
 			$replacements = array(
-					'[%UIDS%]' => $vk_user_id,
-					'[%TOKEN%]' => $vk_access_token
+				'[%UIDS%]' => $vk_user_id,
+				'[%TOKEN%]' => $vk_access_token
 			);
 			$curl->create(strtr(Config::get('application.vk_get_user_url'), $replacements));
 			$result = json_decode($curl->execute());
@@ -197,8 +197,8 @@ class Auth_Controller extends Controller {
 			}
 		}
 		$replacements = array(
-				'[%USER_ID%]' => $vk_user_id,
-				'[%MD5%]' => md5($vk_user_id)
+			'[%USER_ID%]' => $vk_user_id,
+			'[%MD5%]' => md5($vk_user_id)
 		);
 		if(Auth::attempt(array('username' => strtr(Config::get('application.vk_default_username'), $replacements), 'password' =>md5($vk_user_id . Config::get('application.vk_salt'))))) {
 			$language = Cookie::get('language');
@@ -211,26 +211,52 @@ class Auth_Controller extends Controller {
 			$login_error = Lang::line('locale.login_error')->get(Cookie::get('language'));
 			return Redirect::to('login')->with('login_error', $login_error);
 		}
-		
 	}
 	
 	public function action_fblogin() {
 		$code = Input::get('code');
 		$curl = new Curl();
 		$curl->ssl(false);
-		$curl->create('https://graph.facebook.com/oauth/access_token?client_id=565943740127810&redirect_uri=http://www.localsport.com/fblogin&client_secret=1d4c265955804eea42203cdbd12bb0fb&code=' . $code);
+		$replacements = array(
+			'[%CLIENT_ID%]' => Config::get('application.facebook_app_id'),
+			'[%CLIENT_SECRET%]' => Config::get('application.facebook_secret_key'),
+			'[%CODE%]' => $code
+		);
+		$curl->create(strtr(Config::get('application.facebook_auth_url'), $replacements));
 		$result = $curl->execute();
 		$pretoken = explode('&', $result);
 		$token = explode('=', $pretoken[0]);
-		$token = $token[1];
-		unset($curl);
-		$curl = new Curl();
-		$curl->ssl(false);
-		return Redirect::to('/');
-		print_r($token);
-		$curl->create('https://graph.facebook.com/me?access_token=' . $token);
-		$res = $curl->execute();
-		print_r(json_decode($res));
+		$fb_access_token = $token[1];
+		$curl->setDefaultsExceptOptions();
+		$replacements = array(
+			'[%TOKEN%]' => $fb_access_token
+		);
+		$curl->create(strtr(Config::get('application.facebook_get_user_url'), $replacements));
+		$facebook_user_data = json_decode($curl->execute());
+		$fb_user_id = $facebook_user_data->id;
+		$check_user = $this->auth->checkUserByExternalId($fb_user_id, 'facebook');
+		if(is_null($check_user)) {
+			return Redirect::to('/')->with('login_error', Lang::line('locale.social_login_troubles')->get(Session::get('language')));
+		} elseif (!$check_user) {
+			if(!$this->auth->registerUserByFacebook((array)$facebook_user_data)) {
+				return Redirect::to('/')->with('login_error', Lang::line('locale.social_login_troubles')->get(Session::get('language')));
+			}
+		}
+		$replacements = array(
+				'[%USER_ID%]' => $fb_user_id,
+				'[%MD5%]' => md5($fb_user_id)
+		);
+		if(Auth::attempt(array('username' => strtr(Config::get('application.facebook_default_username'), $replacements), 'password' =>md5($fb_user_id . Config::get('application.facebook_salt'))))) {
+			$language = Cookie::get('language');
+			if(!empty($language)) {
+				$user = new User();
+				$user->storeUserLanguage(Auth::user()->user_id, $language);
+			}
+			return Redirect::to('profile');
+		} else {
+			$login_error = Lang::line('locale.login_error')->get(Cookie::get('language'));
+			return Redirect::to('login')->with('login_error', $login_error);
+		}
 	}
 }
 ?>

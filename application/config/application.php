@@ -12,7 +12,9 @@ return array(
 	'facebook_app_id' => '565943740127810',
 	'facebook_secret_key' => '1d4c265955804eea42203cdbd12bb0fb',
 	'facebook_auth_url' => 'https://graph.facebook.com/oauth/access_token?client_id=[%CLIENT_ID%]&redirect_uri=http://www.localsport.com/fblogin&client_secret=[%CLIENT_SECRET%]&code=[%CODE%]',
-
+	'facebook_get_user_url' => 'https://graph.facebook.com/me?access_token=[%TOKEN%]&fields=id,first_name,last_name,middle_name,birthday,gender,picture.type(large)',
+	'facebook_default_username' => 'facebook_[%USER_ID%]_[%MD5%]',
+	'facebook_salt' => '829eee9aafe0dde1e0b34d305f181dc2',
 	/*
 	|--------------------------------------------------------------------------
 	| Application URL
