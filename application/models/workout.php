@@ -84,6 +84,8 @@ class Workout extends Base {
 		
 		if(empty($route)) {
 			return NULL;
+		} elseif (count($route) == 2) {
+			return NULL;
 		}
 		/* Initializing vars */
 		$p_previous = $markers = array();
@@ -100,6 +102,9 @@ class Workout extends Base {
 		array_push($markers, $p_previous);
 	
 		foreach($route as $key => $point) {
+			if($route['lat'] == 0 && $route['lan'] == 0) {
+				continue;
+			}
 			$distance += $this->distance($point['lat'], $point['lan'], $p_previous['lat'], $p_previous['lan']);
 			/* If point between 180m of current km and 900m of previous km {like 998 etc.},
 			 * or gps bugged and current point around 865m from previous {like 2995m - 3800m} */
