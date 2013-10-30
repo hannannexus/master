@@ -278,6 +278,33 @@ function drawChart(result, pulse, arythmy) {
        );
 	}
 	
+	if(result[0].lat == 0 && result[0].lan == 0) {
+		large_pulse_plot = $.plot($("#map_canvas"), 
+	        all_pulse,
+	    {
+	    	lines: {show: true, fill: true },
+	    	crosshair: { mode: "x", color: '#045590', width: 3 },
+	        grid: { hoverable: true, autoHighlight: false },
+	        xaxes: {
+	        	position: 'bottom',
+		        tickFormatter: timeFormatter,
+		        zoomRange: [0,120]
+	        },
+	        yaxes: {
+	        	zoomRange: [0, 200],
+	        	panRange: false
+	        },
+	        zoom: {
+				interactive: true,
+				amount: 1.5
+			},
+	        pan: {
+				interactive: true
+			}
+	    }
+	    );
+	}
+	
     pulse_plot = $.plot($("#pulse_canvas"), 
         all_pulse,
     {

@@ -100,9 +100,8 @@ class Workout extends Base {
 		$p_previous['lap'] = '0:00:00';
 	
 		array_push($markers, $p_previous);
-	
 		foreach($route as $key => $point) {
-			if($route['lat'] == 0 && $route['lan'] == 0) {
+			if($point['lat'] == 0 && $point['lan'] == 0) {
 				continue;
 			}
 			$distance += $this->distance($point['lat'], $point['lan'], $p_previous['lat'], $p_previous['lan']);
