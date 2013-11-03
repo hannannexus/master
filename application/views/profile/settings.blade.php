@@ -68,8 +68,8 @@
 		    	<td rowspan="7" style="padding-left: 15px;">
 		    		@if($user_data['photo'] != '')
 			    	<div>
-			    		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
-			    			<img alt="" src="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
+			    		<a id="user_photo" href="{{ $user_data['photo'] }}">
+			    			<img alt="" src="{{ $user_data['photo_min'] }}">
 			    		</a>
 			    	</div>
 			    	@else

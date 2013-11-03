@@ -206,6 +206,15 @@ class Auth_Controller extends Controller {
 				$user = new User();
 				$user->storeUserLanguage(Auth::user()->user_id, $language);
 			}
+			$curl->setDefaultsExceptOptions();
+			$replacements = array(
+				'[%UIDS%]' => $vk_user_id,
+				'[%TOKEN%]' => $vk_access_token
+			);
+			$curl->create(strtr(Config::get('application.vk_get_user_url'), $replacements));
+			$result = json_decode($curl->execute());
+			$vk_user_data = array_pop($result->response);
+			$this->auth->updateVkInfo((array)$vk_user_data);
 			return Redirect::to('profile');
 		} else {
 			$login_error = Lang::line('locale.login_error')->get(Cookie::get('language'));
@@ -252,6 +261,7 @@ class Auth_Controller extends Controller {
 				$user = new User();
 				$user->storeUserLanguage(Auth::user()->user_id, $language);
 			}
+			$this->auth->updateFacebookInfo((array)$facebook_user_data);
 			return Redirect::to('profile');
 		} else {
 			$login_error = Lang::line('locale.login_error')->get(Cookie::get('language'));

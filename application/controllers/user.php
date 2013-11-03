@@ -67,6 +67,12 @@ class User_Controller extends Controller
 	 */
 	public function action_settings() {
 		$user_data = $this->user->getUserData(Auth::user()->user_id);
+		if(!preg_match('/^http/', $user_data['photo'])) {
+			$user_data['photo_min'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'];
+			$user_data['photo'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'];
+		} else {
+			$user_data['photo_min'] = $user_data['photo'];
+		}
 		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
 		return View::make('profile.settings')->with('user_data', $user_data)->with('messages_count', $messages_count);
 	}

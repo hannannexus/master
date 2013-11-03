@@ -61,11 +61,11 @@ class Authorization extends Base {
 		
 		$stmt = "
 			insert into
-				`user_config` (`id_user`, `photo`, `vk_id`)
+				`user_config` (`id_user`, `photo`, `weight`, vk_id`)
 			values
-				((select `user_id` from `users` WHERE `login_name` = ?), ?, ?)
+				((select `user_id` from `users` WHERE `login_name` = ?), ?, ?, ?)
 		";
-		DB::query($stmt, array($args['login_name'], $args['photo_200_orig'], $args['uid']));
+		DB::query($stmt, array($args['login_name'], $args['photo_200_orig'], 75, $args['uid']));
 		
 		$stmt = "
 			select
@@ -141,11 +141,11 @@ class Authorization extends Base {
 	
 		$stmt = "
 			insert into
-				`user_config` (`id_user`, `photo`, `facebook_id`)
+				`user_config` (`id_user`, `photo`, `weight`, `facebook_id`)
 			values
-				((select `user_id` from `users` WHERE `login_name` = ?), ?, ?)
+				((select `user_id` from `users` WHERE `login_name` = ?), ?, ?, ?)
 		";
-		DB::query($stmt, array($args['login_name'], $args['picture']->data->url, $args['id']));
+		DB::query($stmt, array($args['login_name'], $args['picture']->data->url, 75, $args['id']));
 	
 		$stmt = "
 			select
@@ -183,5 +183,29 @@ class Authorization extends Base {
 	
 		DB::query($stmt);
 		return true;
+	}
+	
+	public function updateVkInfo($args) {
+		$stmt = "
+			update 
+				`user_config`
+			set
+				`photo` = ?
+			where
+				`vk_id` = ?
+		";
+		DB::query($stmt, array($args['photo_200_orig'], $args['uid']));
+	}
+	
+	public function updateFacebookInfo($args) {
+		$stmt = "
+			update
+				`user_config`
+			set
+				`photo` = ?
+			where
+				`facebook_id` = ?
+		";
+		DB::query($stmt, array($args['picture']->data->url, $args['id']));
 	}
 }
