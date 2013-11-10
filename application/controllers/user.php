@@ -36,6 +36,7 @@ class User_Controller extends Controller
         }
         else {
         	$feed = $workout->getUserFeed(Auth::user()->user_id, $pack);
+        	$feed = $workout->generateFeedHTML($feed);
         	echo json_encode($feed); return;
         }
         foreach($user_data as $key => $data) {

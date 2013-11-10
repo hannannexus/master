@@ -590,6 +590,40 @@ class Workout extends Base {
 			";
 		DB::query($stmt, array(Auth::user()->user_id, $workout_number));
 	}
+	
+	public function generateFeedHTML($feed) {
+		$new_feed = array();
+		foreach($feed as $key => $cur_feed) {
+			$new_feed .= '
+				<div class="white-block">
+					<a href="' . URL::home() . 'workout/'. $cur_feed['user_id'] .'/'. $cur_feed['workout_number'] .'" style="decoration: none;">
+						<div style="display: inline-block;">
+							<div style="margin: 10px; display: inline-block;  width: 110px; height: 110px;">
+								<img alt="" src="'. URL::home() .'img/workout/sports/'. $cur_feed['sport_type'] .'.png" width="100%" height="100%">
+							</div>
+							<div style="margin: 10px; display: inline-block; font-size: 8pt; float: right;">
+								<p style="padding: 0;">'. Lang::line('locale.date_doubledot')->get($language) .' <b>'. $cur_feed['formatted_date'] .'</b></p>
+								<p style="padding: 0;">'. Lang::line('locale.distance_doubledot')->get($language) .' <b>'. round($cur_feed['distance'], 2) .' '. Lang::line('locale.km')->get($language) .'</b></p>
+								<p style="padding: 0;">'. Lang::line('locale.duration')->get($language) .' <b>'. $cur_feed['time'] .'</b></p>
+								<p style="padding: 0;">'. Lang::line('locale.avg_speed')->get($language) .' <b>'. round($cur_feed['avg_speed'],2) .' '. Lang::line('locale.km_h')->get($language) .'</b></p>
+								<p style="padding: 0;">'. Lang::line('locale.time_for_km')->get($language) .' <b>'. $cur_feed['time_for_km'] .'</b></p>
+								<p style="padding: 0;">'. Lang::line('locale.avg_pulse')->get($language) .' <b>'. $cur_feed['avg_pulse'] .' '. Lang::line('locale.bps')->get($language) .'</b></p>
+								<p style="padding: 0;">'. Lang::line('locale.arrhythmia')->get($language) .' <b>'. $cur_feed['arrhythmia'] .'</b></p>
+							</div>
+						</div>
+					</a>
+					<div style="display: block;">
+						<a href="#" class="comment" id="workout_'. $cur_feed['workout_number'] .'">'. Lang::line('locale.comment')->get($language) .'</a>
+							<form id="form_workout_'. $cur_feed['workout_number'] .'" class="form_workout" action="">
+							<div class="" id="div_workout_'. $cur_feed['workout_number'] .'" style="display: none; margin-bottom: 5px;">
+								<input type="text" name="workout_'. $cur_feed['workout_number'] .'" style="margin-bottom: 0px; width: 390px;" placeholder="'. Lang::line('locale.your_comment')->get($language) .'">
+							</div>
+						</form>
+						<div id="comment_line_'. $cur_feed['workout_number'] .'"></div>
+					</div>
+				</div>';
+		}
+	}
 }
 
 
