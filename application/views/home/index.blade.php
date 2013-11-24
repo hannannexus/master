@@ -1,52 +1,64 @@
 @section('title')
-	Mhealth Sport
+  Mhealth Sport
+@endsection
+
+@section('meta-custom')
+<script type="text/javascript">
+  home = '{{ URL::home() }}';
+</script>
+{{ HTML::script('js/home-feed.js') }}
 @endsection
 
 @section('content')
 @if(isset($settings) && !empty($settings))
-<div class="white-block" style="margin: 0 auto; text-align: center;">
-	<div class="well" id="left_panel" style="display:inline-block; height: auto; padding-top: 5px; vertical-align: top;">
-		{{ $settings['left_panel_text'] }}
-	</div>
-	<div class="well" style="width: 600px; display:inline-block; vertical-align: top;">
-		<div class="title-gray">
-			{{Lang::line('locale.feed')->get($language)}}
-		</div>
-		@if(is_null($feed))
-			<div class="white-block">
-				{{ Lang::line('locale.no_feeds')->get($language) }}
-			</div>
-		@else
-			@foreach ($feed as $cur_feed)
-    			<div class="white-block" style="">
-	    			<a href="{{ URL::home() }}workout/{{ $cur_feed['user_id'] }}/{{ $cur_feed['workout_number'] }}" style="decoration: none;">
-	    				<div style="display: inline-block;">
-	    					<div style="margin: 10px; display: inline-block;  width: 120px; height: 120px;">
-	    						<p>{{ $cur_feed['name'] }} {{ $cur_feed['surname'] }}</p>
-    							<img alt="" src="{{ URL::home() }}img/workout/sports/{{ $cur_feed['sport_type'] }}.png" width="85%" height="85%">
-	    					</div>
-	    					<div style="margin: 10px; display: inline-block; font-size: 8pt; float: right;">
-	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.date_doubledot')->get($language) }} <b>{{ $cur_feed['formatted_date'] }}</b></p>
-	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.distance_doubledot')->get($language) }} <b>{{ round($cur_feed['distance']/1000, 2) }} {{ Lang::line('locale.km')->get($language) }}</b></p>
-	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.duration')->get($language) }} <b>{{ $cur_feed['time'] }}</b></p>
-	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.avg_speed')->get($language) }} <b>{{ round($cur_feed['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}</b></p>
-	    						@if(!is_null($cur_feed['time_for_km']))
-	    							<p style="padding: 0; margin: 0;">{{ Lang::line('locale.time_for_km')->get($language) }} <b>{{ $cur_feed['time_for_km'] }}</b></p>
-	    						@else
-	    							<p style="padding: 0; margin: 0;">{{ Lang::line('locale.time_for_km')->get($language) }} <b>N/A</b></p>
-	    						@endif
-	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.avg_pulse')->get($language) }} <b>{{ round($cur_feed['avg_pulse'], 2) }} {{ Lang::line('locale.bps')->get($language) }}</b></p>
-	    						<p style="padding: 0; margin: 0;">{{ Lang::line('locale.arrhythmia')->get($language) }} <b>{{ $cur_feed['arrhythmia'] }}</b></p>
-	    					</div>
-	    				</div>
-	    			</a>
-    			</div>
-    		@endforeach
-		@endif
-	</div>
-	<div class="well" id="left_panel" style="display:inline-block; height: auto; padding-top: 5px; vertical-align: top;">
-		{{ $settings['right_panel_text'] }}
-	</div>
+<div class="white-block centered">
+  <div class="well inlined" id="left_panel" style="height: auto; padding-top: 5px; vertical-align: top;">
+    {{ $settings['left_panel_text'] }}
+  </div>
+  <div class="well inlined" id="feed-container" style="width: 600px; vertical-align: top;">
+    <div class="title-gray" id="feed-title">
+      {{Lang::line('locale.feed')->get($language)}}
+    </div>
+    @if(is_null($feed))
+      <div class="white-block">
+        {{ Lang::line('locale.no_feeds')->get($language) }}
+      </div>
+    @else
+      @foreach ($feed as $workout)
+        <div class="white-block" style="padding-bottom: 10px; margin-bottom: 7px;">
+          <table>
+            <tr>
+              <td>
+                <a href="{{ $workout['user'] }}">
+                  <b><p style="font-size: 12px; margin-bottom: 2px;">{{ $workout['name'] }} {{ $workout['surname'] }}</p></b>
+                  <img class="third-sized middle-shadowed" src="{{ $workout['photo'] }}">
+                </a>
+              </td>
+              <td>
+                <a class="undecorated" href="{{ $workout['link'] }}">
+                  <div class="main-feed-element">
+                    <p class="null-idented">{{ Lang::line('locale.date_doubledot')->get($language) }} <b>{{ $workout['date'] }}</b></p>
+                    <p class="null-idented">{{ Lang::line('locale.distance_doubledot')->get($language) }} <b>{{ $workout['distance'] }} {{ Lang::line('locale.km')->get($language) }}</b></p>
+                    <p class="null-idented">{{ Lang::line('locale.duration')->get($language) }} <b>{{ $workout['time'] }}</b></p>
+                  </div>
+                </a>
+              </td>
+              <td>
+                <a class="undecorated" href="{{ $workout['link'] }}">
+                  <div class="inlined" style="margin: 10px;">
+                    <img class="half-sized" src="{{ $workout['sport'] }}">
+                  </div>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+      @endforeach
+    @endif
+  </div>
+  <div class="well" id="left_panel" style="display:inline-block; height: auto; padding-top: 5px; vertical-align: top;">
+    {{ $settings['right_panel_text'] }}
+  </div>
 </div>
 @endif
 @endsection

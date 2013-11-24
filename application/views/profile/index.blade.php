@@ -30,7 +30,7 @@
 				function(result) {
 					for(i = 0; i < result.length; i++) {
 						$("#comment_line_" + result[i].workout_number).after(
-							'<div class="comment_text"><a style="font-size: xx-small;" href=" {{ URL::home()}}user/'+result[i].user_id +'">'+result[i].name+ ' ' + result[i].surname + '</a> <i style="font-size: xx-small;">('+result[i].stamp+')</i> <br>'+result[i].text+'</div>'
+							'<div class="comment_text" style=" margin-top:5px;"><a style="font-size: xx-small;" href=" {{ URL::home()}}user/'+result[i].user_id +'">'+result[i].name+ ' ' + result[i].surname + '</a> <i style="font-size: xx-small;">('+result[i].stamp+')</i> <br>'+result[i].text+'</div>'
 						);
 					}
 				},
@@ -279,16 +279,15 @@
 				    				</div>
 				    			</a>
 				    			<div style="display: block;">
-					    			<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a> | 
+					    			<a href="#" class="comment" id="workout_{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.comment')->get($language) }}</a>
 					    			@if( $cur_feed['visible'] == 0) 
-					    				<a href="{{ URL::home() }}workout/visible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.show_workout')->get($language) }}</a>
+					    				<a class="show" href="{{ URL::home() }}workout/visible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.show_workout')->get($language) }}</a>
 					    			@else
-					    				<a href="{{ URL::home() }}workout/invisible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.hide')->get($language) }}</a>
+					    				<a class="show" href="{{ URL::home() }}workout/invisible/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.hide')->get($language) }}</a>
 					    			@endif
-					    			|
-					    			<a style="color:red;" href="{{ URL::home() }}delete/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
+					    			<a class="remove" style="color:red;" href="{{ URL::home() }}delete/{{ $cur_feed['workout_number'] }}">{{ Lang::line('locale.delete')->get($language) }}</a>
 				    				<form id="form_workout_{{ $cur_feed['workout_number'] }}" class="form_workout" action="">
-					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px;">
+					    				<div class="" id="div_workout_{{ $cur_feed['workout_number'] }}" style="display: none; margin-bottom: 5px; margin-top: 5px;">
 					    					<input type="text" name="workout_{{ $cur_feed['workout_number'] }}" style="margin-bottom: 0px; width: 390px;" placeholder="{{ Lang::line('locale.your_comment')->get($language) }}">
 					    				</div>
 				    				</form>

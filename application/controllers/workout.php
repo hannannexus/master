@@ -59,4 +59,8 @@ class Workout_Controller extends Controller {
 		$this->workout->invisible($workout_number);
 		return Redirect::to('profile');
 	}
+	
+	public function action_render_feed() {
+	    echo json_encode($this->workout->getMainFeed(true));
+	}
 }

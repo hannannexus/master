@@ -12,6 +12,7 @@
 // Tick... Tock... Tick... Tock...
 // --------------------------------------------------------------
 define('LARAVEL_START', microtime(true));
+define('SLASH', '/');
 
 // --------------------------------------------------------------
 // Indicate that the request is from the web.

@@ -487,28 +487,54 @@ class Workout extends Base {
 		return $arythmy;
 	}
 	
-	public function getMainFeed() {
+	public function getMainFeed($refresh = false) {
 		$feed = array();
 		$stmt = "
-			select
-				*,
-				date_format(un.`date`, '%d-%c-%Y') as `formatted_date`,
-				sec_to_time(un.`time`/(un.`distance`/1000)) as `time_for_km`
-			from
-				`user_news` as un
-			join
+			SELECT
+				u.`name`,
+				u.`surname`,
+				c.`photo`,
+				n.`user_id`,
+				n.`sport_type`,
+				n.`workout_number`,
+				n.`time`,
+				n.`distance`,
+				date_format(n.`date`, '%d-%c-%Y') as `date`
+			FROM
+				`user_news` as n
+			JOIN
 				`users` as u
-			on
-				un.`user_id` = u.`user_id`
-			where
-				un.`visible` = 1
-			order by
-				un.`id`
-			desc
-			limit 30	
+			ON
+				n.`user_id` = u.`user_id`
+			JOIN
+				`user_config` as c
+			ON
+				n.`user_id` = c.`id_user`
+			WHERE
+				n.`visible` = 1
+			ORDER BY
+				n.`id`
+			DESC
+			LIMIT 15	
 		";
+		
 		$feed = $this->objectToArray(DB::query($stmt));
-		if(!empty($feed)) {
+		$home = URL::home();
+		if (!empty($feed)) {
+		    foreach ($feed as $key => $val) {
+		        if (empty($val['photo'])) {
+		            $feed[$key]['photo'] = $home . 'img/system/no_image.jpg';
+		        } elseif (!preg_match('/^http/', $val['photo'])) {
+		            $feed[$key]['photo'] = $home . 'img/photos/' . $val['user_id'] . '/320/' . $val['photo'];
+		        }
+		        $feed[$key]['link'] = $home . 'workout' . SLASH . $val['user_id'] . SLASH . $val['workout_number'] . SLASH;
+		        $feed[$key]['sport'] = $home . 'img/workout/sports/' . $val['sport_type'] . '.png';
+		        $feed[$key]['distance'] = round(floatval($val['distance']), 2);
+		        $feed[$key]['user'] = $home . 'user' . SLASH . $val['user_id'] . SLASH;
+		    }
+		    if ($refresh) {
+		        return View::make('home.feed')->with('feed', $feed)->render();
+		    }
 			return $feed;
 		} else {
 			return NULL;

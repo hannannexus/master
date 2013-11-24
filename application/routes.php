@@ -67,6 +67,7 @@ Route::post('workout/update_calendar', 'workout@update_calendar');
 Route::get('workout/visible/(:num)', array('before' => 'auth', 'uses' => 'workout@visible'));
 Route::get('workout/invisible/(:num)', array('before' => 'auth', 'uses' => 'workout@invisible'));
 Route::get('delete/(:num)', array('before' => 'auth', 'uses' => 'workout@delete_workout'));
+Route::post('render/feed', 'workout@render_feed');
 /**
  * Root route
  */
