@@ -1,7 +1,5 @@
 <?php 
 
-use Laravel\Redirect;
-
 class User_Controller extends Controller 
 {
 	protected $user;
@@ -243,7 +241,7 @@ class User_Controller extends Controller
 		if(empty($workouts['workout_number'])) {
 			return Redirect::to('profile')->with('workouts', 'no');
 		}
-		return Redirect::to('workout/' . $id_user . '/' . $workouts['workout_number']);
+		return Redirect::to('workout/' . $id_user . SLASH . $workouts['workout_number']);
 	}
 	
 	/**

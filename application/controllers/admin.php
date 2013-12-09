@@ -1,10 +1,18 @@
 <?php
+
 class Admin_controller extends Controller 
 {
 	private $admin;
+	
 	public function __construct() {
 		$this->admin = new Admin();
 	}
+	
+	/**
+	 * @author <mephis>
+	 * Administration page:
+	 * - Set advertisement
+	 */
 	public function action_index() {
 		if(Auth::check()) {
 			if($this->admin->isAdmin(Auth::user()->user_id)) {

@@ -28,7 +28,7 @@ class Workout_Controller extends Controller {
 		$route['pulse'] = $this->workout->getPulse($id_user, $workout_number);
 		$route['arythmy'] = $this->workout->getArythmy($route['pulse'], $id_user);
 		$route['markers'] = $this->workout->getMarkers($route['points']);
-		$date = $this->workout->getLastWorkout($id_user);
+		$date = $this->workout->getWorkoutDate($id_user, $workout_number);
 		if(isset($date) && !is_null($date) && !empty($date)) {
 			$route['calendar'] = $this->workout->getCalendarByDate(Input::get('id_user'), $date['date'][1], $date['date'][0]);
 		}

@@ -15,6 +15,7 @@ class User extends Base {
 	}
 	
 	public function registerUser($name, $password, $language, $confirmation) {
+	    if(is_null($language)) $language = 'en';
 		$stmt = "
 			insert into
 				`users` (`email`, `login_name`, `pwd`, `registration_confirm`)

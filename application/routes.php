@@ -50,7 +50,6 @@ Route::get('users', array('before' => 'auth', 'before' => 'confirm', 'before' =>
 Route::post('users', array('before' => 'auth', 'before' => 'confirm', 'before' => 'information', 'uses' => 'user@users'));
 Route::get('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
 Route::post('user/(:num)', array('before' => 'auth', 'uses' => 'user@user'));
-Route::get('workouts/(:num)', array('before' => 'auth', 'uses' => 'user@workouts'));
 Route::get('user/add/(:num)', array('before' => 'auth', 'uses' => 'user@add_friend'));
 Route::get('user/accept/(:num)', array('before' => 'auth', 'uses' => 'user@accept_friend'));
 Route::any('search', array('before' => 'auth', 'uses' => 'user@search'));
@@ -60,7 +59,7 @@ Route::post('get_feed_comment', array('before' => 'auth', 'uses' => 'user@get_co
 /**
  * Workout routes
  */
-
+Route::get('workouts/(:num)', array('before' => 'auth', 'uses' => 'user@workouts'));
 Route::get('workout/(:num)/(:num)', array('before' => 'auth', 'uses' => 'workout@index'));
 Route::post('workout/get', array('before' => 'auth', 'uses' => 'workout@get_route'));
 Route::post('workout/update_calendar', 'workout@update_calendar');

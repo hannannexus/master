@@ -75,7 +75,7 @@ function createTooltip(URL, index, speed, time, lap) {
 				color : 'white',
 				paddingLeft: "27px"
 			}
-		}
+		};
 	var ibox = new InfoBox(tooltip_options);
 	return ibox;
 }
@@ -191,6 +191,10 @@ function showMap(URL, id_user, workout_number) {
         	workout_number : workout_number
         },
         function(result) {
+          if(result['points'].length === 0 || result['pulse'] === null) {
+            alert('Workout data error!');
+            window.location = URL;
+          }
         	if(result['points'][0].lat != 0 && result['points'][0].lan != 0) {
         		drawMap(URL, result);
         		drawChart(result['points'], result['pulse'], result['arythmy']);
@@ -207,7 +211,7 @@ function showMap(URL, id_user, workout_number) {
         		
         		drawChart(result['points'], result['pulse'], result['arythmy']);
         	}
-        	drawCalendar(URL, id_user, result['calendar'], parseInt(result['points'][1].date.substr(0,4)), parseInt(result['points'][1].date.substr(5,6)));
+        	drawCalendar(URL, id_user, result['calendar'], parseInt(result['stats'].date.substr(0,4)), parseInt(result['stats'].date.substr(5,6)));
         },
         'json'
 	);
@@ -349,13 +353,12 @@ function speedFormatter(v, axis) {
 }
 
 function drawCalendar(URL, id_user, date, y, m) {
-	
 	draw_header = true;
 	calendar = $("#calendar");
 	calendar.empty();
 	
-	for(i = 0; i < date.length; i++) {
-		for(j = 0; j < 7; j++) {
+	for(var i = 0; i < date.length; i++) {
+		for(var j = 0; j < 7; j++) {
 			if(date[i][j].value == 0) {
 				date[i][j].value = '';
 			}
@@ -405,9 +408,16 @@ function drawCalendar(URL, id_user, date, y, m) {
 			if(date[i][j].training.length != 0) {
 				for(var k = 0; k < date[i][j].training.length; k++) {
 					a = date[i][j].training[k];
-					$("#" + String(i) + String(j)).append(
-						"<a href=\""+ URL +"workout/"+ id_user +"/"+ a +"\"><img id=\"tr" + String(i) + String(j) + "\" src=\"" + URL + "img/workout/icon_bike.png\"></a>"
-					);
+					if(a == W_NUMBER) {
+					  $('#' + String(i) + String(j)).append(
+		            '<a href="' + URL + 'workout/' + id_user + '/' + a + '"><img id="tr' + String(i) + String(j) + '" src="' + URL + 'img/workout/icon_bike.png"></a>'
+		          );
+					} else {
+					  $('#' + String(i) + String(j)).append(
+                '<a href="' + URL + 'workout/' + id_user + '/' + a + '"><img id="tr' + String(i) + String(j) + '" src="' + URL + 'img/workout/favicon_grey.png"></a>'
+              );
+					}
+					
 				}
 			}
 		}

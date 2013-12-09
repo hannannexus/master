@@ -211,43 +211,41 @@
 				    	{{ Lang::line('locale.profile_title')->get($language) }}
 				    </div>
 			    	@if($user_data['photo'] != '-')
-			    	<div>
-			    		<a id="user_photo" href="{{ $user_data['photo'] }}">
-			    			<img alt="" src="{{ $user_data['photo_min'] }}">
-			    		</a>
-			    	</div>
+    			    	<div class="centered">
+    			    		<a id="user_photo" href="{{ $user_data['photo'] }}">
+    			    			<img alt="" src="{{ $user_data['photo_min'] }}">
+    			    		</a>
+    			    	</div>
 			    	@else
-			    	<div>
-			    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
-			    	</div>
+    			    	<div>
+    			    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
+    			    	</div>
 			    	@endif
-			        <span>
-			            {{ Lang::line('locale.name')->get($language) }} : {{ $user_data['name'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.midname')->get($language) }} : {{ $user_data['patronymic'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.surname')->get($language) }} : {{ $user_data['surname'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.age')->get($language) }} : {{ $user_data['age'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.gender')->get($language) }} : {{ Lang::line('locale.gender_' . $user_data['sex'])->get($language) }}
-			        </span>
+			    	<div class="centered" style="margin-top: 10px;">
+			    	    <b>{{ $user_data['name'] }} @if($user_data['patronymic'] != '-') {{ $user_data['patronymic'] }} @endif {{ $user_data['surname'] }}</b>
+			    	    <br>
+			    	    @if($user_data['sex'] == 'male')
+			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-male.png' }}">
+			    	    @endif
+			    	    @if($user_data['sex'] == 'female')
+			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-male.png' }}">
+			    	    @endif
+			    	    <br>
+			    	    @if($user_data['age'] != 0)
+			    	        <span>
+        			            {{ Lang::line('locale.age')->get($language) }} : {{ $user_data['age'] }}
+        			        </span>
+        			    @endif
+			    	</div>
 			        <hr />
-			        <a href="{{ URL::home() }}profile/settings" class="blue-button">
-			        	{{ Lang::line('locale.button_settings')->get($language) }}
-			        </a>
-			        <br><br>
-			        <a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button">
-			        	{{ Lang::line('locale.button_workouts')->get($language) }}
-			        </a>
+			        <div class="centered">
+    			        <a href="{{ URL::home() }}profile/settings" class="blue-button" style="width:120px;">
+    			        	{{ Lang::line('locale.button_settings')->get($language) }}
+    			        </a>
+    			        <a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button" style="margin-top: 7px; width:120px;">
+    			        	{{ Lang::line('locale.button_workouts')->get($language) }}
+    			        </a>
+			        </div>
 			    </div>
 		    </td>
 		    <td style="vertical-align: top;">

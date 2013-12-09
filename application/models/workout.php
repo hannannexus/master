@@ -1,7 +1,7 @@
 <?php 
-use Laravel\Auth;
 
 class Workout extends Base {
+    
 	public static $table = 'users';
 	
 	private function distance($lat1, $lng1, $lat2, $lng2, $miles = false) {
@@ -252,18 +252,17 @@ class Workout extends Base {
 		$stmt = "
 			select
 				`workout_number`,
-				substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`,
-				substr(from_unixtime(substr(`time`, 1, 10)), 12, 10) as `time`,
-				max(`time`)
+				substr(`date`, 1, 10) as `date`,
+				substr(`date`, 12, 10) as `time`
 			from
-				`tp_" . $id_user . "_gps`
-			group by
-				`workout_number`
+				`user_news`
+		    where
+		        `user_id` = ?
 		";
 		
 		$trainings = array();
 		$new_days = array();
-		$trainings = $this->objectToArray(DB::query($stmt));
+		$trainings = $this->objectToArray(DB::query($stmt, array($id_user)));
 		foreach($trainings as $tkey => $training) {
 			$trainings[$tkey]['date'] = explode("-", $trainings[$tkey]['date']);
 			 foreach($days as $dkey => $day) {
@@ -284,23 +283,37 @@ class Workout extends Base {
 	public function getLastWorkout($id_user) {
 		$stmt = "
 			select
-				`workout_number`,
-				min(`date`) as `date`
-			from (
-					select
-						`workout_number`,
-						substr(from_unixtime(substr(`time`, 1, 10)), 1, 10) as `date`
-					from
-						`tp_" . $id_user . "_gps`
-					where
-						`workout_number` = (select max(`workout_number`) from `tp_" . $id_user . "_gps` limit 1)
-				) a
-			limit
-				1
+				*
+		    from
+		        `user_news`
+		    where
+		        `user_id` = ?
+		    having
+		        max(`workout_number`)
+		    limit
+		        1
 		";
-		$last_workout = $this->objectToSingle(DB::query($stmt));
+		$last_workout = $this->objectToSingle(DB::query($stmt, array($id_user)));
 		$last_workout['date'] = explode("-", $last_workout['date']);
 		return $last_workout;
+	}
+	
+	public function getWorkoutDate($id_user, $workout_number) {
+	    $stmt = "
+			select
+				*
+		    from
+		        `user_news`
+		    where
+		        `user_id` = ?
+		    and
+		        `workout_number` = ?
+		    limit
+		        1
+		";
+	    $last_workout = $this->objectToSingle(DB::query($stmt, array($id_user, $workout_number)));
+	    $last_workout['date'] = explode("-", $last_workout['date']);
+	    return $last_workout;
 	}
 	
 	public function getTotalInfo($id_user = NULL, $w_number = NULL) {

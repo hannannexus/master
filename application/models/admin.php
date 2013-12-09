@@ -53,7 +53,7 @@ class Admin extends Base {
 		
 		$role = $this->objectToSingle(DB::query($stmt, array($user_id)));
 		
-		return ($role['role'] == 'USR') ? FALSE : TRUE;
+		return ($role['role'] == 'ADM') ? TRUE : FALSE;
 	}
 	
 	public function setManual($text) {

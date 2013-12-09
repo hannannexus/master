@@ -3,7 +3,9 @@
 @endsection
 
 @section('content')
-{{ $settings['manual'] }}
+<div class="white-block centered">
+    {{ $settings['manual'] }}
+</div>
 @endsection
 
 @include('common.skeleton')
