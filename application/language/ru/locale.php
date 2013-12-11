@@ -138,5 +138,7 @@ return array(
 	'arrhythmia' => 'Аритмия:',
 	'hide' => 'Скрыть',
 	'show_workout' => 'Показать',
-	'social_login_troubles' => 'Возникли проблемы при авторизации'
+	'social_login_troubles' => 'Возникли проблемы при авторизации',
+    /* 11.12.2013 */
+    'reciever_not_found' => 'Получатель не найден!'
 );

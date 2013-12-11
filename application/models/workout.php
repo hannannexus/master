@@ -294,7 +294,9 @@ class Workout extends Base {
 		        1
 		";
 		$last_workout = $this->objectToSingle(DB::query($stmt, array($id_user)));
-		$last_workout['date'] = explode("-", $last_workout['date']);
+		if(!empty($last_workout)) {
+		    $last_workout['date'] = explode("-", $last_workout['date']);
+		}
 		return $last_workout;
 	}
 	

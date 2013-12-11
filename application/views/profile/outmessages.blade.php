@@ -6,10 +6,15 @@
 <?php 
 	$success = Session::get('success');
 ?>
-	@if (isset($success))
+	@if (isset($success)) 
 	    @if($success == 'success')
 	    	<div class="alert alert-success" style="margin: 0 auto; margin-top: 5px; margin-bottom: 5px; width: 640px; height: 15px; text-align: center;">
 	    		{{ Lang::line('locale.message_sent')->get($language) }}
+	    	</div>
+	    @endif
+	    @if($success == 'reciever_not_found')
+	    	<div class="alert alert-error" style="margin: 0 auto; margin-top: 5px; margin-bottom: 5px; width: 640px; height: 15px; text-align: center;">
+	    		{{ Lang::line('locale.reciever_not_found')->get($language) }}
 	    	</div>
 	    @endif
 	    @if($success == 'empty_message')

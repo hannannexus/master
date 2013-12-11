@@ -139,5 +139,7 @@ return array(
 	/* 8.09.2013 */
 	'hide' => 'Hide',
 	'show_workout' => 'Show',
-	'social_login_troubles' => 'There are some troubles during authorization'
+	'social_login_troubles' => 'There are some troubles during authorization',
+    /* 11.12.2013 */
+    'reciever_not_found' => 'Reciever not found!'
 );

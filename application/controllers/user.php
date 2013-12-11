@@ -50,11 +50,15 @@ class User_Controller extends Controller
         else {
         	$user_data['age'] = '-';
         }
-        if(!preg_match('/^http/', $user_data['photo'])) {
-        	$user_data['photo_min'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'];
-        	$user_data['photo'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'];
+        if($user_data['photo'] != '-') {
+            if(!preg_match('/^http/', $user_data['photo'])) {
+            	$user_data['photo_min'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'];
+            	$user_data['photo'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'];
+            } else {
+                $user_data['photo_min'] = $user_data['photo'];
+            }
         } else {
-        	$user_data['photo_min'] = $user_data['photo'];
+            $user_data['photo'] = $user_data['photo_min'] = URL::home() . 'img/system/no_image.png';
         }
         $messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
 		return View::make('profile.index')->with('user_data', $user_data)->with('feed', $feed)->with('messages_count', $messages_count);
@@ -386,6 +390,10 @@ class User_Controller extends Controller
 		
 		if(empty($data['text'])) {
 			return Redirect::to('profile/messages')->with('friends', $friends)->with('messages_count', $messages_count)->with('success', 'empty_message');
+		}
+		
+		if($data['reciever'] == null) {
+		    return Redirect::to('profile/messages')->with('friends', $friends)->with('messages_count', $messages_count)->with('success', 'reciever_not_found');
 		}
 		
 		if($this->user->sendMessage($data)) {
