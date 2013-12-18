@@ -3,7 +3,7 @@
 </div>
 @foreach ($feed as $workout)
   <div class="white-block" style="padding-bottom: 10px; margin-bottom: 7px;">
-    <table>
+    <table class="centered">
       <tr>
         <td>
           <a href="{{ $workout['user'] }}">

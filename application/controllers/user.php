@@ -37,6 +37,9 @@ class User_Controller extends Controller
         	$feed = $workout->generateFeedHTML($feed);
         	echo json_encode($feed); return;
         }
+        
+        $stats = $workout->stats(Auth::user()->user_id);
+        
         foreach($user_data as $key => $data) {
             if(is_null($data) || empty($data)) {
                 $user_data[$key] = '-';
@@ -61,7 +64,10 @@ class User_Controller extends Controller
             $user_data['photo'] = $user_data['photo_min'] = URL::home() . 'img/system/no_image.png';
         }
         $messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
-		return View::make('profile.index')->with('user_data', $user_data)->with('feed', $feed)->with('messages_count', $messages_count);
+		return View::make('profile.index')->with('user_data', $user_data)
+		                                  ->with('feed', $feed)
+		                                  ->with('messages_count', $messages_count)
+		                                  ->with('stats', $stats);
 	}
 	
 	/**
@@ -198,34 +204,47 @@ class User_Controller extends Controller
 			return Redirect::to('profile');
 		}
 		
-		$user_data = $this->user->getUserData($id_user);
-		$workout = new Workout();
-		$pack = Input::get('pack');
-		if(empty($pack)) {
-			$feed = $workout->getUserFeed($id_user);
-		}
-		else {
-			$feed = $workout->getUserFeed($id_user, $pack);
-			echo json_encode($feed); return;
-		}
-		
 		$friend = $this->user->checkFriend($id_user);
 		$status = $this->user->checkFriendStatus($id_user);
 		
-		foreach($user_data as $key => $data) {
-			if(is_null($data) || empty($data)) {
-				$user_data[$key] = '-';
-			}
-		}
-		if($user_data['born_date'] != '0000-00-00' && !is_null($user_data['born_date'])) {
-			$born_date = explode('-', $user_data['born_date']);
-			$born_date = mktime(0, 0, 0, $born_date[1], $born_date[2], $born_date[0]);
-			$user_data['age'] = round((time()-$born_date)/31536000, 0);
-		}
-		else {
-			$user_data['age'] = '-';
-		}
-		$messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
+		$user_data = $this->user->getUserData($id_user);
+        $workout = new Workout();
+        $pack = Input::get('pack');
+        
+        $stats = $workout->stats($id_user);
+        
+        if(empty($pack)) {
+        	$feed = $workout->getUserFeed($id_user);
+        }
+        else {
+        	$feed = $workout->getUserFeed($id_user);
+        	$feed = $workout->generateFeedHTML($feed);
+        	echo json_encode($feed); return;
+        }
+        foreach($user_data as $key => $data) {
+            if(is_null($data) || empty($data)) {
+                $user_data[$key] = '-';
+            }
+        }
+        if(($user_data['born_date'] != '0000-00-00') && !is_null($user_data['born_date']) && ($user_data['born_date'] != '-')) {
+        	$born_date = explode('-', $user_data['born_date']);
+        	$born_date = mktime(0, 0, 0, $born_date[1], $born_date[2], $born_date[0]);
+        	$user_data['age'] = round((time()-$born_date)/31536000, 0);
+        }
+        else {
+        	$user_data['age'] = '-';
+        }
+        if($user_data['photo'] != '-') {
+            if(!preg_match('/^http/', $user_data['photo'])) {
+            	$user_data['photo_min'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'];
+            	$user_data['photo'] = URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'];
+            } else {
+                $user_data['photo_min'] = $user_data['photo'];
+            }
+        } else {
+            $user_data['photo'] = $user_data['photo_min'] = URL::home() . 'img/system/no_image.png';
+        }
+        $messages_count = $this->user->getUserMessages(Auth::user()->user_id, TRUE);
 		return View::make('users.user')->
 				with('user_data', $user_data)->
 				with('feed', $feed)->
@@ -295,13 +314,19 @@ class User_Controller extends Controller
 		$data['gender'] = Input::get('gender');
 		$data['midname'] = $data['patronymic'] = $data['borndate'] = '';
 		if(!empty($data['name']) && !empty($data['surname']) && !empty($data['gender'])) {
-			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['name']) ) { 
+			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['name']) ||
+		         preg_match( "/[0-9]/", $data['name'])
+			    ) { 
 				return Redirect::to('information')->with('symbol_error', 'true');
 			}
-			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['surname']) ) {
+			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['surname']) ||
+		         preg_match( "/[0-9]/", $data['surname'])
+		        ) {
 				return Redirect::to('information')->with('symbol_error', 'true');
 			}
-			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['patronymic']) ) {
+			if ( preg_match( "/[\||\<|\>|\[|\]|\"|\!|\?|\$|\@|\#|\%|\^|\/|\\\|\&|\~|\*|\{|\}|\+|\_|\:|\.|\,|\;|\`|\=|\(|\)|\§|\°]/", $data['patronymic']) ||
+		         preg_match( "/[0-9]/", $data['patronymic'])
+		        ) {
 				return Redirect::to('information')->with('symbol_error', 'true');
 			}
 			$this->user->setUserData($data, $id_user);

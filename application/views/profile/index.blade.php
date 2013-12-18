@@ -228,7 +228,7 @@
 			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-male.png' }}">
 			    	    @endif
 			    	    @if($user_data['sex'] == 'female')
-			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-male.png' }}">
+			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-female.png' }}">
 			    	    @endif
 			    	    <br>
 			    	    @if($user_data['age'] != 0)
@@ -237,6 +237,36 @@
         			        </span>
         			    @endif
 			    	</div>
+			    	@if(isset($stats))
+    			    	<div class="centered">
+        			    	<table class="centered">
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
+        			    	        </td>
+        			    	        <td>
+        			    	            {{ $stats['total_distance'] }} {{ Lang::line('locale.km')->get($language) }}
+        			    	        </td>
+        			    	    </tr>
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
+        			    	        </td>
+        			    	        <td>
+        			    	            {{ $stats['total_time'] }}
+        			    	        </td>
+        			    	    </tr>
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
+        			    	        </td>
+        			    	        <td>
+        			    	            {{ $stats['avg_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}
+        			    	        </td>
+        			    	    </tr>
+        			    	</table>
+    			    	</div>
+			    	@endif
 			        <hr />
 			        <div class="centered">
     			        <a href="{{ URL::home() }}profile/settings" class="blue-button" style="width:120px;">

@@ -632,6 +632,28 @@ class Workout extends Base {
 		DB::query($stmt, array(Auth::user()->user_id, $workout_number));
 	}
 	
+	public function stats($user_id = false) {
+	    if(!$user_id) {
+	        $user_id = Auth::user()->user_id;
+	    }
+	    
+	    $stmt = "
+	        select
+                SEC_TO_TIME( SUM( TIME_TO_SEC( `time` ) ) ) AS total_time,
+	            SUM(`distance`) as total_distance,
+	            AVG(`avg_speed`) as avg_speed
+	        from
+	            `user_news`
+	        where
+	            `user_id`=?  
+        ";
+	    
+	    $stats = $this->objectToSingle(DB::query($stmt, array($user_id)));
+	    $stats['avg_speed'] = round($stats['avg_speed'], 2);
+	    $stats['total_distance'] = round($stats['total_distance'], 2);
+	    return $stats;
+	} 
+	
 	public function generateFeedHTML($feed) {
 		$new_feed = array();
 		foreach($feed as $key => $cur_feed) {

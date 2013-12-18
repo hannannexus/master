@@ -201,74 +201,105 @@
 				    	{{ Lang::line('locale.profile_title')->get($language) }}
 				    </div>
 			    	@if($user_data['photo'] != '-')
-			    	<div>
-			    		<a id="user_photo" href="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/320/' . $user_data['photo'] }}">
-			    			<img alt="" src="{{ URL::home() . 'img/photos/' . $user_data['user_id'] . '/100/' . $user_data['photo'] }}">
-			    		</a>
-			    	</div>
+    			    	<div class="centered">
+    			    		<a id="user_photo" href="{{ $user_data['photo'] }}">
+    			    			<img alt="" src="{{ $user_data['photo_min'] }}">
+    			    		</a>
+    			    	</div>
 			    	@else
-			    	<div>
-			    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
-			    	</div>
+    			    	<div>
+    			    		<img alt="" src="{{ URL::home() . 'img/system/no_image.jpg' }}">
+    			    	</div>
 			    	@endif
-			        <span>
-			            {{ Lang::line('locale.name')->get($language) }} : {{ $user_data['name'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.midname')->get($language) }} : {{ $user_data['patronymic'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.surname')->get($language) }} : {{ $user_data['surname'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.age')->get($language) }} : {{ $user_data['age'] }}
-			        </span>
-			        <br />
-			        <span>
-			            {{ Lang::line('locale.gender')->get($language) }} : {{ Lang::line('locale.gender_' . $user_data['sex'])->get($language) }}
-			        </span>
+			    	<div class="centered" style="margin-top: 10px;">
+			    	    <b>{{ $user_data['name'] }} @if($user_data['patronymic'] != '-') {{ $user_data['patronymic'] }} @endif {{ $user_data['surname'] }}</b>
+			    	    <br>
+			    	    @if($user_data['sex'] == 'male')
+			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-male.png' }}">
+			    	    @endif
+			    	    @if($user_data['sex'] == 'female')
+			    	        <img alt="{{ $user_data['sex'] }}" src="{{ URL::home() . 'img/system/sex-female.png' }}">
+			    	    @endif
+			    	    <br>
+			    	    @if($user_data['age'] != 0)
+			    	        <span>
+        			            {{ Lang::line('locale.age')->get($language) }} : {{ $user_data['age'] }}
+        			        </span>
+        			    @endif
+			    	</div>
+			    	@if(isset($stats))
+    			    	<div class="centered">
+        			    	<table class="centered">
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
+        			    	        </td>
+        			    	        <td>
+        			    	            {{ $stats['total_distance'] }} {{ Lang::line('locale.km')->get($language) }}
+        			    	        </td>
+        			    	    </tr>
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
+        			    	        </td>
+        			    	        <td>
+        			    	            {{ $stats['total_time'] }}
+        			    	        </td>
+        			    	    </tr>
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
+        			    	        </td>
+        			    	        <td>
+        			    	            {{ $stats['avg_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}
+        			    	        </td>
+        			    	    </tr>
+        			    	</table>
+    			    	</div>
+    			    @endif
 			        <hr />
 			        @if($user_data['user_id'] != Auth::user()->user_id)
-							@if(!$friend)
-								@if(is_null($status))
-									<a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user_data['user_id'] }}">
-										{{ Lang::line('locale.add_to_friends')->get($language) }}
+			        <div class="centered">
+						@if(!$friend)
+							@if(is_null($status))
+								<a class="mini-button" style="font-size: x-small;" href="{{ URL::home() }}user/add/{{ $user_data['user_id'] }}">
+									{{ Lang::line('locale.add_to_friends')->get($language) }}
+								</a>
+								<br>
+								<br>
+							@endif
+							@if($status == 'waiting_for_confirm')
+								<div class="info-message" style="font-size: x-small;" >
+									{{ Lang::line('locale.you_sent_request')->get($language) }}
+								</div>
+								<br>
+							@endif
+							@if($status == 'confirm_friend')
+								<div class="info-message" style="font-size: x-small;" >
+									{{ Lang::line('locale.wants_to_be_friends')->get($language) }}
+								</div>
+								<br>
+								<b>
+									<a class="mini-button" href="{{ URL::home() }}user/accept/{{ $user_data['user_id'] }}">
+										{{ Lang::line('locale.accept')->get($language) }}
 									</a>
-									<br>
-									<br>
-								@endif
-								@if($status == 'waiting_for_confirm')
-									<div class="info-message" style="font-size: x-small;" >
-										{{ Lang::line('locale.you_sent_request')->get($language) }}
-									</div>
-									<br>
-								@endif
-								@if($status == 'confirm_friend')
-									<div class="info-message" style="font-size: x-small;" >
-										{{ Lang::line('locale.wants_to_be_friends')->get($language) }}
-									</div>
-									<br>
-									<b>
-										<a class="mini-button" href="{{ URL::home() }}user/accept/{{ $user_data['user_id'] }}">
-											{{ Lang::line('locale.accept')->get($language) }}
-										</a>
-									</b>
-									<br>
-									<br>
-								@endif
-								@else
-									<div class="green-message" style="font-size: x-small;" >
-										{{ Lang::line('locale.your_friend')->get($language) }}
-									</div>
-									<br>
-								@endif
+								</b>
+								<br>
+								<br>
+							@endif
+						@else
+							<div class="green-message" style="font-size: x-small;" >
+								{{ Lang::line('locale.your_friend')->get($language) }}
+							</div>
+							<br>
 						@endif
-			        <a href="{{ URL::home() }}workouts/{{ $user_data['user_id'] }}" class="blue-button">
-			        	{{ Lang::line('locale.button_workouts')->get($language) }}
-			        </a>
+					</div>
+					@endif
+					<div class="centered">
+    			        <a href="{{ URL::home() }}workouts/{{ Auth::user()->user_id }}" class="blue-button" style="margin-top: 7px; width:120px;">
+    			        	{{ Lang::line('locale.button_workouts')->get($language) }}
+    			        </a>
+			        </div>
 			    </div>
 		    </td>
 		    <td style="vertical-align: top;">
