@@ -191,9 +191,16 @@ function showMap(URL, id_user, workout_number) {
         	workout_number : workout_number
         },
         function(result) {
-          if(result['points'].length === 0 || result['pulse'] === null) {
+          if(result['points'].length < 3 && result['pulse'].length == 0) {
             alert('Workout data error!');
-            window.location = URL;
+            window.location = URL + 'profile';
+          }
+          if(result['pulse'].length == 0) {
+            $('#show_pulse').hide();
+            $('#show_chart').hide();
+          }
+          if(result['points'].length == 2) {
+            $('charts-keeper').hide();
           }
         	if(result['points'][0].lat != 0 && result['points'][0].lan != 0) {
         		drawMap(URL, result);
@@ -299,11 +306,11 @@ function drawChart(result, pulse, arythmy) {
 	        	panRange: false
 	        },
 	        zoom: {
-				interactive: true,
+				interactive: false,
 				amount: 1.5
 			},
 	        pan: {
-				interactive: true
+				interactive: false
 			}
 	    }
 	    );
@@ -422,11 +429,11 @@ function drawCalendar(URL, id_user, date, y, m) {
 			}
 		}
 	}
-	$("#months-picker").css("visibility", "visible");
-	$("#years-picker").css("visibility", "visible");
-	
-	$("#year [value='"+y+"']").attr("selected", "selected");
-	$("label[for='radio"+m+"']").click();
+  $("#months-picker").css("visibility", "visible");
+  $("#years-picker").css("visibility", "visible");
+  
+  $("#year [value='"+y+"']").attr("selected", "selected");
+  $("label[for='radio"+m+"']").click();
 }
 
 function updateCalendar(URL, id_user, month, year) {

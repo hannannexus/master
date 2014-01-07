@@ -72,6 +72,7 @@
 							<select id="year" style="width: 235px;">
 								<option value="2012">2012</option>
 								<option value="2013">2013</option>
+								<option value="2014">2014</option>
 							</select>
 						</div>
 					</div>
@@ -83,12 +84,49 @@
 		<div id="map_canvas" style="height: 400px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 		<hr>
 		<div style="width: 1000px; margin: 0 auto; position: relative; text-align: center;">
-				{{ Lang::line('locale.distance_doubledot')->get($language) }} {{ round($stats['distance']/1000,2) }} {{ Lang::line('locale.km')->get($language) }}<br>
-				{{ Lang::line('locale.duration')->get($language) }} {{ $stats['time'] }} <br>
-				{{ Lang::line('locale.avg_speed')->get($language) }} {{ round($stats['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}<br>
-				{{ Lang::line('locale.min_speed')->get($language) }} {{ round($stats['min_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}<br>
-				{{ Lang::line('locale.max_speed')->get($language) }} {{ round($stats['max_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}<br>
-			</div>
+		    <table class="centered">
+		        <tr>
+		            <td>
+				        <img alt="" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
+				    </td>
+				    <td>
+				        {{ round($stats['distance']/1000,2) }} {{ Lang::line('locale.km')->get($language) }}
+				    </td>
+				</tr>
+				<tr>
+				    <td>
+				        <img alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
+				    </td>
+				    <td>
+				        {{ $stats['time'] }}
+				    </td>
+				</tr>
+				<tr>
+				    <td>
+				        <img alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
+				    </td>
+				    <td>
+				        {{ round($stats['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
+				    </td>
+				</tr>
+				<tr>
+				    <td>
+				        <img alt="" src="{{ URL::home() . 'img/system/min-speed-icon.png' }}" width="24px" height="24px">
+				    </td>
+				    <td>
+				        {{ round($stats['min_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
+				    </td>
+				</tr>
+				<tr>
+				    <td>
+				        <img alt="" src="{{ URL::home() . 'img/system/top-speed-icon.png' }}" width="24px" height="24px">
+				    </td>
+				    <td>
+				        {{ round($stats['max_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
+				    </td>
+				</tr>
+			</table>
+		</div>
 		<hr>
 		<p align="center">
 			<!-- <img src="../../img/workout/speed_avg_4.png">
@@ -100,7 +138,7 @@
 				{{ Lang::line('locale.show_chart')->get($language) }}
 			</a>
 		</p>
-		<div style="height: 140px;">
+		<div id="charts-keeper" style="height: 140px;">
 			<div id="chart_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
 			<div id="pulse_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
 		</div>
