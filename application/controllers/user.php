@@ -28,6 +28,7 @@ class User_Controller extends Controller
 	public function action_profile() {
         $user_data = $this->user->getUserData(Auth::user()->user_id);
         $workout = new Workout();
+        $types = $workout->getInfoByWorkout(Auth::user()->user_id);
         $pack = Input::get('pack');
         if(empty($pack)) {
         	$feed = $workout->getUserFeed(Auth::user()->user_id);
@@ -67,7 +68,8 @@ class User_Controller extends Controller
 		return View::make('profile.index')->with('user_data', $user_data)
 		                                  ->with('feed', $feed)
 		                                  ->with('messages_count', $messages_count)
-		                                  ->with('stats', $stats);
+		                                  ->with('stats', $stats)
+		                                  ->with('types', $types);
 	}
 	
 	/**

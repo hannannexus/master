@@ -84,6 +84,22 @@
 				);
 			});
 
+			$('.type').click(function() {
+				if(!$(this).hasClass('clicked')) {
+			        $('.type').removeClass('clicked');
+					$(this).addClass('clicked');
+				    $('#types-holder').hide('fast');
+					$('#total-distance-holder').html($(this).attr('total-distance'));
+					$('#total-time-holder').html($(this).attr('total-time'));
+					$('#avg-speed-holder').html($(this).attr('avg-speed'));
+					$('#types-holder').show('fast');
+				} else {
+				  $(this).removeClass('clicked');
+				  $('#types-holder').hide('fast');
+				}
+			});
+
+			
 			function getPack() {
 				$('#end').show();
 				$.post (
@@ -245,7 +261,7 @@
         			    	            <img alt="" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
         			    	        </td>
         			    	        <td>
-        			    	            {{ $stats['total_distance'] }} {{ Lang::line('locale.km')->get($language) }}
+        			    	            <span>{{ $stats['total_distance'] }}</span> {{ Lang::line('locale.km')->get($language) }}
         			    	        </td>
         			    	    </tr>
         			    	    <tr>
@@ -253,7 +269,7 @@
         			    	            <img alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
         			    	        </td>
         			    	        <td>
-        			    	            {{ $stats['total_time'] }}
+        			    	            <span>{{ $stats['total_time'] }}</span>
         			    	        </td>
         			    	    </tr>
         			    	    <tr>
@@ -261,11 +277,47 @@
         			    	            <img alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
         			    	        </td>
         			    	        <td>
-        			    	            {{ $stats['avg_speed'] }} {{ Lang::line('locale.km_h')->get($language) }}
+        			    	            <span>{{ $stats['avg_speed'] }}</span> {{ Lang::line('locale.km_h')->get($language) }}
         			    	        </td>
         			    	    </tr>
         			    	</table>
     			    	</div>
+			    	@endif
+			    	<hr>
+			    	@if(isset($types))
+			    	    <div class="centered">
+			    	        @foreach($types as $key => $type)
+			    	            <img style="cursor: pointer;" class="type" avg-speed="{{ round($type['avg_speed'],2) }}" total-distance="{{ round($type['total_distance'],2) }}" total-time="{{ $type['total_time'] }}" alt="" src="{{ URL::home() }}img/workout/sports/{{ $key }}.png" width="24px" height="24px">
+			    	        @endforeach
+			    	    </div>
+			    	    <div class="centered hidden" id="types-holder"  style="margin-top:10px;">
+			    	        <table class="centered">
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
+        			    	        </td>
+        			    	        <td>
+        			    	            <span id="total-distance-holder"></span> {{ Lang::line('locale.km')->get($language) }}
+        			    	        </td>
+        			    	    </tr>
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
+        			    	        </td>
+        			    	        <td>
+        			    	            <span id="total-time-holder"></span>
+        			    	        </td>
+        			    	    </tr>
+        			    	    <tr>
+        			    	        <td>
+        			    	            <img alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
+        			    	        </td>
+        			    	        <td>
+        			    	            <span id="avg-speed-holder"></span> {{ Lang::line('locale.km_h')->get($language) }}
+        			    	        </td>
+        			    	    </tr>
+        			    	</table>
+			    	    </div>
 			    	@endif
 			        <hr />
 			        <div class="centered">

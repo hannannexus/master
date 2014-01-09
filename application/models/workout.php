@@ -652,7 +652,47 @@ class Workout extends Base {
 	    $stats['avg_speed'] = round($stats['avg_speed'], 2);
 	    $stats['total_distance'] = round($stats['total_distance'], 2);
 	    return $stats;
-	} 
+	}
+	
+	public function getInfoByWorkout($user_id = null) {
+	    if(is_null($user_id)) {
+	        return false;
+	    }
+	    $stmt = "
+	        select
+	            distinct(`sport_type`)
+            from
+	            `user_news`
+            where
+	            `user_id` = ?
+	    ";
+	    
+	    $types = $this->objectToArray(DB::query($stmt, array($user_id)));
+	    if(empty($types)) {
+	        return false;
+	    }
+	    
+	    $stmt = "
+            select
+                SEC_TO_TIME( SUM( TIME_TO_SEC( `time` ) ) ) AS total_time,
+	            SUM(`distance`) as total_distance,
+	            AVG(`avg_speed`) as avg_speed
+	        from
+	            `user_news`
+	        where
+	            `user_id`=?
+            and
+	            `sport_type`=?
+        ";
+	    
+	    $result = array();
+	    
+	    foreach($types as $key => $type) {
+	        $currentType = $this->objectToArray(DB::query($stmt, array($user_id, $type['sport_type'])));
+	        $result[$type['sport_type']] = $currentType[0];
+	    }
+	    return $result;
+	}
 	
 	public function generateFeedHTML($feed) {
 		$new_feed = array();
