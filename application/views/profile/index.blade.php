@@ -283,8 +283,8 @@
         			    	</table>
     			    	</div>
 			    	@endif
+			    	@if(isset($types) && !empty($types))
 			    	<hr>
-			    	@if(isset($types))
 			    	    <div class="centered">
 			    	        @foreach($types as $key => $type)
 			    	            <img style="cursor: pointer;" class="type" avg-speed="{{ round($type['avg_speed'],2) }}" total-distance="{{ round($type['total_distance'],2) }}" total-time="{{ $type['total_time'] }}" alt="" src="{{ URL::home() }}img/workout/sports/{{ $key }}.png" width="24px" height="24px">
