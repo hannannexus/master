@@ -140,5 +140,18 @@ return array(
 	'show_workout' => 'Показать',
 	'social_login_troubles' => 'Возникли проблемы при авторизации',
     /* 11.12.2013 */
-    'reciever_not_found' => 'Получатель не найден!'
+    'reciever_not_found' => 'Получатель не найден!',
+    /* 12.02.2014 */
+    'distance' => 'Расстояние',
+    'time' => 'Время',
+    'avg_speed' => 'Средняя скорость',
+    'min_speed' => 'Минимальная скорость',
+    'max_speed' => 'Максимальная скорость',
+    'arythmy_doubledot' => 'Аритмия:',
+    'arythmy_no' => '<font color="#21610B">Нет</font>',
+    'arythmy_minor' => '<font color="#38610B">Незначительная</font>',
+    'arythmy_low' => '<font color="#5E610B">Низкая</font>',
+    'arythmy_middle' => '<font color="#61380B">Средняя</font>',
+    'arythmy_hight' => '<font color="#61210B">Высокая</font>',
+    'arythmy_very_hight' => '<font color="#610B0B">Очень высокая</font>',
 );

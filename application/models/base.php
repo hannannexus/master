@@ -28,5 +28,12 @@ class Base extends Eloquent {
     	$string = trim($string);
     	return $string;
     }
+    
+    protected function checkState($var) {
+        if(isset($var) && !is_null($var)) {
+            return true;
+        }
+        return false;
+    }
 }
 ?>

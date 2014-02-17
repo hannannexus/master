@@ -32,6 +32,21 @@
 	        $( "#radio_div_1" ).buttonsetv();
 	        $( "#radio_div_2" ).buttonsetv();
 	        $( "#tabs").tabs();
+	        $( '#img-distance ').tooltip({
+		        track: true,
+	        });
+	        $( '#img-time ').tooltip({
+		        track: true,
+	        });
+	        $( '#img-avg-speed ').tooltip({
+		        track: true,
+	        });
+	        $( '#img-min-speed ').tooltip({
+		        track: true,
+	        });
+	        $( '#img-max-speed ').tooltip({
+		        track: true,
+	        });
 	    });
 		
 	</script>
@@ -83,65 +98,81 @@
 	<div class="well" id="chart_container">
 		<div id="map_canvas" style="height: 400px; width: 1000px; margin: 0 auto; position: relative;" ></div>
 		<hr>
-		<div style="width: 1000px; margin: 0 auto; position: relative; text-align: center;">
-		    <table class="centered">
-		        <tr>
-		            <td>
-				        <img alt="" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
-				    </td>
-				    <td>
-				        {{ round($stats['distance']/1000,2) }} {{ Lang::line('locale.km')->get($language) }}
-				    </td>
-				</tr>
-				<tr>
-				    <td>
-				        <img alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
-				    </td>
-				    <td>
-				        {{ $stats['time'] }}
-				    </td>
-				</tr>
-				<tr>
-				    <td>
-				        <img alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
-				    </td>
-				    <td>
-				        {{ round($stats['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
-				    </td>
-				</tr>
-				<tr>
-				    <td>
-				        <img alt="" src="{{ URL::home() . 'img/system/min-speed-icon.png' }}" width="24px" height="24px">
-				    </td>
-				    <td>
-				        {{ round($stats['min_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
-				    </td>
-				</tr>
-				<tr>
-				    <td>
-				        <img alt="" src="{{ URL::home() . 'img/system/top-speed-icon.png' }}" width="24px" height="24px">
-				    </td>
-				    <td>
-				        {{ round($stats['max_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
-				    </td>
-				</tr>
-			</table>
-		</div>
-		<hr>
-		<p align="center">
-			<!-- <img src="../../img/workout/speed_avg_4.png">
-			<img src="../../img/workout/speed_max_3.png"> -->
-			<a href="#" id="show_pulse" class="blue-button">
-				{{ Lang::line('locale.show_pulse')->get($language) }}
-			</a>
-			<a href="#" id="show_chart" class="blue-button" >
-				{{ Lang::line('locale.show_chart')->get($language) }}
-			</a>
-		</p>
-		<div id="charts-keeper" style="height: 140px;">
-			<div id="chart_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
-			<div id="pulse_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
-		</div>
+		<table class="centered">
+		    <tr>
+		        <td>
+            		<div style="text-align: center; margin-right: 20px;" class="inlined">
+            		    <table class="inlined">
+            		        <tr>
+            		            <td>
+            				        <img id="img-distance" alt="" title="{{ Lang::line('locale.distance')->get($language) }}" src="{{ URL::home() . 'img/system/flag-red-icon.png' }}"  width="21px" height="21px">
+            				    </td>
+            				    <td>
+            				        {{ round($stats['distance']/1000,2) }} {{ Lang::line('locale.km')->get($language) }}
+            				    </td>
+            				</tr>
+            				<tr>
+            				    <td>
+            				        <img id="img-time" title="{{ Lang::line('locale.time')->get($language) }}" alt="" src="{{ URL::home() . 'img/system/clock-icon.png' }}"  width="21px" height="21px">
+            				    </td>
+            				    <td>
+            				        {{ $stats['time'] }}
+            				    </td>
+            				</tr>
+            				<tr>
+            				    <td>
+            				        <img id="img-avg-speed" title="{{ Lang::line('locale.avg_speed')->get($language) }}" alt="" src="{{ URL::home() . 'img/system/speed-icon.png' }}"  width="24px" height="24px">
+            				    </td>
+            				    <td>
+            				        {{ round($stats['avg_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
+            				    </td>
+            				</tr>
+            				<tr>
+            				    <td>
+            				        <img id="img-min-speed" title="{{ Lang::line('locale.min_speed')->get($language) }}"  alt="" src="{{ URL::home() . 'img/system/min-speed-icon.png' }}" width="24px" height="24px">
+            				    </td>
+            				    <td>
+            				        {{ round($stats['min_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
+            				    </td>
+            				</tr>
+            				<tr>
+            				    <td>
+            				        <img id="img-max-speed" title="{{ Lang::line('locale.max_speed')->get($language) }}" alt="" src="{{ URL::home() . 'img/system/top-speed-icon.png' }}" width="24px" height="24px">
+            				    </td>
+            				    <td>
+            				        {{ round($stats['max_speed'],2) }} {{ Lang::line('locale.km_h')->get($language) }}
+            				    </td>
+            				</tr>
+            				<tr>
+            				    <td>
+            				        {{ Lang::line('locale.arythmy_doubledot')->get($language) }}
+            				    </td>
+            				    <td id="arythmy-holder">
+            				    </td>
+            				</tr>
+            			</table>
+            		</div>
+        		</td>
+        		<td>
+            		<div class="inlined">
+                		<p align="center">
+                			<!-- <img src="../../img/workout/speed_avg_4.png">
+                			<img src="../../img/workout/speed_max_3.png"> -->
+                			<a href="#" id="show_pulse" class="blue-button">
+                				{{ Lang::line('locale.show_pulse')->get($language) }}
+                			</a>
+                			<a href="#" id="show_chart" class="blue-button" >
+                				{{ Lang::line('locale.show_chart')->get($language) }}
+                			</a>
+                		</p>
+                		<div id="charts-keeper" style="height: 140px;">
+                			<div id="chart_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
+                			<div id="pulse_canvas" style="height: 120px; width: 800px; margin: 0 auto; position: relative;" ></div>
+                		</div>
+            		</div>
+            	</td>
+            </tr>
+		</table>
 	</div>
 </div>
 

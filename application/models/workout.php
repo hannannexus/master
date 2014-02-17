@@ -502,6 +502,14 @@ class Workout extends Base {
 		return $arythmy;
 	}
 	
+	public function getArythmyPercent($pulse, $arythmy) {
+	    if($this->checkState($pulse) && $this->checkState($arythmy)) {
+	        $arythmyCount = count($arythmy);
+	        $pulseCount = count($pulse);
+	        return round($arythmyCount/$pulseCount*100, 2);
+	    }
+	}
+	
 	public function getMainFeed($refresh = false) {
 		$feed = array();
 		$stmt = "

@@ -25,6 +25,12 @@
 
 @section('content')
 <div class="white-block">
+    <div class="centered">
+        {{ Form::open('search', 'POST') }}
+        <input type="search" name="search" placeholder="{{ Lang::line('locale.search_lowercase')->get($language) }}" style="width: 180px;">
+        {{ Form::submit(Lang::line('locale.search_none_dots')->get($language), array('class' => 'blue-button', 'style' => 'display: inline; margin-left: 10px; margin-top: -6px;')) }}
+        {{ Form::close() }}
+    </div>
 	@foreach($users as $user)
 		<?php $flag = 'false'; ?>
 		<div class="well" style="display: block; width: 400px; height: 70px; padding: 10px; margin: 3px auto;">

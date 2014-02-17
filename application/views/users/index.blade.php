@@ -91,6 +91,12 @@
 
 @section('content')
 <div class="white-block">
+    <div class="centered">
+    {{ Form::open('search', 'POST') }}
+    <input type="search" name="search" placeholder="{{ Lang::line('locale.search_lowercase')->get($language) }}" style="width: 180px;">
+    {{ Form::submit(Lang::line('locale.search_none_dots')->get($language), array('class' => 'blue-button', 'style' => 'display: inline; margin-left: 10px; margin-top: -6px;')) }}
+    {{ Form::close() }}
+    </div>
 @if(!is_null($users))
 	@foreach($users as $user)
 	@if(!empty($user['name']) || !empty($user['surname']))

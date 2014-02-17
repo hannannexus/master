@@ -28,6 +28,29 @@ class Workout_Controller extends Controller {
 		$route['pulse'] = $this->workout->getPulse($id_user, $workout_number);
 		$route['arythmy'] = $this->workout->getArythmy($route['pulse'], $id_user);
 		$route['markers'] = $this->workout->getMarkers($route['points']);
+		$route['arythmyPercent'] = $this->workout->getArythmyPercent($route['pulse'], $route['arythmy']);
+		if(is_null($route['arythmyPercent'])) {
+		    unset($route['arythmyPercent']); 
+		} else {
+		    if($route['arythmyPercent'] == 0) {
+		        $route['arythmyText'] = Lang::line('locale.arythmy_no')->get(Session::get('language'));
+		    }
+		    if($route['arythmyPercent'] > 0 && $route['arythmyPercent'] <= 5) {
+		        $route['arythmyText'] = Lang::line('locale.arythmy_minor')->get(Session::get('language'));
+		    }
+		    if($route['arythmyPercent'] > 5 && $route['arythmyPercent'] <= 10) {
+		        $route['arythmyText'] = Lang::line('locale.arythmy_low')->get(Session::get('language'));
+		    }
+		    if($route['arythmyPercent'] > 10 && $route['arythmyPercent'] <= 15) {
+		        $route['arythmyText'] = Lang::line('locale.arythmy_middle')->get(Session::get('language'));
+		    }
+		    if($route['arythmyPercent'] > 15 && $route['arythmyPercent'] <= 20) {
+		        $route['arythmyText'] = Lang::line('locale.arythmy_high')->get(Session::get('language'));
+		    }
+		    if($route['arythmyPercent'] > 20) {
+		        $route['arythmyText'] = Lang::line('locale.arythmy_very_high')->get(Session::get('language'));
+		    }
+		}
 		$date = $this->workout->getWorkoutDate($id_user, $workout_number);
 		if(isset($date) && !is_null($date) && !empty($date)) {
 			$route['calendar'] = $this->workout->getCalendarByDate(Input::get('id_user'), $date['date'][1], $date['date'][0]);

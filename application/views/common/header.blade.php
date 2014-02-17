@@ -2,6 +2,9 @@
 
 <div class="header-block">
 <img id="logo-image" src="../../img/system/logo.png" style="display: inline; float: left; padding-top: 3px;">
+<a href="{{ URL::home() }}manual" class="grey-button" style="display: inline; float: right; padding-top: 0px;">
+	{{ Lang::line('locale.manual')->get($language) }}
+</a>
 {{ Form::open('language', 'POST', array('id' => 'language_form')) }}
 	<div class="styled-select" style="text-align: right; display: inline; float: right; margin-top: 5px; margin-left: 5px;">
 		{{ Form::select('language', array('en' => 'EN', 'cz' => 'CZ', 'ru' => 'RU', 'hu' => 'HU'), $language, array('onchange' => 'changeLanguage()')) }}

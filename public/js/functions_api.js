@@ -195,6 +195,9 @@ function showMap(URL, id_user, workout_number) {
             alert('Workout data error!');
             window.location = URL + 'profile';
           }
+          if(result['arythmyPercent'] !== undefined) {
+            $('#arythmy-holder').html(result['arythmyPercent'] + '% ' + result['arythmyText']);
+          }
           if(result['pulse'].length == 0) {
             $('#show_pulse').hide();
             $('#show_chart').hide();
@@ -287,6 +290,9 @@ function drawChart(result, pulse, arythmy) {
    	        }]
            }
        );
+	} else {
+	  $( '#show_pulse' ).click().hide();
+	  $( '#show_chart' ).hide();
 	}
 	
 	if(result[0].lat == 0 && result[0].lan == 0) {

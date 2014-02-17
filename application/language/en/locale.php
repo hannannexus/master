@@ -141,5 +141,18 @@ return array(
 	'show_workout' => 'Show',
 	'social_login_troubles' => 'There are some troubles during authorization',
     /* 11.12.2013 */
-    'reciever_not_found' => 'Reciever not found!'
+    'reciever_not_found' => 'Reciever not found!',
+    /* 12.02.2014 */
+    'distance' => 'Distance',
+    'time' => 'Time',
+    'avg_speed' => 'Average speed',
+    'min_speed' => 'Minimal speed',
+    'max_speed' => 'Maximal speed',
+    'arythmy_doubledot' => 'Arythmy:',
+    'arythmy_no' => '<font color="#21610B">NO</font>',
+    'arythmy_minor' => '<font color="#38610B">Minor</font>',
+    'arythmy_low' => '<font color="#5E610B">Low</font>',
+    'arythmy_middle' => '<font color="#61380B">Middle</font>',
+    'arythmy_hight' => '<font color="#61210B">High</font>',
+    'arythmy_very_hight' => '<font color="#610B0B">Very high</font>',
 );
